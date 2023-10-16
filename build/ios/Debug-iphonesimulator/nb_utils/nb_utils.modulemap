@@ -7,6 +7,6 @@ module nb_utils {
 
 
 module nb_utils.Swift {
-  header "/Applications/Development/diary/build/ios/Debug-iphonesimulator/nb_utils/Swift Compatibility Header/nb_utils-Swift.h"
+  header "/Applications/Development/diary_app/build/ios/Debug-iphonesimulator/nb_utils/Swift Compatibility Header/nb_utils-Swift.h"
   requires objc
 }

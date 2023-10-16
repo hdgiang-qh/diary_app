@@ -1,4 +1,6 @@
+import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -22,8 +24,26 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.access_alarm,size: 40,).paddingLeft(10),
-        title: const Text("Diary For You",),
+        leading: const Icon(
+          Icons.access_alarm,
+          size: 40,
+        ).paddingLeft(10),
+        title: const Text(
+          "Diary For You",
+        ),
+        actions: [
+          GestureDetector(
+            child: const CircleAvatar(
+              backgroundColor: primaryColor,
+              child: Text('G'),
+            ).paddingRight(10),
+            onTap: () {
+              if (kDebugMode) {
+                print('hello');
+              }
+            },
+          )
+        ],
       ),
       body: SafeArea(
         child: Padding(

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class MessBotScreen extends StatefulWidget {
@@ -10,10 +11,13 @@ class MessBotScreen extends StatefulWidget {
 class _MessBotScreenState extends State<MessBotScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("MessBot", style: TextStyle(fontSize: 16),),
+    return Scaffold(
+      appBar: AppBar(title: const Text('Chatbot App')),
+      body: Column(
+
       ),
     );
   }
+
+
 }

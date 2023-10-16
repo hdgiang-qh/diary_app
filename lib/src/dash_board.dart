@@ -64,7 +64,7 @@ class _DashBoardState extends State<DashBoard>
             items: const [
               BottomNavigationBarItem(
                   icon: Icon(Icons.home),
-                  label : 'Trang chủ'
+                  label : 'Home'
               ),
               BottomNavigationBarItem(
                   icon:  Icon(Icons.podcasts),
@@ -80,7 +80,7 @@ class _DashBoardState extends State<DashBoard>
               ),
               BottomNavigationBarItem(
                   icon:  Icon(Icons.grid_view),
-                  label : 'Tuỳ chọn'
+                  label : 'Category'
               ),
             ],
             selectedItemColor: primaryColor,

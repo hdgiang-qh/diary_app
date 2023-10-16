@@ -7,6 +7,6 @@ module Reachability {
 
 
 module Reachability.Swift {
-  header "/Applications/Development/diary/build/ios/Debug-iphonesimulator/ReachabilitySwift/Swift Compatibility Header/Reachability-Swift.h"
+  header "/Applications/Development/diary_app/build/ios/Debug-iphonesimulator/ReachabilitySwift/Swift Compatibility Header/Reachability-Swift.h"
   requires objc
 }
