@@ -3,6 +3,8 @@ import 'package:diary/src/widget_screen/Auth/Login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../../dash_board.dart';
+
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -76,10 +78,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   }, child: const Text('Sign up')),
                   ElevatedButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => const DashBoard()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const DashBoard()));
                       },
                       child: const Text('Sign in')),
                 ],
