@@ -1,4 +1,4 @@
-import 'package:diary/src/dash_board.dart';
+
 import 'package:diary/src/widget_screen/Auth/Welcome/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      debugShowCheckedModeBanner: false,
       home: const WelcomeScreen(),
     );
   }

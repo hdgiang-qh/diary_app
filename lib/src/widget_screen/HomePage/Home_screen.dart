@@ -24,10 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(
-          Icons.access_alarm,
-          size: 40,
-        ).paddingLeft(10),
+        automaticallyImplyLeading: false,
         title: const Text(
           "Diary For You",
         ),
