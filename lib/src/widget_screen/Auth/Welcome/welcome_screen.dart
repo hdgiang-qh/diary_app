@@ -1,3 +1,4 @@
+import 'package:diary/src/widget_screen/Auth/LogUp/logup_screen.dart';
 import 'package:diary/styles/text_style.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -32,139 +33,149 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        title: const Text("Welcome to App"),
-      ),
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 40,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Phone").paddingLeft(5),
-                TextField(
-                  controller: numberPhone,
-                  keyboardType: TextInputType.emailAddress,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                      prefixIcon: const Align(
-                        widthFactor: 1.0,
-                        heightFactor: 1.0,
-                        child: Icon(
-                          Icons.phone_android_outlined,
+      // appBar: AppBar(
+      //   title: const Text("Welcome to App"),
+      // ),
+      body: Container(
+        height: double.infinity,
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/login.png"),
+                fit: BoxFit.cover)),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Text("Welcome to App"),
+              const SizedBox(
+                height: 40,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Phone").paddingLeft(5),
+                  TextField(
+                    controller: numberPhone,
+                    keyboardType: TextInputType.emailAddress,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                        prefixIcon: const Align(
+                          widthFactor: 1.0,
+                          heightFactor: 1.0,
+                          child: Icon(
+                            Icons.phone_android_outlined,
+                          ),
                         ),
-                      ),
-                      hintText: 'Enter your phone...',
-                      contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20))),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Password").paddingLeft(5),
-                TextField(
-                  controller: passWord,
-                  keyboardType: TextInputType.emailAddress,
-                  autofocus: true,
-                  obscureText: showPass,
-                  decoration: InputDecoration(
-                      prefixIcon: const Align(
-                        widthFactor: 1.0,
-                        heightFactor: 1.0,
-                        child: Icon(
-                          Icons.lock_outline,
+                        hintText: 'Enter your phone...',
+                        contentPadding:
+                            const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20))),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Password").paddingLeft(5),
+                  TextField(
+                    controller: passWord,
+                    keyboardType: TextInputType.emailAddress,
+                    autofocus: true,
+                    obscureText: showPass,
+                    decoration: InputDecoration(
+                        prefixIcon: const Align(
+                          widthFactor: 1.0,
+                          heightFactor: 1.0,
+                          child: Icon(
+                            Icons.lock_outline,
+                          ),
                         ),
-                      ),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            showPass = !showPass;
-                          });
-                        },
-                        icon: Icon(
-                          showPass ? Icons.visibility : Icons.visibility_off,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              showPass = !showPass;
+                            });
+                          },
+                          icon: Icon(
+                            showPass ? Icons.visibility : Icons.visibility_off,
+                          ),
                         ),
-                      ),
-                      hintText: 'Enter your password...',
-                      contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20))),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: Row(
-                      children: [
-                        BlocBuilder<BoolBloc, bool>(
-                            bloc: changeState,
-                            builder: (context, state) {
-                              return Checkbox(
-                                  value: state,
-                                  onChanged: (value) async {
-                                    changeState.changeValue(value!);
-                                    remember = value;
-                                  });
-                            }),
-                        Text(TextApp.remember, style: StyleApp.textStyle400()),
-                      ],
-                    )),
-                Expanded(
-                  child: GestureDetector(
-                    child: const Text("Forgot Password"),
-                    onTap: () {
-                      if (kDebugMode) {
-                        print("hello now");
-                      }
+                        hintText: 'Enter your password...',
+                        contentPadding:
+                            const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20))),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                      flex: 2,
+                      child: Row(
+                        children: [
+                          BlocBuilder<BoolBloc, bool>(
+                              bloc: changeState,
+                              builder: (context, state) {
+                                return Checkbox(
+                                    value: state,
+                                    onChanged: (value) async {
+                                      changeState.changeValue(value!);
+                                      remember = value;
+                                    });
+                              }),
+                          Text(TextApp.remember,
+                              style: StyleApp.textStyle400()),
+                        ],
+                      )),
+                  Expanded(
+                    child: GestureDetector(
+                      child: const Text("Forgot Password"),
+                      onTap: () {
+                        if (kDebugMode) {
+                          print("hello now");
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ).paddingTop(5),
+              SizedBox(
+                width: 300,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const DashBoard()));
                     },
-                  ),
-                ),
-              ],
-            ).paddingTop(5),
-            SizedBox(
-              width: 300,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const DashBoard()));
-                  },
-                  child: const Text('Sign in new a gen')),
-            ),
-            Row(
-              children: [
-                const Text("Do not have an account?   "),
-                GestureDetector(
-                  onTap: () {
-                    if (kDebugMode) {
-                      print("Sign Up");
-                    }
-                  },
-                  child: const Text(
-                    "Sign Up",
-                    style: TextStyle(color: Colors.red, fontSize: 14),
-                  ),
-                )
-              ],
-            ).paddingTop(10)
-          ],
-        ).paddingSymmetric(horizontal: 20),
+                    child: const Text('Sign in new a gen')),
+              ),
+              Row(
+                children: [
+                  const Text("Do not have an account?   "),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LogUpScreen()));
+                    },
+                    child: const Text(
+                      "Sign Up",
+                      style: TextStyle(color: Colors.red, fontSize: 14),
+                    ),
+                  )
+                ],
+              ).paddingTop(10)
+            ],
+          ).paddingOnly(top: 250, left: 20, right: 20, bottom: 10),
+        ),
       ),
     );
   }
