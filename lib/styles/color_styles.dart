@@ -15,6 +15,7 @@ class ColorAppStyle {
   static const Color blackDA = Color(0xffDADCE0);
   static const Color blue9F = Color(0xff9FC5E8);
   static const Color blue0B = Color(0xff0b24fa);
+  static const Color blueMid = Color(0xff191970);
   static const Color blue00 = Color(0xff00cfe8);
   static const Color blueE0 = Color(0xffe0f9fc);
   static const Color redFB = Color(0xfffb101b);

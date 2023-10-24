@@ -45,19 +45,28 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const Text("Welcome to App"),
+              const Text(
+                "Welcome to App",
+                style: TextStyle(fontSize: 30),
+              ),
               const SizedBox(
                 height: 40,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Phone").paddingLeft(5),
+                  const Text("Phone", style: TextStyle(color: Colors.black))
+                      .paddingLeft(5),
                   TextField(
                     controller: numberPhone,
                     keyboardType: TextInputType.emailAddress,
                     autofocus: true,
                     decoration: InputDecoration(
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ),
+                        ),
                         prefixIcon: const Align(
                           widthFactor: 1.0,
                           heightFactor: 1.0,
@@ -86,6 +95,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     autofocus: true,
                     obscureText: showPass,
                     decoration: InputDecoration(
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ),
+                        ),
                         prefixIcon: const Align(
                           widthFactor: 1.0,
                           heightFactor: 1.0,
@@ -143,7 +157,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                   ),
                 ],
-              ).paddingTop(5),
+              ),
               SizedBox(
                 width: 300,
                 child: ElevatedButton(
@@ -154,7 +168,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           MaterialPageRoute(
                               builder: (context) => const DashBoard()));
                     },
-                    child: const Text('Sign in new a gen')),
+                    child: const Text(
+                      'Sign in new a gen',
+                      style: TextStyle(color: Colors.cyan),
+                    )),
               ),
               Row(
                 children: [

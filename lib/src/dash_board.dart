@@ -64,7 +64,7 @@ class _DashBoardState extends State<DashBoard>
             items: const [
               BottomNavigationBarItem(
                   icon: Icon(Icons.home),
-                  label : 'Home'
+                  label : 'Home',
               ),
               BottomNavigationBarItem(
                   icon:  Icon(Icons.podcasts),

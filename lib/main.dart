@@ -1,5 +1,6 @@
 
 import 'package:diary/src/widget_screen/Auth/Welcome/welcome_screen.dart';
+import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
