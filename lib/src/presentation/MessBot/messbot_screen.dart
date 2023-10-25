@@ -12,9 +12,9 @@ class _MessBotScreenState extends State<MessBotScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Chatbot App')),
-      body: Column(
-
+      appBar: AppBar(title: const Text('Chatbot App'),
+      automaticallyImplyLeading: false,),
+      body: const Column(
       ),
     );
   }

@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart';
+
+import 'package:diary/src/presentation/Diary/add_diary_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -14,13 +15,17 @@ class _DiaryScreenState extends State<DiaryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const Text("Your Diary"),
           actions: [
-            IconButton(onPressed: () {
-              if (kDebugMode) {
-                print("hello");
-              }
-            }, icon: const Icon(Icons.add))
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddDiaryScreen()));
+                },
+                icon: const Icon(Icons.add))
           ],
         ),
         body: SingleChildScrollView(
@@ -30,14 +35,11 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 height: 10,
               ),
               Container(
-                decoration: const BoxDecoration(
-                    color: Colors.yellow
-                ),
+                decoration: const BoxDecoration(color: Colors.yellow),
                 height: 200,
                 width: double.infinity,
                 child: const Text("new"),
               ),
-
             ],
           ),
         ).paddingSymmetric(horizontal: 5));

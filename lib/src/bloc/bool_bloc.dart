@@ -5,5 +5,4 @@ BoolBloc() : super(false);
   void changeValue(bool value){
     emit(!state);
   }
-
 }

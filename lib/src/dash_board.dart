@@ -1,7 +1,8 @@
-import 'package:diary/src/widget_screen/Diary/diary_screen.dart';
-import 'package:diary/src/widget_screen/HomePage/Home_screen.dart';
-import 'package:diary/src/widget_screen/MessBot/messbot_screen.dart';
-import 'package:diary/src/widget_screen/PodCast/podcast_screen.dart';
+
+import 'package:diary/src/presentation/Diary/diary_screen.dart';
+import 'package:diary/src/presentation/HomePage/Home_screen.dart';
+import 'package:diary/src/presentation/MessBot/messbot_screen.dart';
+import 'package:diary/src/presentation/PodCast/podcast_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../styles/color_styles.dart';
