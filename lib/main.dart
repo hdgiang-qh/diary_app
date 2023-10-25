@@ -1,6 +1,5 @@
 
 import 'package:diary/src/widget_screen/Auth/Welcome/welcome_screen.dart';
-import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/material.dart';
 
 void main() {
