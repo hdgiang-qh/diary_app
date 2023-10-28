@@ -1,15 +1,16 @@
-import 'package:diary/src/bloc/auth_bloc/login_cubit.dart';
 import 'package:diary/src/bloc/check_state.dart';
 import 'package:diary/src/bloc/cubit_state.dart';
 import 'package:diary/src/core/validator.dart';
 import 'package:diary/src/presentation/widget/text_field.dart';
 import 'package:diary/styles/text_style.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../styles/text_app.dart';
+import '../../../bloc/auth_bloc/login_cubit.dart';
 import '../../../bloc/bool_bloc.dart';
 import '../../../dash_board.dart';
 import '../SignUp/signup_screen.dart';
@@ -28,20 +29,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   final LoginCubit login = LoginCubit();
   bool _remember = false;
-  late bool showPass;
-
-  @override
-  void initState() {
-    super.initState();
-    showPass = true;
-  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/images/login.png"), fit: BoxFit.cover)),
+              image: AssetImage("assets/images/login.png"),
+              fit: BoxFit.cover)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
@@ -60,7 +55,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomTextField(
-                      textFieldType: TextFieldType.PHONE,
+                      textFieldType: TextFieldType.USERNAME,
                       hintText: TextApp.enterPhone,
                       controller: numberPhone,
                       validator: (value) {

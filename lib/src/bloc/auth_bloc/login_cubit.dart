@@ -27,7 +27,7 @@ class LoginCubit extends Cubit<CubitState>{
       if (res['result'] == true) {
         await SharedPrefs.setInt(AppKey.userId, res['data']['user']['id']);
         await SharedPrefs.saveString(
-            AppKey.userToken, res['data']['token']);
+            AppKey.userToken, res['data']['access_token']);
         if (remember) {
           await SharedPrefs.saveBool(AppKey.login, true);
         }

@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
           child: CupertinoSearchTextField(
             controller: textController,
             placeholder: 'Search',
