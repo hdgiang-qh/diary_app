@@ -1,10 +1,14 @@
 
-
-import 'package:diary/src/presentation/Auth/Welcome/welcome_screen.dart';
+import 'package:diary/src/presentation/Auth/provider_token.dart';
+import 'package:diary/src/test2.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( ChangeNotifierProvider(
+    create: (context) => AuthProvider(),
+    child: const MyApp(),
+  ),);
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +24,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const WelcomeScreen(),
+      home: LoginPage(),
     );
   }
 }

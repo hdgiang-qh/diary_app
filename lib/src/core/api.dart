@@ -10,8 +10,6 @@ final dio = Dio()
       onRequest:
           (RequestOptions options, RequestInterceptorHandler handler) async {
         print("#################################### Url: ${options.path}");
-        // print("#################################### headers: ${options.headers}");
-        // print("#################################### request: ${options.data}");
         return handler.next(options);
       },
       onResponse: (Response? response, ResponseInterceptorHandler handler) {

@@ -2,14 +2,10 @@ import 'package:diary/src/core/share_pref/share_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-
 import 'share_pref/app_key.dart';
 
 class Const {
   static final format = NumberFormat("#,##0.##", "vi");
-
-  static const image_host = 'http://admin.bellsi.com.vn/storage/';
 
   static const api_host = 'http://localhost:8080/api/v1';
 
