@@ -1,4 +1,4 @@
-import 'package:diary/src/test2.dart';
+
 import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 
-import '../Auth/provider_token.dart';
+import '../../core/service/auth_service.dart';
+import '../../core/service/provider_token.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -62,7 +64,19 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Center(
               child: SizedBox(width: 400, child: Text("Token : $token")),
-            )
+            ),
+            const SizedBox(height: 30,),
+            SizedBox(
+              width: 200,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await authService.logout();
+                  Provider.of<AuthProvider>(context, listen: false).setToken(null);
+                  Navigator.pop(context);
+                },
+                child: const Text('Đăng xuất'),
+              ),
+            ),
           ],
         ),
       ),

@@ -163,7 +163,7 @@ class _LogUpScreenState extends State<LogUpScreen> {
                                   'Sign In',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: primaryColor,
                                       fontSize: 18),
                                 ),
                               ),

@@ -1,6 +1,6 @@
 
-import 'package:diary/src/presentation/Auth/provider_token.dart';
-import 'package:diary/src/test2.dart';
+import 'package:diary/src/core/service/provider_token.dart';
+import 'package:diary/src/presentation/Auth/Welcome/LogIn_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +14,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
