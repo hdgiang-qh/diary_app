@@ -11,6 +11,36 @@ class AuthService {
   String? _error;
   String? get error => _error;
 
+  // void registerUser() async {
+  //   final dio = Dio();
+  //
+  //   FormData formData = FormData.fromMap({
+  //     'username': 'your_username',
+  //     'password': 'your_password',
+  //     'email': 'your_email',
+  //   });
+  //
+  //   try {
+  //     final response = await dio.post(
+  //       Const.api_host + ApiPath.register,
+  //       data: formData,
+  //     );
+  //
+  //     if (response.statusCode == 200) {
+  //       print('Đăng ký thành công');
+  //       print(response.data);
+  //     } else {
+  //       // Xử lý lỗi
+  //       print('Đăng ký thất bại: ${response.statusCode}');
+  //       print(response.data);
+  //     }
+  //   } catch (e) {
+  //     print('Lỗi: $e');
+  //   }
+  // }
+
+
+  //// Login
   Future<String?> login(String username, String password) async {
     try {
       Response response = await dio.post(Const.api_host + ApiPath.login,
@@ -34,6 +64,7 @@ class AuthService {
     }
   }
 
+
   Future<String?> getToken() async {
     return await secureStorage.read(key: 'token');
   }
@@ -42,3 +73,5 @@ class AuthService {
     await secureStorage.delete(key: 'token');
   }
 }
+
+

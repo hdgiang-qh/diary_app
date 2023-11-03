@@ -1,6 +1,11 @@
+import 'package:diary/src/core/service/auth_service.dart';
 import 'package:diary/styles/color_styles.dart';
 import 'package:diary/styles/text_app.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
+import '../../../core/apiPath.dart';
+import '../../../core/const.dart';
 
 class LogUpScreen extends StatefulWidget {
   const LogUpScreen({Key? key}) : super(key: key);
@@ -10,6 +15,8 @@ class LogUpScreen extends StatefulWidget {
 }
 
 class _LogUpScreenState extends State<LogUpScreen> {
+  final Dio dio = Dio();
+  final AuthService authService = AuthService();
   TextEditingController numberPhone = TextEditingController();
   TextEditingController passWord = TextEditingController();
   TextEditingController nameUser = TextEditingController();
@@ -51,7 +58,7 @@ class _LogUpScreenState extends State<LogUpScreen> {
                         children: [
                           TextField(
                             controller: nameUser,
-                            style: const TextStyle(color: Colors.purpleAccent),
+                            style: const TextStyle(color: Colors.white),
                             decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -141,6 +148,7 @@ class _LogUpScreenState extends State<LogUpScreen> {
                                 child: IconButton(
                                     color: Colors.white,
                                     onPressed: () {
+                                      registerUser();
                                     },
                                     icon: const Icon(
                                       Icons.arrow_forward,
@@ -163,8 +171,7 @@ class _LogUpScreenState extends State<LogUpScreen> {
                                   'Sign In',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                      color: primaryColor,
-                                      fontSize: 18),
+                                      color: primaryColor, fontSize: 18),
                                 ),
                               ),
                             ],
@@ -180,5 +187,46 @@ class _LogUpScreenState extends State<LogUpScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> registerUser() async {
+    final username = nameUser.text;
+    final password = passWord.text;
+    final phone = numberPhone.text;
+
+    try {
+      final response = await dio.post(
+        Const.api_host + ApiPath.register,
+        data: {
+          'username': username,
+          'password': password,
+          'phone': phone,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Xử lý thành công
+        print('Đăng ký thành công');
+        print(response.data);
+        Navigator.of(context).pop(false);
+      } else {
+        // Xử lý lỗi
+        print('Đăng ký thất bại: ${response.statusCode}');
+        print(response.data);
+      }
+      if (username == null || password == null || phone == null) {
+        print("Error");
+      }
+    } on DioException catch (e) {
+      // Xử lý lỗi Dio
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        duration: Duration(seconds: 1),
+        content: Text('Hãy điền đầy đủ thông tin'),
+      ));
+      print('Lỗi Dio: ${e.error}');
+    } catch (e) {
+      // Xử lý lỗi khác
+      print('Lỗi: $e');
+    }
   }
 }
