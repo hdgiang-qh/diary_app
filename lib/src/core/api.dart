@@ -1,8 +1,11 @@
-
+import 'package:diary/src/core/service/auth_service.dart';
+import 'package:diary/src/core/service/provider_token.dart';
 import 'package:diary/src/core/share_pref/app_key.dart';
+import 'package:diary/src/core/share_pref/share_pref.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 import 'const.dart';
-import 'share_pref/share_pref.dart';
 
 final dio = Dio()
   ..interceptors.add(
@@ -49,6 +52,8 @@ final dio = Dio()
     ),
   );
 
+final AuthService authService = AuthService();
+
 class Api {
   static checkErr(err) {
     if (err is DioException) {
@@ -69,7 +74,8 @@ class Api {
       Map<String, dynamic> headers = Map();
       headers['Content-Type'] = "application/json";
       if (isToken) {
-        var token = await SharedPrefs.readString(AppKey.userToken);
+        //final token = Provider.of<AuthProvider>(context).token;
+        var token = await authService.getToken();
         headers['Authorization'] = "Bearer $token";
       }
       FormData formData = FormData.fromMap(req);
@@ -86,13 +92,17 @@ class Api {
     }
   }
 
-  static getAsync({required String endPoint, bool isToken = true}) async {
+  static getAsync({
+    required String endPoint,
+    bool isToken = true,
+  }) async {
     try {
       Map<String, dynamic> headers = Map();
       headers['Content-Type'] = "application/json";
 
       if (isToken) {
-        var token = await SharedPrefs.readString(AppKey.userToken);
+       // final token = Provider.of<AuthProvider>(context).token;
+        var token = await authService.getToken();
         print(token);
         headers['Authorization'] = "Bearer $token";
       }
@@ -110,13 +120,17 @@ class Api {
   }
 
   static deleteAsync(
-      {required String endPoint, bool isToken = true, String? domain}) async {
+      {required String endPoint,
+      bool isToken = true,
+      String? domain,
+      }) async {
     try {
       Map<String, dynamic> headers = Map();
       headers['Content-Type'] = "application/json";
 
       if (isToken) {
-        var token = await SharedPrefs.readString(AppKey.userToken);
+        //final token = Provider.of<AuthProvider>(context).token;
+           var token = await authService.getToken();
         print(token);
         headers['Authorization'] = "Bearer $token";
       }
@@ -133,18 +147,18 @@ class Api {
     }
   }
 
-  static putAsync({
-    required String endPoint,
-    required Map<String, dynamic> req,
-    bool isToken = true,
-    bool hasForm = false,
-    String? domain,
-  }) async {
+  static putAsync(
+      {required String endPoint,
+      required Map<String, dynamic> req,
+      bool isToken = true,
+      bool hasForm = false,
+      String? domain,}) async {
     try {
       Map<String, dynamic> headers = Map();
       headers['Content-Type'] = "application/json";
       if (isToken) {
-        var token = await SharedPrefs.readString(AppKey.userToken);
+        //final token = Provider.of<AuthProvider>(context).token;
+        var token = await authService.getToken();
         headers['Authorization'] = "Bearer $token";
       }
       FormData formData = FormData.fromMap(req);

@@ -203,8 +203,9 @@ class _LogUpScreenState extends State<LogUpScreen> {
           'phone': phone,
         },
       );
-
-      if (response.statusCode == 200) {
+      if (username.isEmpty|| password.isEmpty || phone.isEmpty) {
+        return;
+      } else if (response.statusCode == 200) {
         // Xử lý thành công
         print('Đăng ký thành công');
         print(response.data);
@@ -214,9 +215,7 @@ class _LogUpScreenState extends State<LogUpScreen> {
         print('Đăng ký thất bại: ${response.statusCode}');
         print(response.data);
       }
-      if (username == null || password == null || phone == null) {
-        print("Error");
-      }
+
     } on DioException catch (e) {
       // Xử lý lỗi Dio
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

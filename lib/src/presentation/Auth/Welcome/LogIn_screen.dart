@@ -1,4 +1,3 @@
-
 import 'package:diary/src/dash_board.dart';
 import 'package:diary/src/core/service/auth_service.dart';
 import 'package:diary/src/presentation/widget/text_field.dart';
@@ -21,8 +20,8 @@ class LoginPage extends StatelessWidget {
   final BoolBloc changeState = BoolBloc();
   bool remember = false;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  LoginPage({super.key});
 
+  LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -115,12 +114,10 @@ class LoginPage extends StatelessWidget {
                       ));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            duration: const Duration(seconds: 1),
-                                  content: Text('Đăng nhập không thành công. Vui lòng kiểm tra tên đăng nhập và mật khẩu.'),
-                                ));
-                    }
-                    if (kDebugMode) {
-                      print("Token : $token");
+                        duration: const Duration(seconds: 1),
+                        content: Text(
+                            'Đăng nhập không thành công. Vui lòng kiểm tra tên đăng nhập và mật khẩu.'),
+                      ));
                     }
                   },
                   child: const Text('Đăng nhập'),
@@ -150,4 +147,3 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-

@@ -1,4 +1,3 @@
-
 import 'package:diary/src/presentation/Diary/add_diary_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -11,6 +10,8 @@ class DiaryScreen extends StatefulWidget {
 }
 
 class _DiaryScreenState extends State<DiaryScreen> {
+  final List<String> items = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,15 +32,22 @@ class _DiaryScreenState extends State<DiaryScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                decoration: const BoxDecoration(color: Colors.yellow),
-                height: 200,
+              SizedBox(
+                height: 500,
                 width: double.infinity,
-                child: const Text("new"),
-              ),
+                child: ListView.builder(
+                  itemCount: items.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      children: [
+                        ListTile(
+                          title: Text(items[index]),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              )
             ],
           ),
         ).paddingSymmetric(horizontal: 5));
