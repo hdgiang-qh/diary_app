@@ -3,7 +3,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:diary/src/core/api.dart';
 import 'package:diary/src/core/apiPath.dart';
-import 'package:diary/src/core/const.dart';
 import 'package:diary/src/models/getAll_diary_model.dart';
 import 'package:dio/dio.dart';
 
@@ -23,6 +22,7 @@ class GetAllDiaryBloc extends Bloc<GetAllDiaryEvent, GetAllDiaryState> {
           for(var json in res['data']){
             getAllDiaries.add(GetAllDiaryModel.fromJson(json));
           }
+          print(getAllDiaries);
          emit(GetAllDiarySuccess(getAllDiaries));
         }
         else{
@@ -38,5 +38,4 @@ class GetAllDiaryBloc extends Bloc<GetAllDiaryEvent, GetAllDiaryState> {
       emit(GetAllDiaryFailure(error :e.toString()));
     }
   }
-
 }

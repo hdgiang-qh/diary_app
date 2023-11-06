@@ -34,7 +34,7 @@ class GetAllDiaryModel {
   String? change;
   String? other;
   String? createdAt;
-  int? createdBy;
+  String? createdBy;
   List<GetAllDiaryCommentsModel?>? comments;
   String? status;
 
@@ -66,7 +66,7 @@ class GetAllDiaryModel {
     change = json['change']?.toString();
     other = json['other']?.toString();
     createdAt = json['createdAt']?.toString();
-    createdBy = json['createdBy']?.toInt();
+    createdBy = json['createdBy']?.toString();
     status = json['status']?.toString();
   }
   Map<String, dynamic> toJson() {

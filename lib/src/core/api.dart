@@ -99,7 +99,6 @@ class Api {
     try {
       Map<String, dynamic> headers = Map();
       headers['Content-Type'] = "application/json";
-
       if (isToken) {
        // final token = Provider.of<AuthProvider>(context).token;
         var token = await authService.getToken();
