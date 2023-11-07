@@ -8,7 +8,6 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../../core/service/auth_service.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -28,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _getAllDiaryBloc.getAllDiary();
     textController = TextEditingController(text: '');
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,14 +55,14 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                padding: const EdgeInsets.only(top: 16, left: 10, right: 10),
                 child: CupertinoSearchTextField(
                   controller: textController,
                   placeholder: 'Search',
                 ),
               ),
               const SizedBox(
-                height: 30,
+                height: 10,
               ),
               // SizedBox(
               //   width: 200,
@@ -82,38 +80,109 @@ class _HomeScreenState extends State<HomeScreen> {
                   bloc: _getAllDiaryBloc,
                   builder: (context, state) {
                     if (_getAllDiaryBloc.getAllDiaries.isEmpty) {
-                      return const Center(
-                        child: Text("No Data"),
-                      );
+                      return const CircularProgressIndicator();
+                      // Center(
+                      //   child: Text("No Data"),
+                      // );
                     }
                     return state is GetAllDiaryLoading
                         ? const Center(child: CircularProgressIndicator())
-                        : SizedBox(
-                            width: 575,
-                            child: ListView.separated(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => Column(
-                                children: [
-                                  SizedBox(
-                                    width: 100,
-                                    height: 50,
-                                    child: Center(
-                                      child: Text(_getAllDiaryBloc
-                                          .getAllDiaries[index].happened
-                                          .validate()),
-                                    ),
+                        : ListView.separated(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(),
+                                      borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          topRight: Radius.circular(10))),
+                                  width: double.infinity,
+                                  height: 300,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            flex:2,
+                                            child: Row(
+                                              children: [
+                                                const CircleAvatar(
+                                                  radius: 20.0,
+                                                  child: Text("G"),
+                                                ).paddingRight(5),
+                                                Text(
+                                                  _getAllDiaryBloc
+                                                      .getAllDiaries[index].id
+                                                      .validate()
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 17.0),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 3,
+                                            child: Text(
+                                              " Feeling : ${_getAllDiaryBloc.getAllDiaries[index].thinkingNow.validate()}",
+                                            ),
+                                          )
+                                        ],
+                                      ).paddingAll(5),
+                                      SingleChildScrollView(
+                                        child: SizedBox(
+                                          child: Text(
+                                              _getAllDiaryBloc
+                                                  .getAllDiaries[index].happened
+                                                  .validate(),
+                                              style: const TextStyle(
+                                                  fontSize: 15.0)),
+                                        ),
+                                      ).paddingLeft(5),
+                                    ],
                                   ),
-                                ],
-                              ),
-                              separatorBuilder: (context, index) =>
-                                  const Divider().paddingSymmetric(horizontal: 16),
-                              itemCount: _getAllDiaryBloc.getAllDiaries.length,
-                              shrinkWrap: true,
-                            ),
+                                ),
+                                Container(
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(),
+                                      borderRadius: const BorderRadius.only(
+                                          bottomLeft: Radius.circular(10),
+                                          bottomRight: Radius.circular(10))),
+                                  child: const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text('Like',
+                                          style: TextStyle(fontSize: 14.0)),
+                                      Text(
+                                        "|",
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                      Text('Comment',
+                                          style: TextStyle(fontSize: 14.0)),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ).paddingBottom(20),
+                            separatorBuilder: (context, index) => Container(),
+                            itemCount: _getAllDiaryBloc.getAllDiaries.length,
+                            shrinkWrap: true,
                           );
                   },
-                ).paddingSymmetric(horizontal: 16),
+                ).paddingSymmetric(horizontal: 10),
               )
             ],
           ),
