@@ -11,16 +11,16 @@ part 'get_all_diary_state.dart';
 
 class GetAllDiaryBloc extends Bloc<GetAllDiaryEvent, GetAllDiaryState> {
   GetAllDiaryBloc() : super(GetAllDiaryInitial());
-  List<GetAllDiaryModel> getAllDiaries = [];
+  List<GetAllDiaryPublicModel> getAllDiaries = [];
 
   void getAllDiary() async{
     emit(GetAllDiaryLoading());
     try{
       var res = await Api.getAsync(endPoint: ApiPath.getAllDiaryFeed);
-      if(res['result'] == true){
+      if(res['status'] == "SUCCESS"){
         if((res['data'] as List).isNotEmpty){
           for(var json in res['data']){
-            getAllDiaries.add(GetAllDiaryModel.fromJson(json));
+            getAllDiaries.add(GetAllDiaryPublicModel.fromJson(json));
           }
           print(getAllDiaries);
          emit(GetAllDiarySuccess(getAllDiaries));

@@ -80,10 +80,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   bloc: _getAllDiaryBloc,
                   builder: (context, state) {
                     if (_getAllDiaryBloc.getAllDiaries.isEmpty) {
-                      return const CircularProgressIndicator();
-                      // Center(
-                      //   child: Text("No Data"),
-                      // );
+                      return const
+                    //  CircularProgressIndicator();
+                      Center(
+                        child: Text("Loading Data..."),
+                      );
                     }
                     return state is GetAllDiaryLoading
                         ? const Center(child: CircularProgressIndicator())
@@ -119,13 +120,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ).paddingRight(5),
                                                 Text(
                                                   _getAllDiaryBloc
-                                                      .getAllDiaries[index].id
+                                                      .getAllDiaries[index].nickname
                                                       .validate()
                                                       .toString(),
                                                   style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      fontSize: 17.0),
+                                                      fontSize: 12),
                                                 ),
                                               ],
                                             ),
@@ -133,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           Expanded(
                                             flex: 3,
                                             child: Text(
-                                              " Feeling : ${_getAllDiaryBloc.getAllDiaries[index].thinkingNow.validate()}",
+                                              " Feeling : ${_getAllDiaryBloc.getAllDiaries[index].mood.validate()}",
                                             ),
                                           )
                                         ],
@@ -145,7 +146,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   .getAllDiaries[index].happened
                                                   .validate(),
                                               style: const TextStyle(
-                                                  fontSize: 15.0)),
+                                                  fontSize: 15.0),
+                                          maxLines: null),
                                         ),
                                       ).paddingLeft(5),
                                     ],
@@ -160,16 +162,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                           bottomRight: Radius.circular(10))),
                                   child: const Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                        MainAxisAlignment.center,
+                                    // crossAxisAlignment:
+                                    //     CrossAxisAlignment.center,
                                     children: [
-                                      Text('Like',
-                                          style: TextStyle(fontSize: 14.0)),
-                                      Text(
-                                        "|",
-                                        style: TextStyle(fontSize: 20),
-                                      ),
+                                      // Text('Like',
+                                      //     style: TextStyle(fontSize: 14.0)),
+                                      // Text(
+                                      //   "|",
+                                      //   style: TextStyle(fontSize: 20),
+                                      // ),
                                       Text('Comment',
                                           style: TextStyle(fontSize: 14.0)),
                                     ],

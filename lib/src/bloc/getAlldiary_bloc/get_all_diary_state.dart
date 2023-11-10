@@ -5,7 +5,7 @@ abstract class GetAllDiaryState {}
 class GetAllDiaryInitial extends GetAllDiaryState {}
 
 class GetAllDiarySuccess extends GetAllDiaryState{
-  final List<GetAllDiaryModel> listGetAllDiary;
+  final List<GetAllDiaryPublicModel> listGetAllDiary;
   GetAllDiarySuccess(this.listGetAllDiary);
 }
 

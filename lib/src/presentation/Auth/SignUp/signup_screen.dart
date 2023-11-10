@@ -20,6 +20,7 @@ class _LogUpScreenState extends State<LogUpScreen> {
   TextEditingController numberPhone = TextEditingController();
   TextEditingController passWord = TextEditingController();
   TextEditingController nameUser = TextEditingController();
+  TextEditingController nickname = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +80,7 @@ class _LogUpScreenState extends State<LogUpScreen> {
                                 )),
                           ),
                           const SizedBox(
-                            height: 30,
+                            height: 20,
                           ),
                           TextField(
                             controller: numberPhone,
@@ -104,7 +105,7 @@ class _LogUpScreenState extends State<LogUpScreen> {
                                 )),
                           ),
                           const SizedBox(
-                            height: 30,
+                            height: 20,
                           ),
                           TextField(
                             controller: passWord,
@@ -124,6 +125,31 @@ class _LogUpScreenState extends State<LogUpScreen> {
                                   ),
                                 ),
                                 hintText: "Password",
+                                hintStyle: const TextStyle(color: Colors.white),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextField(
+                            controller: nickname,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                hintText: "Nick Name",
                                 hintStyle: const TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -193,6 +219,7 @@ class _LogUpScreenState extends State<LogUpScreen> {
     final username = nameUser.text;
     final password = passWord.text;
     final phone = numberPhone.text;
+    final nickName = nickname.text;
 
     try {
       final response = await dio.post(
@@ -201,6 +228,7 @@ class _LogUpScreenState extends State<LogUpScreen> {
           'username': username,
           'password': password,
           'phone': phone,
+          'nickname' : nickName,
         },
       );
       if (username.isEmpty|| password.isEmpty || phone.isEmpty) {

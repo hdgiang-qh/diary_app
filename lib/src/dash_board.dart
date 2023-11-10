@@ -29,7 +29,7 @@ class _DashBoardState extends State<DashBoard>
     const PodCastScreen(),
     const MessBotScreen(),
     const DiaryScreen(),
-    const DiaryScreen(),
+    const PodCastScreen(),
   ];
 
   @override
