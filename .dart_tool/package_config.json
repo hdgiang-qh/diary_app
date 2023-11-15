@@ -116,6 +116,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_datetime_picker",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/flutter_datetime_picker-1.5.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_lints",
       "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/flutter_lints-2.0.3",
       "packageUri": "lib/",
@@ -494,7 +500,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-10-31T13:48:05.332773Z",
+  "generated": "2023-11-15T16:20:32.192860Z",
   "generator": "pub",
   "generatorVersion": "3.1.3"
 }

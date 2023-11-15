@@ -15,19 +15,21 @@ part 'diaryuser_state.dart';
 class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
   DiaryUserBloc() : super(DiaryUserInitial());
   List<DiaryUserModel> listDU = [];
+  DateTime? time;
+  String? dateTime;
 
   void getListDU() async {
-    String? _startDate;
     emit(DiaryUserLoading());
     try {
-      late final date = DateTime.now();
-      late final formatter = DateFormat('yyyy-MM-dd');
-      late String startDate = formatter.format(date);
+      final df = DateFormat("yyyy-MM-dd");
+      //DateTime date = DateTime.now();
+      //late String time = DateFormat('yyyy-MM-dd').format(date);
+      dateTime = time?.toString();
       var res = await Api.getAsync(
            endPoint:
-          startDate == null
-              ? ApiPath.diaryCalendar
-              : "${ApiPath.diaryCalendar}?date=$startDate");
+          dateTime == null
+              ? ApiPath.diaryUser
+              : "${ApiPath.diaryCalendar}?date=$dateTime");
       if (res['status'] == "SUCCESS") {
         if ((res['data'] as List).isNotEmpty) {
           for (var json in res['data']) {

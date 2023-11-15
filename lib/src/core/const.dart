@@ -128,3 +128,12 @@ extension HexColor on Color {
       '${green.toRadixString(16).padLeft(2, '0')}'
       '${blue.toRadixString(16).padLeft(2, '0')}';
 }
+extension ToStringTime on DateTime {
+  String toDateTimeString() {
+    return " $year-${day.toString().padLeft(2, '0')}-${month.toString().padLeft(2, '0')} ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}:00";
+  }
+
+  String toDateTimeStringWithoutHour() {
+    return " ${year.toString()}-${month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')} ";
+  }
+}
