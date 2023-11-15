@@ -14,6 +14,8 @@ class AddDiaryScreen extends StatefulWidget {
 
 class _AddDiaryScreenState extends State<AddDiaryScreen> {
   late final MoodBloc _moodBloc;
+  TextEditingController happened = TextEditingController();
+  List<String> list = <String>['PUBLIC', 'PRIVATE'];
 
   @override
   void initState() {
@@ -57,6 +59,35 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                 ],
               ),
             ).paddingSymmetric(horizontal: 10),
+            const Row(
+              children: [
+                Expanded(
+                    child: Row(
+                      children: [
+                        Text("Mood Feel : "),
+                        SizedBox(
+                          height: 40,
+                          width: 70,
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: "Num?",
+                              hintStyle: TextStyle(fontSize: 14),
+                              isDense: true,
+                            ),
+                          ),
+                        )
+                      ],
+                    )),
+                Expanded(
+                    child: Row(
+                      children: [
+                        Text("Status : "),
+                      ],
+                    ))
+              ],
+            ).paddingSymmetric(horizontal: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -71,7 +102,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                                   return CupertinoAlertDialog(
                                     title: const Icon(
                                       CupertinoIcons.heart_fill,
-                                     // color: Colors.pink,
+                                      // color: Colors.pink,
                                     ),
                                     content: const Text(
                                       'Do you want to post this content?',

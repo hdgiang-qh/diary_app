@@ -4,26 +4,28 @@
 class DiaryUserModel {
 /*
 {
-  "id": 17,
+  "id": 18,
   "title": "string",
-  "happened": "string",
+  "mood": "tức giận",
+  "happened": "Bây giờ em biết vì sao gặp nhau biển xô sóng trào.Ngồi nghe chiều im gió lặng giữa muôn vàn hoa.Đi về đâu cũng là thế, buồn kia còn trong dáng ngồi.Thiên đường xưa khép lại……. từ muôn năm rồi",
   "thinkingMoment": "string",
-  "time": "2023-11-08T09:18:10.149",
+  "time": "2023-11-08T09:29:00.778",
   "place": "string",
-  "thinkingNow": "string",
+  "thinkingNow": "yêu đời",
   "thinkingFelt": "string",
   "change": "string",
   "other": "string",
-  "createdAt": "2023-11-08T16:18:38.502",
-  "createdBy": 1,
-  "nickname": "mohamed Salah",
-  "avatar": "string",
-  "status": "PUBLIC"
+  "status": "PUBLIC",
+  "createdBy": "22",
+  "createdAt": "2023-11-08T16:31:52.184",
+  "nickname": "Kamen Rider",
+  "avatar": "string"
 }
 */
 
   int? id;
   String? title;
+  String? mood;
   String? happened;
   String? thinkingMoment;
   String? time;
@@ -32,15 +34,16 @@ class DiaryUserModel {
   String? thinkingFelt;
   String? change;
   String? other;
+  String? status;
+  String? createdBy;
   String? createdAt;
-  int? createdBy;
   String? nickname;
   String? avatar;
-  String? status;
 
   DiaryUserModel({
     this.id,
     this.title,
+    this.mood,
     this.happened,
     this.thinkingMoment,
     this.time,
@@ -49,15 +52,16 @@ class DiaryUserModel {
     this.thinkingFelt,
     this.change,
     this.other,
-    this.createdAt,
+    this.status,
     this.createdBy,
+    this.createdAt,
     this.nickname,
     this.avatar,
-    this.status,
   });
   DiaryUserModel.fromJson(Map<String, dynamic> json) {
     id = json['id']?.toInt();
     title = json['title']?.toString();
+    mood = json['mood']?.toString();
     happened = json['happened']?.toString();
     thinkingMoment = json['thinkingMoment']?.toString();
     time = json['time']?.toString();
@@ -66,16 +70,17 @@ class DiaryUserModel {
     thinkingFelt = json['thinkingFelt']?.toString();
     change = json['change']?.toString();
     other = json['other']?.toString();
+    status = json['status']?.toString();
+    createdBy = json['createdBy']?.toString();
     createdAt = json['createdAt']?.toString();
-    createdBy = json['createdBy']?.toInt();
     nickname = json['nickname']?.toString();
     avatar = json['avatar']?.toString();
-    status = json['status']?.toString();
   }
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id'] = id;
     data['title'] = title;
+    data['mood'] = mood;
     data['happened'] = happened;
     data['thinkingMoment'] = thinkingMoment;
     data['time'] = time;
@@ -84,11 +89,11 @@ class DiaryUserModel {
     data['thinkingFelt'] = thinkingFelt;
     data['change'] = change;
     data['other'] = other;
-    data['createdAt'] = createdAt;
+    data['status'] = status;
     data['createdBy'] = createdBy;
+    data['createdAt'] = createdAt;
     data['nickname'] = nickname;
     data['avatar'] = avatar;
-    data['status'] = status;
     return data;
   }
 }

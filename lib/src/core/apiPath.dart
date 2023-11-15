@@ -4,5 +4,6 @@ class ApiPath{
   static const getAllDiaryFeed = "/diary/feed";
   static const createDiary= "/diary";
   static const moodStatus = "/mood/all";
-  static const diaryCalender = "/diary/calender";
+  static const diaryCalendar = "/diary/calendar";
+  static const diaryUser = "/diary/all";
 }

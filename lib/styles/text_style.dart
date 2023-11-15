@@ -29,6 +29,18 @@ class StyleApp {
       decoration: TextDecoration.none,
     );
   }
+  static TextStyle textDate({
+    Color color = ColorAppStyle.black3D,
+    double fontSize = 12,
+  }) {
+    return GoogleFonts.roboto(
+      color: color,
+      fontSize: fontSize,
+      fontWeight: FontWeight.w400,
+      //fontFamily: fontFamily,
+      decoration: TextDecoration.none,
+    );
+  }
 
   static TextStyle textStyle500({
     Color color = ColorAppStyle.black3D,
