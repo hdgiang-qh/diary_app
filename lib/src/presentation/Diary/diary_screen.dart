@@ -80,22 +80,25 @@ class _DiaryScreenState extends State<DiaryScreen> {
   //   );
   // }
 
-  Widget buildDate(){
-    return ElevatedButton(onPressed: () async {
-     DateTime? picker = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2018),
-          lastDate: DateTime(2025));
-     print(picker);
-     setState(() {
-       _bloc.time = picker;
-       _bloc.listDU.clear();
-       _bloc.getListDU();
-     });
-    },
-      child: const Text("data"),);
+  Widget buildDate() {
+    return ElevatedButton(
+      onPressed: () async {
+        DateTime? picker = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2018),
+            lastDate: DateTime(2025));
+        print(picker);
+        setState(() {
+          _bloc.time = picker;
+          _bloc.listDU.clear();
+          _bloc.getListDU();
+        });
+      },
+      child: const Text("data"),
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,29 +157,20 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Expanded(
-                                              flex: 2,
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    flex: 3,
-                                                    child: Text(
-                                                      _bloc.listDU[index]
-                                                          .nickname
-                                                          .validate()
-                                                          .toString(),
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 12),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                      child: Text(_bloc
-                                                          .listDU[index].status
-                                                          .toString()))
-                                                ],
+                                              flex: 3,
+                                              child: Text(
+                                                _bloc.listDU[index].nickname
+                                                    .validate()
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12),
                                               ),
                                             ),
+                                            Expanded(
+                                                child: Text(_bloc
+                                                    .listDU[index].status
+                                                    .toString())),
                                           ],
                                         ).paddingAll(5),
                                         SingleChildScrollView(
@@ -199,16 +193,17 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                         borderRadius: const BorderRadius.only(
                                             bottomLeft: Radius.circular(10),
                                             bottomRight: Radius.circular(10))),
-                                    child: const Row(
+                                    child:Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                          MainAxisAlignment.end,
                                       // crossAxisAlignment:
                                       //     CrossAxisAlignment.center,
                                       children: [
-                                        Text('Comment',
-                                            style: TextStyle(fontSize: 14.0)),
+                                        ElevatedButton(
+                                            onPressed: (){},
+                                            child: const Text("Share")),
                                       ],
-                                    ),
+                                    ).paddingSymmetric(vertical: 5),
                                   )
                                 ],
                               ).paddingBottom(20),
