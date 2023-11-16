@@ -17,19 +17,20 @@ class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
   List<DiaryUserModel> listDU = [];
   DateTime? time;
   String? dateTime;
+  String? epoint;
 
   void getListDU() async {
     emit(DiaryUserLoading());
     try {
-      final df = DateFormat("yyyy-MM-dd");
-      //DateTime date = DateTime.now();
-      //late String time = DateFormat('yyyy-MM-dd').format(date);
-      dateTime = time?.toString();
+      if (time == null) {
+        epoint = ApiPath.diaryCalendar;
+      } else {
+        DateFormat df = DateFormat("yyyy-MM-dd");
+        dateTime = df.format(time!);
+        epoint = "${ApiPath.diaryCalendar}?date=$dateTime";
+      }
       var res = await Api.getAsync(
-           endPoint:
-          dateTime == null
-              ? ApiPath.diaryUser
-              : "${ApiPath.diaryCalendar}?date=$dateTime");
+          endPoint: epoint.toString());
       if (res['status'] == "SUCCESS") {
         if ((res['data'] as List).isNotEmpty) {
           for (var json in res['data']) {

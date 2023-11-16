@@ -126,7 +126,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                         return const
                             //  CircularProgressIndicator();
                             Center(
-                          child: Text("Loading Data..."),
+                          child: Text("Not Value"),
                         );
                       }
                       return state is DiaryUserLoading
