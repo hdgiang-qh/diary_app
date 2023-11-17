@@ -3,6 +3,7 @@ import 'package:diary/src/bloc/mood_bloc/mood_bloc.dart';
 import 'package:diary/src/core/api.dart';
 import 'package:diary/src/core/apiPath.dart';
 import 'package:diary/src/core/const.dart';
+import 'package:diary/styles/color_styles.dart';
 import 'package:diary/styles/text_style.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -99,9 +100,9 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
   Widget buildDrop(BuildContext context) {
     final List<String> list = <String>['PUBLIC', 'PRIVATE'];
     return DropdownButton<String>(
-      hint: const Text("Select"),
+      hint: const Text("Select Status"),
       value: dropdownValue,
-      style: const TextStyle(color: Colors.deepPurple),
+      style: const TextStyle(color: primaryColor),
       onChanged: (String? value) {
         // This is called when the user selects an item.
         setState(() {
@@ -179,8 +180,9 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            buildDrop(context),
+            buildDrop(context).paddingRight(10),
             SizedBox(
               height: height * 0.2,
               width: width,
@@ -212,7 +214,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                   children: [
                     const Text("Mood Feel : "),
                     SizedBox(
-                      height: 40,
+                      height: 35,
                       width: 70,
                       child: TextField(
                         controller: mood,
@@ -232,14 +234,14 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                   children: [
                     const Text("Status : "),
                     SizedBox(
-                      height: 40,
+                      height: 35,
                       width: 95,
                       child: TextField(
                         controller: status,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: "Num?",
+                          hintText: "Status",
                           hintStyle: TextStyle(fontSize: 14),
                           isDense: true,
                         ),
@@ -296,7 +298,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                         },
                         child: const Text("Save"))),
               ],
-            )
+            ).paddingTop(15)
           ],
         ),
       ),

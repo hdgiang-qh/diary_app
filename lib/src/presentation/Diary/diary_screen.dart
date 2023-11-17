@@ -95,7 +95,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
           _bloc.getListDU();
         });
       },
-      child: const Text("data"),
+      child: const Text("Choose Day"),
     );
   }
 
@@ -204,7 +204,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                       children: [
                                         ElevatedButton(
                                             onPressed: (){},
-                                            child: const Text("Share")),
+                                            child: const Text("Set Status")),
                                       ],
                                     ).paddingSymmetric(vertical: 5),
                                   )
