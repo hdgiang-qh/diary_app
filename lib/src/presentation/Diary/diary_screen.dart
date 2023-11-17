@@ -108,6 +108,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
           actions: [
             IconButton(
                 onPressed: () {
+                  // _bloc.listDU.clear();
+                  // _bloc.getListDU();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -117,7 +119,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
           ],
         ),
         body: SafeArea(
-          child: SingleChildScrollView(
+          child:
+          SingleChildScrollView(
             child: Column(
               children: <Widget>[
                 buildDate(),
@@ -125,13 +128,13 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   child: BlocBuilder<DiaryUserBloc, DiaryuserState>(
                     bloc: _bloc,
                     builder: (context, state) {
-                      if (_bloc.listDU.isEmpty) {
-                        return const
-                            //  CircularProgressIndicator();
-                            Center(
-                          child: Text("Not Value"),
-                        );
-                      }
+                      // if (_bloc.listDU.isEmpty) {
+                      //   return const
+                      //       //  CircularProgressIndicator();
+                      //       Center(
+                      //     child: Text("Not Value"),
+                      //   );
+                      // }
                       return state is DiaryUserLoading
                           ? const Center(child: CircularProgressIndicator())
                           : ListView.separated(

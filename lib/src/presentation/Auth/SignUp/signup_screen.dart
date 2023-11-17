@@ -22,6 +22,50 @@ class _LogUpScreenState extends State<LogUpScreen> {
   TextEditingController nameUser = TextEditingController();
   TextEditingController nickname = TextEditingController();
 
+  Future<void> registerUser() async {
+    final username = nameUser.text;
+    final password = passWord.text;
+    final phone = numberPhone.text;
+    final nickName = nickname.text;
+
+    try {
+      final response = await dio.post(
+        Const.api_host + ApiPath.register,
+        data: {
+          'username': username,
+          'password': password,
+          'phone': phone,
+          'nickname': nickName,
+        },
+      );
+      if (username.isEmpty ||
+          password.isEmpty ||
+          phone.isEmpty ||
+          nickName.isEmpty) {
+        return;
+      } else if (response.statusCode == 200) {
+        // Xử lý thành công
+        print('Đăng ký thành công');
+        print(response.data);
+        Navigator.of(context).pop(false);
+      } else {
+        // Xử lý lỗi
+        print('Đăng ký thất bại: ${response.statusCode}');
+        print(response.data);
+      }
+    } on DioException catch (e) {
+      // Xử lý lỗi Dio
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        duration: Duration(seconds: 1),
+        content: Text('Hãy điền đầy đủ thông tin'),
+      ));
+      print('Lỗi Dio: ${e.error}');
+    } catch (e) {
+      // Xử lý lỗi khác
+      print('Lỗi: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -215,47 +259,5 @@ class _LogUpScreenState extends State<LogUpScreen> {
     );
   }
 
-  Future<void> registerUser() async {
-    final username = nameUser.text;
-    final password = passWord.text;
-    final phone = numberPhone.text;
-    final nickName = nickname.text;
 
-    try {
-      final response = await dio.post(
-        Const.api_host + ApiPath.register,
-        data: {
-          'username': username,
-          'password': password,
-          'phone': phone,
-          'nickname': nickName,
-        },
-      );
-      if (username.isEmpty ||
-          password.isEmpty ||
-          phone.isEmpty ||
-          nickName.isEmpty) {
-        return;
-      } else if (response.statusCode == 200) {
-        // Xử lý thành công
-        print('Đăng ký thành công');
-        print(response.data);
-        Navigator.of(context).pop(false);
-      } else {
-        // Xử lý lỗi
-        print('Đăng ký thất bại: ${response.statusCode}');
-        print(response.data);
-      }
-    } on DioException catch (e) {
-      // Xử lý lỗi Dio
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        duration: Duration(seconds: 1),
-        content: Text('Hãy điền đầy đủ thông tin'),
-      ));
-      print('Lỗi Dio: ${e.error}');
-    } catch (e) {
-      // Xử lý lỗi khác
-      print('Lỗi: $e');
-    }
-  }
 }

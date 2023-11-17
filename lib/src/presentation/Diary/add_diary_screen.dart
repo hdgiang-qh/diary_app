@@ -1,5 +1,10 @@
+import 'package:diary/src/bloc/diaryUser_bloc/diaryuser_bloc.dart';
 import 'package:diary/src/bloc/mood_bloc/mood_bloc.dart';
+import 'package:diary/src/core/api.dart';
+import 'package:diary/src/core/apiPath.dart';
+import 'package:diary/src/core/const.dart';
 import 'package:diary/styles/text_style.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,8 +19,12 @@ class AddDiaryScreen extends StatefulWidget {
 
 class _AddDiaryScreenState extends State<AddDiaryScreen> {
   late final MoodBloc _moodBloc;
+  late final DiaryUserBloc bloc;
+  Dio dio = Dio();
   TextEditingController happened = TextEditingController();
-  List<String> list = <String>['PUBLIC', 'PRIVATE'];
+  TextEditingController mood = TextEditingController();
+  TextEditingController status = TextEditingController();
+  String? dropdownValue;
 
   @override
   void initState() {
@@ -25,24 +34,161 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
     _moodBloc.getMood();
   }
 
+  Widget buildMood() {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    return SingleChildScrollView(
+      child: Container(
+        // color: Colors.red,
+        child: BlocBuilder<MoodBloc, MoodState>(
+          bloc: _moodBloc,
+          builder: (context, state) {
+            // if (_moodBloc.mood.isEmpty) {
+            //   return const
+            //       //  CircularProgressIndicator();
+            //       Center(
+            //     child: Text("Loading Data..."),
+            //   );
+            // }
+            return state is MoodLoading
+                ? const Center(child: CircularProgressIndicator())
+                : GridView.builder(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(5))),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _moodBloc.mood[index].id.validate().toString(),
+                                style: const TextStyle(fontSize: 12),
+                              ).paddingAll(5),
+                              Text(
+                                _moodBloc.mood[index].mood
+                                    .validate()
+                                    .toString(),
+                                style: const TextStyle(fontSize: 12),
+                              ).paddingAll(5),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    //separatorBuilder: (context, index) => Container(),
+                    itemCount: _moodBloc.mood.length,
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        childAspectRatio: width / (height / 7),
+                        crossAxisSpacing: 5.0,
+                        mainAxisSpacing: 5.0),
+                  );
+          },
+        ).paddingSymmetric(horizontal: 10),
+      ),
+    );
+  }
+
+  Widget buildDrop(BuildContext context) {
+    final List<String> list = <String>['PUBLIC', 'PRIVATE'];
+    return DropdownButton<String>(
+      hint: const Text("Select"),
+      value: dropdownValue,
+      style: const TextStyle(color: Colors.deepPurple),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+          status.text = dropdownValue!;
+          print(status.text);
+        });
+      },
+      items: list.map<DropdownMenuItem<String>>((String stt) {
+        return DropdownMenuItem<String>(
+          value: stt,
+          child: Text(stt),
+        );
+      }).toList(),
+    );
+  }
+
+  Future<void> createDiary() async {
+    final happen = happened.text;
+    final moodId = mood.text;
+    final statuses = status.text;
+    try {
+      Map<String, dynamic> data = {
+        'happened': happen,
+        'moodId': moodId,
+        'status': statuses,
+      };
+      final res = await Api.postAsync(
+        endPoint: ApiPath.createDiary,
+        req: data,
+      );
+      if (happen.isEmpty || moodId.isEmpty || statuses.isEmpty) {
+        return;
+      } else if (res['status'] == "SUCCESS") {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          duration: Duration(seconds: 1),
+          content: Text('Post Success!'),
+        ));
+      } else {
+        // Xử lý lỗi
+        print('Fail: ${res.statusCode}');
+        print(res.data);
+        return;
+      }
+    } on DioException catch (e) {
+      // Xử lý lỗi Dio
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        duration: Duration(seconds: 1),
+        content: Text('Hãy điền đầy đủ thông tin'),
+      ));
+      print('Lỗi Dio: ${e.error}');
+    } catch (e) {
+      // Xử lý lỗi khác
+      print('Lỗi: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            bloc = DiaryUserBloc();
+            bloc.getListDU();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
         title: const Text("New A Diary"),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
+            buildDrop(context),
             SizedBox(
               height: height * 0.2,
               width: width,
-              child: const TextField(
+              child: TextField(
+                controller: happened,
                 maxLines: null,
                 expands: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     filled: true,
                     // border: OutlineInputBorder(),
                     hintText: "How are you feeling now?"),
@@ -59,33 +205,48 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                 ],
               ),
             ).paddingSymmetric(horizontal: 10),
-            const Row(
+            Row(
               children: [
                 Expanded(
                     child: Row(
-                      children: [
-                        Text("Mood Feel : "),
-                        SizedBox(
-                          height: 40,
-                          width: 70,
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Num?",
-                              hintStyle: TextStyle(fontSize: 14),
-                              isDense: true,
-                            ),
-                          ),
-                        )
-                      ],
-                    )),
+                  children: [
+                    const Text("Mood Feel : "),
+                    SizedBox(
+                      height: 40,
+                      width: 70,
+                      child: TextField(
+                        controller: mood,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: "Num?",
+                          hintStyle: TextStyle(fontSize: 14),
+                          isDense: true,
+                        ),
+                      ),
+                    )
+                  ],
+                )),
                 Expanded(
                     child: Row(
-                      children: [
-                        Text("Status : "),
-                      ],
-                    ))
+                  children: [
+                    const Text("Status : "),
+                    SizedBox(
+                      height: 40,
+                      width: 95,
+                      child: TextField(
+                        controller: status,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: "Num?",
+                          hintStyle: TextStyle(fontSize: 14),
+                          isDense: true,
+                        ),
+                      ),
+                    ),
+                  ],
+                ))
               ],
             ).paddingSymmetric(horizontal: 10),
             Row(
@@ -130,73 +291,14 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                 SizedBox(
                     width: width * 0.3,
                     child: ElevatedButton(
-                        onPressed: () {}, child: const Text("Save"))),
+                        onPressed: () {
+                          createDiary();
+                        },
+                        child: const Text("Save"))),
               ],
             )
           ],
         ),
-      ),
-    );
-  }
-
-  Widget buildMood() {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-    return SingleChildScrollView(
-      child: Container(
-        // color: Colors.red,
-        child: BlocBuilder<MoodBloc, MoodState>(
-          bloc: _moodBloc,
-          builder: (context, state) {
-            if (_moodBloc.mood.isEmpty) {
-              return const
-                  //  CircularProgressIndicator();
-                  Center(
-                child: Text("Loading Data..."),
-              );
-            }
-            return state is MoodLoading
-                ? const Center(child: CircularProgressIndicator())
-                : GridView.builder(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5))),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _moodBloc.mood[index].id.validate().toString(),
-                                style: const TextStyle(fontSize: 12),
-                              ).paddingAll(5),
-                              Text(
-                                _moodBloc.mood[index].mood
-                                    .validate()
-                                    .toString(),
-                                style: const TextStyle(fontSize: 12),
-                              ).paddingAll(5),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    //separatorBuilder: (context, index) => Container(),
-                    itemCount: _moodBloc.mood.length,
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        childAspectRatio: width / (height / 7),
-                        crossAxisSpacing: 5.0,
-                        mainAxisSpacing: 5.0),
-                  );
-          },
-        ).paddingSymmetric(horizontal: 10),
       ),
     );
   }
