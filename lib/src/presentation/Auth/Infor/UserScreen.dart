@@ -3,63 +3,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class UserScreen extends StatefulWidget {
-  const UserScreen({super.key});
-
-  @override
-  State<UserScreen> createState() => _UserScreenState();
-}
-
-class _UserScreenState extends State<UserScreen> {
-  late final InforBloc _bloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _bloc = InforBloc();
-    _bloc.getInfor();
-  }
+class UserScreen extends StatelessWidget {
+  const UserScreen({
+    super.key,
+    required InforBloc inforBloc,
+  }) : _bloc = inforBloc;
+  final InforBloc _bloc;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text("Information"),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: BlocBuilder<InforBloc, InforState>(
-            bloc: _bloc,
-            builder: (context, state) {
-              if (_bloc.inforUsers.isEmpty) {
-                return const
-                    //  CircularProgressIndicator();
-                    Center(
-                  child: Text("Loading Data..."),
-                );
-              }
-              return state is InforLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : ListView.builder(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                              child: Text(
-                                  _bloc.inforUsers[index].nickName.validate()))
-                        ],
-                      ).paddingBottom(20),
-                      // separatorBuilder: (context, index) => Container(),
-                      itemCount: _bloc.inforUsers.length,
-                      shrinkWrap: true,
-                    );
-            },
-          ),
-        ),
-      ),
-    );
+    return BlocBuilder<InforBloc, InforState>(
+        bloc: _bloc,
+        builder: (context, state) {
+          if (state is InforLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is InforSuccess2) {
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height : 50),
+                  const CircleAvatar(
+                    radius: 30.0,
+                    child: Text("G"),
+                  ).paddingRight(5),
+                  Text(state.ifUser.nickName.validate()),
+                  Text(state.ifUser.phone.validate())
+                ],
+              ),
+            );
+          }
+          else if(state is InforFailure){
+            return Center(
+              child: Text(state.error),
+            );
+          }
+          else{
+            return Container();
+          }
+        });
   }
 }

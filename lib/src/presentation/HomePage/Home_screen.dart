@@ -77,13 +77,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: BlocBuilder<GetAllDiaryBloc, GetAllDiaryState>(
                   bloc: _getAllDiaryBloc,
                   builder: (context, state) {
-                    if (_getAllDiaryBloc.getAllDiaries.isEmpty) {
-                      return const
-                    //  CircularProgressIndicator();
-                      Center(
-                        child: Text("Loading Data..."),
-                      );
-                    }
                     return state is GetAllDiaryLoading
                         ? const Center(child: CircularProgressIndicator())
                         : ListView.separated(

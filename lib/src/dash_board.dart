@@ -1,4 +1,6 @@
 
+import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
+import 'package:diary/src/presentation/Auth/Infor/Information_screen.dart';
 import 'package:diary/src/presentation/Auth/Infor/UserScreen.dart';
 import 'package:diary/src/presentation/Diary/diary_screen.dart';
 import 'package:diary/src/presentation/HomePage/Home_screen.dart';
@@ -30,7 +32,7 @@ class _DashBoardState extends State<DashBoard>
     const PodCastScreen(),
     const MessBotScreen(),
     const DiaryScreen(),
-    const UserScreen(),
+    const Information(),
   ];
 
   @override

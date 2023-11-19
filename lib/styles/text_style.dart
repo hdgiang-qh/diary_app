@@ -16,6 +16,30 @@ class StyleApp {
       decoration: TextDecoration.none,
     );
   }
+  static TextStyle textStyle401({
+    Color color = ColorAppStyle.redFB,
+    double fontSize = 14,
+  }) {
+    return GoogleFonts.roboto(
+      color: color,
+      fontSize: fontSize,
+      fontWeight: FontWeight.w400,
+      //fontFamily: fontFamily,
+      decoration: TextDecoration.none,
+    );
+  }
+  static TextStyle textStyle402({
+    Color color = ColorAppStyle.blue00,
+    double fontSize = 14,
+  }) {
+    return GoogleFonts.roboto(
+      color: color,
+      fontSize: fontSize,
+      fontWeight: FontWeight.w400,
+      //fontFamily: fontFamily,
+      decoration: TextDecoration.none,
+    );
+  }
 
   static TextStyle textStyle300({
     Color color = ColorAppStyle.black3D,

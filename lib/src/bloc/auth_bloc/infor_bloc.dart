@@ -10,30 +10,29 @@ part 'infor_event.dart';
 part 'infor_state.dart';
 
 class InforBloc extends Bloc<InforEvent, InforState> {
-  InforBloc() : super(InforInitial());
   List<InforUser> inforUsers = [];
-  InforUser? ifUser;
-
-  void getInfor() async {
-    emit(InforLoading());
-    try {
-      var res = await Api.getAsync(endPoint: ApiPath.inforUser);
-      if (res['status'] == "SUCCESS") {
-        if ((res['data'] as List).isNotEmpty) {
-          for (var json in res['data']) {
-            inforUsers.add(InforUser.fromJson(json));
+  InforUser? _ifUser;
+  InforBloc() : super(InforInitial()){
+    on<InforEvent>(
+        (event, emit) async {
+          if(event is GetInforUser){
+            emit(InforLoading());
+            try {
+              var res = await Api.getAsync(endPoint: ApiPath.inforUser);
+              if (res['status'] == "SUCCESS") {
+                _ifUser = InforUser.fromJson(res['data']);
+                emit(InforSuccess2(_ifUser!));
+              }
+              else {
+                emit(InforFailure(error: res['']));
+              }
+            } on DioException catch (e) {
+              emit(InforFailure(error: e.error.toString()));
+            } catch (e) {
+              emit(InforFailure(error: e.toString()));
+            }
           }
-          emit(InforSuccess(inforUsers));
-        } else {
-          emit(InforFailure(error: 'Data Empty'));
         }
-      } else {
-        emit(InforFailure(error: res['nickName']));
-      }
-    } on DioException catch (e) {
-      emit(InforFailure(error: e.error.toString()));
-    } catch (e) {
-      emit(InforFailure(error: e.toString()));
-    }
+    );
   }
 }

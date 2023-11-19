@@ -123,7 +123,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
   Future<void> createDiary() async {
     final happen = happened.text;
     final moodId = mood.text;
-    final statuses = status.text;
+    final statuses = dropdownValue;
     try {
       Map<String, dynamic> data = {
         'happened': happen,
@@ -134,7 +134,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
         endPoint: ApiPath.createDiary,
         req: data,
       );
-      if (happen.isEmpty || moodId.isEmpty || statuses.isEmpty) {
+      if (happen.isEmpty || moodId.isEmpty || dropdownValue.toString().isEmpty) {
         return;
       } else if (res['status'] == "SUCCESS") {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
