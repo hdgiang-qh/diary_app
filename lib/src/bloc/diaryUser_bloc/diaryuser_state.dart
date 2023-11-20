@@ -11,6 +11,9 @@ class DiaryUserSuccess extends DiaryuserState{
   final List<DiaryUserModel> diaryUser;
   DiaryUserSuccess(this.diaryUser);
 }
+class DeleteDiarySuccess extends DiaryuserState{}
+
+class UpdateDiarySuccess extends DiaryuserState{}
 
 class DiaryUserFailure extends DiaryuserState{
   final String error;

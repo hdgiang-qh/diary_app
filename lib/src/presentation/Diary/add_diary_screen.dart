@@ -24,12 +24,10 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
   Dio dio = Dio();
   TextEditingController happened = TextEditingController();
   TextEditingController mood = TextEditingController();
-  TextEditingController status = TextEditingController();
   String? dropdownValue;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _moodBloc = MoodBloc();
     _moodBloc.getMood();
@@ -107,8 +105,6 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
         // This is called when the user selects an item.
         setState(() {
           dropdownValue = value!;
-          status.text = dropdownValue!;
-          print(status.text);
         });
       },
       items: list.map<DropdownMenuItem<String>>((String stt) {
@@ -131,7 +127,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
         'status': statuses,
       };
       final res = await Api.postAsync(
-        endPoint: ApiPath.createDiary,
+        endPoint: ApiPath.curdDiary,
         req: data,
       );
       if (happen.isEmpty || moodId.isEmpty || dropdownValue.toString().isEmpty) {
@@ -172,6 +168,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
           onPressed: () {
             Navigator.of(context).pop();
             bloc = DiaryUserBloc();
+            bloc.listDU.clear();
             bloc.getListDU();
           },
           icon: const Icon(Icons.arrow_back_ios),
@@ -182,7 +179,13 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            buildDrop(context).paddingRight(10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text("Status Mode : "),
+                buildDrop(context).paddingRight(10),
+              ],
+            ),
             SizedBox(
               height: height * 0.2,
               width: width,
@@ -229,67 +232,11 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                     )
                   ],
                 )),
-                Expanded(
-                    child: Row(
-                  children: [
-                    const Text("Status : "),
-                    SizedBox(
-                      height: 35,
-                      width: 95,
-                      child: TextField(
-                        controller: status,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: "Status",
-                          hintStyle: TextStyle(fontSize: 14),
-                          isDense: true,
-                        ),
-                      ),
-                    ),
-                  ],
-                ))
               ],
             ).paddingSymmetric(horizontal: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                SizedBox(
-                    width: width * 0.3,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            showCupertinoDialog(
-                                context: context,
-                                builder: (context) {
-                                  return CupertinoAlertDialog(
-                                    title: const Icon(
-                                      CupertinoIcons.heart_fill,
-                                      // color: Colors.pink,
-                                    ),
-                                    content: const Text(
-                                      'Do you want to post this content?',
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    actions: [
-                                      CupertinoDialogAction(
-                                        isDefaultAction: true,
-                                        onPressed: () => Navigator.pop(context),
-                                        child: Text("Huỷ",
-                                            style: StyleApp.textStyle400()),
-                                      ),
-                                      CupertinoDialogAction(
-                                        isDefaultAction: true,
-                                        onPressed: () => Navigator.pop(context),
-                                        child: Text("Đồng ý",
-                                            style: StyleApp.textStyle400()),
-                                      ),
-                                    ],
-                                  );
-                                });
-                          });
-                        },
-                        child: const Text("Share"))),
                 SizedBox(
                     width: width * 0.3,
                     child: ElevatedButton(

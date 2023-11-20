@@ -22,7 +22,7 @@ class CrDiaryBloc extends Bloc<CrDiaryEvent, CrDiaryState> {
     try {
       Map<String, dynamic> req = createDiaryModel.toJson();
       var res = await Api.postAsync(
-          endPoint: ApiPath.createDiary, req: req, hasForm: true);
+          endPoint: ApiPath.curdDiary, req: req, hasForm: true);
       if (res['status'] == "SUCCESS") {
         if (kDebugMode) {
           print("object");
