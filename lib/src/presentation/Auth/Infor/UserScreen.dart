@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class UserScreen extends StatefulWidget {
+class UserScreen extends StatelessWidget {
   const UserScreen({
     super.key,
     required InforBloc inforBloc,
@@ -11,14 +11,9 @@ class UserScreen extends StatefulWidget {
   final InforBloc _bloc;
 
   @override
-  State<UserScreen> createState() => _UserScreenState();
-}
-
-class _UserScreenState extends State<UserScreen> {
-  @override
   Widget build(BuildContext context) {
     return BlocBuilder<InforBloc, InforState>(
-        bloc: widget._bloc,
+        bloc: _bloc,
         builder: (context, state) {
           if (state is InforLoading) {
             return const Center(

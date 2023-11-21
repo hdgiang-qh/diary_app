@@ -2,6 +2,7 @@ import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/src/core/api.dart';
 import 'package:diary/src/core/service/provider_token.dart';
 import 'package:diary/src/presentation/Auth/Infor/UserScreen.dart';
+import 'package:diary/src/presentation/Auth/Welcome/LogIn_screen.dart';
 import 'package:diary/src/presentation/widget/common_widget.dart';
 import 'package:diary/styles/text_style.dart';
 import 'package:flutter/cupertino.dart';
@@ -49,18 +50,18 @@ class _InformationState extends State<Information> {
                           CupertinoDialogAction(
                             isDefaultAction: true,
                             onPressed: () => Navigator.pop(context),
-                            child:
-                            Text("Huỷ", style: StyleApp.textStyle402()),
+                            child: Text("Huỷ", style: StyleApp.textStyle402()),
                           ),
                           CupertinoDialogAction(
                             isDefaultAction: true,
                             onPressed: () async {
-                              // await authService.logout();
-                              //       Provider.of<AuthProvider>(context, listen: false).setToken(null);
-                              //       Navigator.pop(context);
+                              await authService.logout();
+                              Provider.of<AuthProvider>(context, listen: false)
+                                  .setToken(null);
+                              Navigator.pushReplacementNamed(context, '/login');
                             },
-                            child: Text("Đồng ý",
-                                style: StyleApp.textStyle401()),
+                            child:
+                                Text("Đồng ý", style: StyleApp.textStyle401()),
                           ),
                         ],
                       );

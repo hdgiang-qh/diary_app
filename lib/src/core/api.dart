@@ -156,7 +156,6 @@ class Api {
       Map<String, dynamic> headers = Map();
       headers['Content-Type'] = "application/json";
       if (isToken) {
-        //final token = Provider.of<AuthProvider>(context).token;
         var token = await authService.getToken();
         headers['Authorization'] = "Bearer $token";
       }

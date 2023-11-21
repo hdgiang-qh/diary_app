@@ -7,4 +7,5 @@ class ApiPath{
   static const diaryCalendar = "/diary/calendar";
   static const diaryUser = "/diary/all";
   static const inforUser = "/account/info";
+  static const comment = "/comments";
 }

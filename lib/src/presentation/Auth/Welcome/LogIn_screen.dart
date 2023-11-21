@@ -13,15 +13,22 @@ import '../../../bloc/bool_bloc.dart';
 import '../../../core/service/provider_token.dart';
 import '../SignUp/signup_screen.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+
+  LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final AuthService authService = AuthService();
   final BoolBloc changeState = BoolBloc();
   bool remember = false;
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  LoginPage({super.key});
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {

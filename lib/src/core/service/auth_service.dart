@@ -10,7 +10,7 @@ class AuthService {
   final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   String? _error;
   String? get error => _error;
-
+  bool isLoggedIn = false;
   // void registerUser() async {
   //   final dio = Dio();
   //
@@ -49,6 +49,7 @@ class AuthService {
       if (response.statusCode == 200) {
         final token = response.data['token'];
         await secureStorage.write(key: 'token', value: token);
+        isLoggedIn = true;
         _error = null;
         return token;
       } else {
@@ -71,6 +72,7 @@ class AuthService {
 
   Future<void> logout() async {
     await secureStorage.delete(key: 'token');
+    isLoggedIn = false;
   }
 }
 
