@@ -38,4 +38,5 @@ class GetAllDiaryBloc extends Bloc<GetAllDiaryEvent, GetAllDiaryState> {
       emit(GetAllDiaryFailure(error :e.toString()));
     }
   }
+
 }

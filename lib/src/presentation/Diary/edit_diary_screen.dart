@@ -36,59 +36,6 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
     _bloc = DiaryUserBloc();
   }
 
-  // Widget buildMood() {
-  //   final height = MediaQuery.of(context).size.height;
-  //   final width = MediaQuery.of(context).size.width;
-  //   return SingleChildScrollView(
-  //     child: Container(
-  //       child: BlocBuilder<MoodBloc, MoodState>(
-  //         bloc: _moodBloc,
-  //         builder: (context, state) {
-  //           return state is MoodLoading
-  //               ? const Center(child: CircularProgressIndicator())
-  //               : GridView.builder(
-  //                   padding: const EdgeInsets.symmetric(vertical: 5),
-  //                   physics: const NeverScrollableScrollPhysics(),
-  //                   itemBuilder: (context, index) => Column(
-  //                     crossAxisAlignment: CrossAxisAlignment.start,
-  //                     children: [
-  //                       Container(
-  //                         decoration: BoxDecoration(
-  //                             border: Border.all(),
-  //                             borderRadius:
-  //                                 const BorderRadius.all(Radius.circular(5))),
-  //                         child: Row(
-  //                           crossAxisAlignment: CrossAxisAlignment.start,
-  //                           children: [
-  //                             Text(
-  //                               _moodBloc.mood[index].id.validate().toString(),
-  //                               style: const TextStyle(fontSize: 12),
-  //                             ).paddingAll(5),
-  //                             Text(
-  //                               _moodBloc.mood[index].mood
-  //                                   .validate()
-  //                                   .toString(),
-  //                               style: const TextStyle(fontSize: 12),
-  //                             ).paddingAll(5),
-  //                           ],
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                   //separatorBuilder: (context, index) => Container(),
-  //                   itemCount: _moodBloc.mood.length,
-  //                   shrinkWrap: true,
-  //                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-  //                       crossAxisCount: 3,
-  //                       childAspectRatio: width / (height / 7),
-  //                       crossAxisSpacing: 5.0,
-  //                       mainAxisSpacing: 5.0),
-  //                 );
-  //         },
-  //       ).paddingSymmetric(horizontal: 10),
-  //     ),
-  //   );
-  // }
 
   Widget buildDrop() {
     List<String> list = <String>['PUBLIC', 'PRIVATE'];
@@ -112,14 +59,8 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
   }
 
   Widget buildIdDiary() {
-    final height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    final width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return BlocBuilder<DetailDiaryBloc, DetailDiaryState>(
         bloc: _detailDiaryBloc..add(GetIdDiary(id: widget.id)),
         builder: (context, state) {
@@ -143,8 +84,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                        "Mood Feel : ${_detailDiaryBloc.model!.mood
-                            .validate()}"),
+                        "Mood Feel : ${_detailDiaryBloc.model!.mood.validate()}"),
                     Row(
                       children: [
                         const Text("Status Mode : "),
@@ -187,14 +127,13 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
         });
   }
 
-  void toastEditComplete(String messenger) =>
-      Fluttertoast.showToast(
-          msg: "Update Success",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.blueAccent,
-          textColor: Colors.white);
+  void toastEditComplete(String messenger) => Fluttertoast.showToast(
+      msg: "Update Success",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blueAccent,
+      textColor: Colors.white);
 
   Future<void> updateDiary(int id) async {
     final happen = happened.text;
@@ -208,9 +147,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
         endPoint: "${ApiPath.curdDiary}/$id",
         req: data,
       );
-      if (happen.isEmpty || dropdownValue
-          .toString()
-          .isEmpty) {
+      if (happen.isEmpty || dropdownValue.toString().isEmpty) {
         return;
       } else if (res['status'] == "SUCCESS") {
         return toastEditComplete("");

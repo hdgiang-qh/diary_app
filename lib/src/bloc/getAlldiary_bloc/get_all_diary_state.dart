@@ -9,6 +9,7 @@ class GetAllDiarySuccess extends GetAllDiaryState{
   GetAllDiarySuccess(this.listGetAllDiary);
 }
 
+
 class GetAllDiaryLoading extends GetAllDiaryState{}
 
 class GetAllDiaryFailure extends GetAllDiaryState{
