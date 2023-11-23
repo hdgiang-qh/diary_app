@@ -14,7 +14,7 @@ part 'get_comment_state.dart';
 class GetCommentBloc extends Bloc<GetCommentEvent, GetCommentState> {
   CommentModel? model;
   List<CommentModel> list = [];
-  int? count;
+  int? id,idCmt;
   GetCommentBloc() : super(GetCommentInitial()) {
     on<GetCommentEvent>((event, emit) async {
       if (event is GetIdCMTDiary) {
@@ -27,11 +27,13 @@ class GetCommentBloc extends Bloc<GetCommentEvent, GetCommentState> {
             if ((res['data'] as List).isNotEmpty) {
               for (var json in res['data']) {
                 list.add(CommentModel.fromJson(json));
+                idCmt = list.fold(0, (intId, e) => e.id);
               }
-              count = list.length;
+              model = CommentModel.fromJson(res['data']);
+              emit(GetCMTSuccessV2(model!));
+              id = event.id;
               emit(GetCMTSuccess(list));
             } else {
-              count = 0;
               emit(GetCMTFailure(error: "Data Empty"));
             }
           } else {

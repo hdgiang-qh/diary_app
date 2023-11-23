@@ -22,7 +22,6 @@ class GetAllDiaryBloc extends Bloc<GetAllDiaryEvent, GetAllDiaryState> {
           for(var json in res['data']){
             getAllDiaries.add(GetAllDiaryPublicModel.fromJson(json));
           }
-          print(getAllDiaries);
          emit(GetAllDiarySuccess(getAllDiaries));
         }
         else{

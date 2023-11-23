@@ -28,7 +28,7 @@ class _DashBoardState extends State<DashBoard>
   var selectedIndex = 0;
 
   var pages = [
-    const HomeScreen(id: 0),
+    const HomeScreen(),
     const PodCastScreen(),
     const MessBotScreen(),
     const DiaryScreen(),

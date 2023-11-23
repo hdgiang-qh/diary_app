@@ -21,7 +21,6 @@ class AddDiaryScreen extends StatefulWidget {
 class _AddDiaryScreenState extends State<AddDiaryScreen> {
   late final MoodBloc _moodBloc;
   late final DiaryUserBloc bloc;
-  Dio dio = Dio();
   TextEditingController happened = TextEditingController();
   TextEditingController mood = TextEditingController();
   String? dropdownValue;

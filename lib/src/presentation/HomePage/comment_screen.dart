@@ -1,4 +1,8 @@
 import 'package:diary/src/bloc/get_comment_id/get_comment_bloc.dart';
+import 'package:diary/src/core/api.dart';
+import 'package:diary/src/core/apiPath.dart';
+import 'package:diary/src/presentation/HomePage/edit_comment_screen.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -11,13 +15,12 @@ class CommentScreen extends StatefulWidget {
   @override
   State<CommentScreen> createState() => _CommentScreenState();
 }
-class Count{
-  int? count;
-}
+
 class _CommentScreenState extends State<CommentScreen> {
-  late Count counts = Count();
-  final TextEditingController _textController = TextEditingController();
+  TextEditingController textComment = TextEditingController();
+  TextEditingController editComment = TextEditingController();
   late final GetCommentBloc _bloc;
+  int? idCount;
 
   @override
   void initState() {
@@ -34,9 +37,9 @@ class _CommentScreenState extends State<CommentScreen> {
           children: <Widget>[
             Flexible(
               child: TextField(
-                controller: _textController,
+                controller: textComment,
                 decoration: const InputDecoration.collapsed(
-                  hintText: 'Send a message',
+                  hintText: 'Send a comment',
                 ),
               ),
             ),
@@ -44,7 +47,9 @@ class _CommentScreenState extends State<CommentScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 4.0),
               child: IconButton(
                 icon: const Icon(Icons.send),
-                onPressed: () {},
+                onPressed: () {
+                  createComment();
+                },
               ),
             ),
           ],
@@ -52,6 +57,104 @@ class _CommentScreenState extends State<CommentScreen> {
       ),
     );
   }
+
+  Future<void> createComment() async {
+    final cmt = textComment.text;
+    try {
+      Map<String, dynamic> data = {
+        'comment': cmt,
+        'diaryId': _bloc.id,
+      };
+      final res = await Api.postAsync(
+        endPoint: ApiPath.comment,
+        req: data,
+      );
+      if (cmt.isEmpty) {
+        return;
+      } else if (res['status'] == "SUCCESS") {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          duration: Duration(seconds: 1),
+          content: Text('Post Success!'),
+        ));
+      } else {
+        // Xử lý lỗi
+        print('Fail: ${res.statusCode}');
+        print(res.data);
+        return;
+      }
+    } on DioException catch (e) {
+      // Xử lý lỗi Dio
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        duration: Duration(seconds: 1),
+        content: Text('Hãy điền đầy đủ thông tin'),
+      ));
+      print('Lỗi Dio: ${e.error}');
+    } catch (e) {
+      // Xử lý lỗi khác
+      print('Lỗi: $e');
+    }
+  }
+
+  Future<void> openEdit() => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: const Text("Edit lor"),
+            content: TextField(
+              controller: editComment,
+              decoration: const InputDecoration(),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Cancel')),
+              TextButton(
+                  onPressed: () {
+                    editsComment();
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Apply'))
+            ],
+          ));
+
+  Future<void> editsComment() async {
+    final cmt = textComment.text;
+    try {
+      Map<String, dynamic> data = {
+        'comment': cmt,
+        'diaryId': _bloc.id,
+      };
+      final res = await Api.putAsync(
+        endPoint: "${ApiPath.comment}",
+        req: data,
+      );
+      if (cmt.isEmpty) {
+        return;
+      } else if (res['status'] == "SUCCESS") {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          duration: Duration(seconds: 1),
+          content: Text('Post Success!'),
+        ));
+      } else {
+        // Xử lý lỗi
+        print('Fail: ${res.statusCode}');
+        print(res.data);
+        return;
+      }
+    } on DioException catch (e) {
+      // Xử lý lỗi Dio
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        duration: Duration(seconds: 1),
+        content: Text('Hãy điền đầy đủ thông tin'),
+      ));
+      print('Lỗi Dio: ${e.error}');
+    } catch (e) {
+      // Xử lý lỗi khác
+      print('Lỗi: $e');
+    }
+  }
+
 
   Widget buildCommentDiary() {
     return BlocBuilder<GetCommentBloc, GetCommentState>(
@@ -96,8 +199,27 @@ class _CommentScreenState extends State<CommentScreen> {
                                   ),
                                   Expanded(
                                     flex: 3,
-                                    child: Text(
-                                      " Feeling : ${_bloc.count}",
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          " Id Comment : ${_bloc.list[index].id}",
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.edit_square),
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditComment(
+                                                          id: _bloc
+                                                              .list[index].diaryId
+                                                              .validate(),
+                                                        )));
+                                          },
+                                        )
+                                      ],
                                     ),
                                   )
                                 ],
