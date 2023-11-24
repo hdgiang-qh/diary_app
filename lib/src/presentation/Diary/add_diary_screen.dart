@@ -1,12 +1,6 @@
-import 'package:diary/src/bloc/diaryUser_bloc/diaryuser_bloc.dart';
+import 'package:diary/src/bloc/add_diary_bloc/add_diary_bloc.dart';
 import 'package:diary/src/bloc/mood_bloc/mood_bloc.dart';
-import 'package:diary/src/core/api.dart';
-import 'package:diary/src/core/apiPath.dart';
-import 'package:diary/src/core/const.dart';
 import 'package:diary/styles/color_styles.dart';
-import 'package:diary/styles/text_style.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -20,7 +14,7 @@ class AddDiaryScreen extends StatefulWidget {
 
 class _AddDiaryScreenState extends State<AddDiaryScreen> {
   late final MoodBloc _moodBloc;
-  late final DiaryUserBloc bloc;
+  late final AddDiaryBloc _bloc;
   TextEditingController happened = TextEditingController();
   TextEditingController mood = TextEditingController();
   String? dropdownValue;
@@ -28,9 +22,9 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
   @override
   void initState() {
     super.initState();
+    _bloc = AddDiaryBloc();
     _moodBloc = MoodBloc();
     _moodBloc.getMood();
-    bloc = DiaryUserBloc();
   }
 
   Widget buildMood() {
@@ -88,13 +82,13 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
   }
 
   Widget buildDrop(BuildContext context) {
+    _bloc.dropdownValue = dropdownValue;
     final List<String> list = <String>['PUBLIC', 'PRIVATE'];
     return DropdownButton<String>(
       hint: const Text("Select Status"),
       value: dropdownValue,
       style: const TextStyle(color: primaryColor),
       onChanged: (String? value) {
-        // This is called when the user selects an item.
         setState(() {
           dropdownValue = value!;
         });
@@ -108,50 +102,13 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
     );
   }
 
-  Future<void> createDiary() async {
-    final happen = happened.text;
-    final moodId = mood.text;
-    final statuses = dropdownValue;
-    try {
-      Map<String, dynamic> data = {
-        'happened': happen,
-        'moodId': moodId,
-        'status': statuses,
-      };
-      final res = await Api.postAsync(
-        endPoint: ApiPath.curdDiary,
-        req: data,
-      );
-      if (happen.isEmpty || moodId.isEmpty || dropdownValue.toString().isEmpty) {
-        return;
-      } else if (res['status'] == "SUCCESS") {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          duration: Duration(seconds: 1),
-          content: Text('Post Success!'),
-        ));
-      } else {
-        // Xử lý lỗi
-        print('Fail: ${res.statusCode}');
-        print(res.data);
-        return;
-      }
-    } on DioException catch (e) {
-      // Xử lý lỗi Dio
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        duration: Duration(seconds: 1),
-        content: Text('Hãy điền đầy đủ thông tin'),
-      ));
-      print('Lỗi Dio: ${e.error}');
-    } catch (e) {
-      // Xử lý lỗi khác
-      print('Lỗi: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+    happened = _bloc.happened;
+    mood = _bloc.mood;
 
     return Scaffold(
       appBar: AppBar(
@@ -159,9 +116,6 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop();
-            bloc = DiaryUserBloc();
-            bloc.listDU.clear();
-            bloc.getListDU();
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),
@@ -233,10 +187,19 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                     width: width * 0.3,
                     child: ElevatedButton(
                         onPressed: () {
-                          createDiary();
-                          happened.clear();
-                          mood.clear();
-                          dropdownValue = '';
+                          if (_bloc.happened.text.isNotEmpty &&
+                              _bloc.mood.text.isNotEmpty &&
+                              _bloc.dropdownValue.toString().isNotEmpty){
+                            _bloc.createDiary();
+                            happened.clear();
+                            mood.clear();
+                            dropdownValue= '';
+                            Navigator.of(context).pop();
+                          }
+                          else {
+                            String err = "Value is not Empty";
+                          }
+
                         },
                         child: const Text("Save"))),
               ],

@@ -1,5 +1,4 @@
 import 'package:diary/src/bloc/editComment_bloc/edit_comment_bloc.dart';
-import 'package:diary/src/bloc/get_comment_id/get_comment_bloc.dart';
 import 'package:diary/src/core/api.dart';
 import 'package:diary/src/core/apiPath.dart';
 import 'package:dio/dio.dart';
@@ -23,12 +22,29 @@ class _EditCommentState extends State<EditComment> {
   @override
   void initState() {
     super.initState();
-    _bloc = EditCommentBloc();
+    _bloc = EditCommentBloc(widget.id);
+    _bloc.getComment();
   }
+  void toastDeleteComplate(String messenger) => Fluttertoast.showToast(
+      msg: "Delete Success",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blueAccent,
+      textColor: Colors.white);
+
+  void toastEditComplate(String messenger) => Fluttertoast.showToast(
+      msg: "Edit Success",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blueAccent,
+      textColor: Colors.white);
 
   Widget buildCommentDiary() {
+    _bloc.editCommentController = editCmt;
     return BlocBuilder<EditCommentBloc, EditCommentState>(
-        bloc: _bloc..add(GetIdComment(id: widget.id)),
+        bloc: _bloc,
         builder: (context, state) {
           if (state is EditCommentLoading) {
             return const Center(
@@ -57,83 +73,30 @@ class _EditCommentState extends State<EditComment> {
           }
         });
   }
-  Widget buildBtnSave(){
+
+  Widget buildBtnSave() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        ElevatedButton(onPressed: (){
-          deleteComment();
-        }, child: const Text("Delete")),
-        ElevatedButton(onPressed: () {
-          editsComment();
-        }, child: const Text('Apply')),
+        ElevatedButton(
+            onPressed: () {
+              _bloc.deleteComment();
+              toastDeleteComplate("");
+              Navigator.pop(context);
+            },
+            child: const Text("Delete")),
+        ElevatedButton(
+            onPressed: () {
+              _bloc.editComment(_bloc.model!.diaryId);
+              toastEditComplate("");
+              Navigator.pop(context);
+            },
+            child: const Text('Apply')),
       ],
     );
   }
-  Future<void> editsComment() async {
-    final cmt = editCmt.text;
-    try {
-      Map<String, dynamic> data = {
-        'comment': cmt,
-        'diaryId': _bloc.model!.diaryId,
-      };
-      final res = await Api.putAsync(
-        endPoint: "${ApiPath.comment}/${_bloc.model!.id}",
-        req: data,
-      );
-      if (cmt.isEmpty) {
-        return;
-      } else if (res['status'] == "SUCCESS") {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          duration: Duration(seconds: 1),
-          content: Text('Post Success!'),
-        ));
-      } else {
-        // Xử lý lỗi
-        print('Fail: ${res.statusCode}');
-        print(res.data);
-        return;
-      }
-    } on DioException catch (e) {
-      // Xử lý lỗi Dio
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        duration: Duration(seconds: 1),
-        content: Text('Hãy điền đầy đủ thông tin'),
-      ));
-      print('Lỗi Dio: ${e.error}');
-    } catch (e) {
-      // Xử lý lỗi khác
-      print('Lỗi: $e');
-    }
-  }
-  Future<void> deleteComment() async {
-    try {
-      final res = await Api.deleteAsync(
-        endPoint: "${ApiPath.comment}/${_bloc.model!.id}",
-      );
-      if (res['status'] == "SUCCESS") {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          duration: Duration(seconds: 1),
-          content: Text('Delete Success!'),
-        ));
-      } else {
-        // Xử lý lỗi
-        print('Fail: ${res.statusCode}');
-        print(res.data);
-        return;
-      }
-    } on DioException catch (e) {
-      // Xử lý lỗi Dio
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        duration: Duration(seconds: 1),
-        content: Text('You are not the owner of this comment'),
-      ));
-      print('Lỗi Dio: ${e.error}');
-    } catch (e) {
-      // Xử lý lỗi khác
-      print('Lỗi: $e');
-    }
-  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -143,10 +106,7 @@ class _EditCommentState extends State<EditComment> {
       ),
       body: SafeArea(
         child: Column(
-          children: [
-            buildCommentDiary(),
-            buildBtnSave()
-          ],
+          children: [buildCommentDiary(), buildBtnSave()],
         ),
       ),
     );

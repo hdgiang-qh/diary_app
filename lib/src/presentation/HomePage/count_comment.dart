@@ -19,7 +19,6 @@ class _CountCommentState extends State<CountComment> {
   @override
   void initState() {
     super.initState();
-    _bloc = GetCommentBloc();
     count = _bloc.list.length;
   }
 
