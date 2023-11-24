@@ -31,7 +31,8 @@ class UserScreen extends StatelessWidget {
                     child: Text("G"),
                   ).paddingRight(5),
                   Text(state.ifUser.nickName.validate()),
-                  Text(state.ifUser.phone.validate())
+                  Text(state.ifUser.phone.validate()),
+                  Text(state.ifUser.age.validate().toString())
                 ],
               ),
             );

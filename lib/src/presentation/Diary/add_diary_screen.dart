@@ -30,6 +30,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
     super.initState();
     _moodBloc = MoodBloc();
     _moodBloc.getMood();
+    bloc = DiaryUserBloc();
   }
 
   Widget buildMood() {
@@ -41,13 +42,6 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
         child: BlocBuilder<MoodBloc, MoodState>(
           bloc: _moodBloc,
           builder: (context, state) {
-            // if (_moodBloc.mood.isEmpty) {
-            //   return const
-            //       //  CircularProgressIndicator();
-            //       Center(
-            //     child: Text("Loading Data..."),
-            //   );
-            // }
             return state is MoodLoading
                 ? const Center(child: CircularProgressIndicator())
                 : GridView.builder(
@@ -79,7 +73,6 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                         ),
                       ],
                     ),
-                    //separatorBuilder: (context, index) => Container(),
                     itemCount: _moodBloc.mood.length,
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -241,6 +234,9 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                     child: ElevatedButton(
                         onPressed: () {
                           createDiary();
+                          happened.clear();
+                          mood.clear();
+                          dropdownValue = '';
                         },
                         child: const Text("Save"))),
               ],

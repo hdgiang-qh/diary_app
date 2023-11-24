@@ -46,11 +46,13 @@ class InforUser {
     }
   ],
   "createdAt": "2023-11-08T16:28:05.858",
-  "status": "ACTIVE"
+  "status": "ACTIVE",
+  "age" : null
 }
 */
 
   int? id;
+  int? age;
   String? firstName;
   String? lastName;
   String? nickName;
@@ -64,6 +66,7 @@ class InforUser {
 
   InforUser({
     this.id,
+    this.age,
     this.firstName,
     this.lastName,
     this.nickName,
@@ -77,6 +80,7 @@ class InforUser {
   });
   InforUser.fromJson(Map<String, dynamic> json) {
     id = json['id']?.toInt();
+    age =json['age']?.toInt();
     firstName = json['firstName']?.toString();
     lastName = json['lastName']?.toString();
     nickName = json['nickName']?.toString();
@@ -98,6 +102,7 @@ class InforUser {
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id'] = id;
+    data['age'] = age;
     data['firstName'] = firstName;
     data['lastName'] = lastName;
     data['nickName'] = nickName;

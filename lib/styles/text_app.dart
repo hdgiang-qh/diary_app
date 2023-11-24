@@ -7,5 +7,6 @@ class TextApp {
   static const String enterPhone = 'Number Phone';
   static const String pass = 'Password';
   static const String enterPass = 'Password';
+  static const String changePass = 'Change Pass';
 
 }

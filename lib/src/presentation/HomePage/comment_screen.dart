@@ -52,6 +52,7 @@ class _CommentScreenState extends State<CommentScreen> {
                 icon: const Icon(Icons.send),
                 onPressed: () {
                   createComment();
+                  _bloc.emit(GetCMTLoading());
                 },
               ),
             ),

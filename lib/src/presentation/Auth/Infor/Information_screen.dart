@@ -1,8 +1,8 @@
 import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/src/core/api.dart';
 import 'package:diary/src/core/service/provider_token.dart';
+import 'package:diary/src/presentation/Auth/ChangePass/change_pass.dart';
 import 'package:diary/src/presentation/Auth/Infor/UserScreen.dart';
-import 'package:diary/src/presentation/Auth/Welcome/LogIn_screen.dart';
 import 'package:diary/src/presentation/widget/common_widget.dart';
 import 'package:diary/styles/text_style.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,7 +32,7 @@ class _InformationState extends State<Information> {
             leading: settingIconWidget(icon: Icons.logout),
             title: 'Đăng Xuất',
             padding: const EdgeInsets.symmetric(
-              vertical: 3,
+              vertical: 1,
               horizontal: 16,
             ),
             onTap: () {
@@ -58,6 +58,7 @@ class _InformationState extends State<Information> {
                               await authService.logout();
                               Provider.of<AuthProvider>(context, listen: false)
                                   .setToken(null);
+                              CircularProgressIndicator();
                               Navigator.pushReplacementNamed(context, '/login');
                             },
                             child:
@@ -68,6 +69,12 @@ class _InformationState extends State<Information> {
                     });
               });
             }),
+        SettingItemWidget(
+          leading: settingIconWidget(icon: Icons.lock_outline),
+            title: "Change Pass",
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> const ChangePass()));
+        },)
       ],
     ));
   }
