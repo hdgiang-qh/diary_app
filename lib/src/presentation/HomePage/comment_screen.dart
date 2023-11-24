@@ -1,3 +1,4 @@
+import 'package:diary/src/bloc/editComment_bloc/edit_comment_bloc.dart';
 import 'package:diary/src/bloc/get_comment_id/get_comment_bloc.dart';
 import 'package:diary/src/core/api.dart';
 import 'package:diary/src/core/apiPath.dart';
@@ -20,12 +21,14 @@ class _CommentScreenState extends State<CommentScreen> {
   TextEditingController textComment = TextEditingController();
   TextEditingController editComment = TextEditingController();
   late final GetCommentBloc _bloc;
+  late final EditCommentBloc _commentBloc;
   int? idCount;
 
   @override
   void initState() {
     super.initState();
     _bloc = GetCommentBloc();
+    _commentBloc = EditCommentBloc();
   }
 
   Widget buildTextComposer() {
@@ -95,6 +98,8 @@ class _CommentScreenState extends State<CommentScreen> {
     }
   }
 
+
+
   Future<void> openEdit() => showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -111,49 +116,13 @@ class _CommentScreenState extends State<CommentScreen> {
                   child: const Text('Cancel')),
               TextButton(
                   onPressed: () {
-                    editsComment();
                     Navigator.of(context).pop();
                   },
                   child: const Text('Apply'))
             ],
           ));
 
-  Future<void> editsComment() async {
-    final cmt = textComment.text;
-    try {
-      Map<String, dynamic> data = {
-        'comment': cmt,
-        'diaryId': _bloc.id,
-      };
-      final res = await Api.putAsync(
-        endPoint: "${ApiPath.comment}",
-        req: data,
-      );
-      if (cmt.isEmpty) {
-        return;
-      } else if (res['status'] == "SUCCESS") {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          duration: Duration(seconds: 1),
-          content: Text('Post Success!'),
-        ));
-      } else {
-        // Xử lý lỗi
-        print('Fail: ${res.statusCode}');
-        print(res.data);
-        return;
-      }
-    } on DioException catch (e) {
-      // Xử lý lỗi Dio
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        duration: Duration(seconds: 1),
-        content: Text('Hãy điền đầy đủ thông tin'),
-      ));
-      print('Lỗi Dio: ${e.error}');
-    } catch (e) {
-      // Xử lý lỗi khác
-      print('Lỗi: $e');
-    }
-  }
+
 
 
   Widget buildCommentDiary() {
@@ -198,13 +167,10 @@ class _CommentScreenState extends State<CommentScreen> {
                                     ),
                                   ),
                                   Expanded(
-                                    flex: 3,
+                                    flex: 1,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        Text(
-                                          " Id Comment : ${_bloc.list[index].id}",
-                                        ),
                                         IconButton(
                                           icon: const Icon(Icons.edit_square),
                                           onPressed: () {
@@ -214,11 +180,12 @@ class _CommentScreenState extends State<CommentScreen> {
                                                     builder: (context) =>
                                                         EditComment(
                                                           id: _bloc
-                                                              .list[index].diaryId
+                                                              .list[index].id
                                                               .validate(),
                                                         )));
                                           },
-                                        )
+                                        ),
+
                                       ],
                                     ),
                                   )

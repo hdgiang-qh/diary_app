@@ -21,7 +21,7 @@ class GetCommentBloc extends Bloc<GetCommentEvent, GetCommentState> {
         emit(GetCMTLoading());
         try {
           var res =
-              await Api.getAsync(endPoint: '${ApiPath.comment}/${event.id}');
+              await Api.getAsync(endPoint: '${ApiPath.comment}/list/${event.id}');
           if (res['status'] == "SUCCESS") {
             list.clear();
             if ((res['data'] as List).isNotEmpty) {
@@ -29,8 +29,6 @@ class GetCommentBloc extends Bloc<GetCommentEvent, GetCommentState> {
                 list.add(CommentModel.fromJson(json));
                 idCmt = list.fold(0, (intId, e) => e.id);
               }
-              model = CommentModel.fromJson(res['data']);
-              emit(GetCMTSuccessV2(model!));
               id = event.id;
               emit(GetCMTSuccess(list));
             } else {

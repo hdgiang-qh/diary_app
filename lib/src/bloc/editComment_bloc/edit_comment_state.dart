@@ -15,5 +15,5 @@ class EditCommentSuccess extends EditCommentState{
 class EditCommentFailure extends EditCommentState
 {
   final String er;
-  EditCommentFailure(this.er);
+  EditCommentFailure({required this.er});
 }
