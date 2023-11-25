@@ -1,5 +1,7 @@
 import 'package:diary/src/bloc/add_diary_bloc/add_diary_bloc.dart';
+import 'package:diary/src/bloc/diaryUser_bloc/diaryuser_bloc.dart';
 import 'package:diary/src/bloc/mood_bloc/mood_bloc.dart';
+import 'package:diary/src/presentation/Diary/diary_screen.dart';
 import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -115,7 +117,11 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pop(context);
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const DiaryScreen()),
+            // );
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),
@@ -128,7 +134,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text("Status Mode : "),
+                const Text("Status Mode : "),
                 buildDrop(context).paddingRight(10),
               ],
             ),

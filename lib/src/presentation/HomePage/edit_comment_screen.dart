@@ -23,7 +23,7 @@ class _EditCommentState extends State<EditComment> {
   void initState() {
     super.initState();
     _bloc = EditCommentBloc(widget.id);
-    _bloc.getComment();
+    _bloc.getComment(widget.id);
   }
   void toastDeleteComplate(String messenger) => Fluttertoast.showToast(
       msg: "Delete Success",

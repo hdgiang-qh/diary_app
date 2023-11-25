@@ -8,7 +8,10 @@ import 'package:nb_utils/nb_utils.dart';
 class CommentScreen extends StatefulWidget {
   final int id;
 
-  const CommentScreen({super.key, required this.id,});
+  const CommentScreen({
+    super.key,
+    required this.id,
+  });
 
   @override
   State<CommentScreen> createState() => _CommentScreenState();
@@ -20,11 +23,11 @@ class _CommentScreenState extends State<CommentScreen> {
   late final GetCommentBloc _bloc;
   late final EditCommentBloc _commentBloc;
 
+
   @override
   void initState() {
     super.initState();
     _commentBloc = EditCommentBloc(widget.id);
-    _commentBloc.getComment();
     _bloc = GetCommentBloc(widget.id);
     _bloc.getListComment(widget.id);
   }
@@ -32,9 +35,7 @@ class _CommentScreenState extends State<CommentScreen> {
   Widget buildTextComposer() {
     textComment = _bloc.commentController;
     return IconTheme(
-      data: IconThemeData(color: Theme
-          .of(context)
-          .primaryColor),
+      data: IconThemeData(color: Theme.of(context).primaryColor),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
@@ -73,89 +74,91 @@ class _CommentScreenState extends State<CommentScreen> {
           return state is GetCMTLoading
               ? const Center(child: CircularProgressIndicator())
               : (_bloc.list.isEmpty
-              ? const Center(
-            child: Text("No Comment"),
-          )
-              : ListView.separated(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Row(
+                  ? const Center(
+                      child: Text("No Comment"),
+                    )
+                  : ListView.separated(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                const CircleAvatar(
-                                  radius: 20.0,
-                                  child: Text("G"),
-                                ).paddingRight(5),
-                                Text(
-                                  _bloc.list[index].nickName
-                                      .validate()
-                                      .toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
+                                Expanded(
+                                  flex: 2,
+                                  child: Row(
+                                    children: [
+                                      const CircleAvatar(
+                                        radius: 20.0,
+                                        child: Text("G"),
+                                      ).paddingRight(5),
+                                      Text(
+                                        _bloc.list[index].nickName
+                                            .validate()
+                                            .toString(),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      if (_bloc.list[index].createdBy.validate() !=
+                                     _commentBloc.model?.createdBy
+                                          ) ...[
+                                        SizedBox(
+                                          width: 50,
+                                          child: IconButton(
+                                            icon: const Icon(Icons.edit_square),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          EditComment(
+                                                            id: _bloc.list[index].id
+                                                                .validate(),
+                                                          )));
+                                            },
+                                          ),
+                                        )
+                                      ],
+
+                                    ],
+                                  ),
+                                )
                               ],
+                            ).paddingTop(5),
+                            SingleChildScrollView(
+                              child: SizedBox(
+                                child: Text(
+                                    _bloc.list[index].comment.validate(),
+                                    style: const TextStyle(fontSize: 15.0),
+                                    maxLines: null),
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.edit_square),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                EditComment(
-                                                  id: _bloc
-                                                      .list[index].id
-                                                      .validate(),
-                                                )));
-                                  },
-                                ),
-                              ],
+                            const Divider(
+                              height: 1,
+                              color: Colors.grey,
+                              thickness: 1,
+                              indent: 3,
+                              endIndent: 3,
                             ),
-                          )
-                        ],
-                      ).paddingTop(5),
-                      SingleChildScrollView(
-                        child: SizedBox(
-                          child: Text(
-                              _bloc.list[index].comment.validate(),
-                              style: const TextStyle(fontSize: 15.0),
-                              maxLines: null),
-                        ),
-                      ),
-                    ],
-                  ).paddingLeft(10),
-                  const Divider(
-                    height: 1,
-                    color: Colors.grey,
-                    thickness: 1,
-                    indent: 8,
-                    endIndent: 8,
-                  ),
-                ],
-              );
-            },
-            separatorBuilder: (context, index) => Container(),
-            itemCount: _bloc.list.length,
-            shrinkWrap: true,
-          ));
+                          ],
+                        ).paddingLeft(10);
+                      },
+                      separatorBuilder: (context, index) => Container(),
+                      itemCount: _bloc.list.length,
+                      shrinkWrap: true,
+                    ));
         });
   }
 
@@ -164,6 +167,14 @@ class _CommentScreenState extends State<CommentScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Detail Diary"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                _bloc.list.clear();
+                _bloc.getListComment(widget.id);
+              },
+              icon: const Icon(Icons.refresh))
+        ],
       ),
       body: Column(
         children: [

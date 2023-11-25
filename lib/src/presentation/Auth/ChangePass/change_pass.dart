@@ -1,9 +1,6 @@
-import 'package:diary/src/core/api.dart';
-import 'package:diary/src/core/apiPath.dart';
-import 'package:diary/styles/color_styles.dart';
+import 'package:diary/src/bloc/auth_bloc/changePass/change_pass_bloc.dart';
 import 'package:diary/styles/text_app.dart';
 import 'package:diary/styles/text_style.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,44 +12,21 @@ class ChangePass extends StatefulWidget {
 }
 
 class _ChangePassState extends State<ChangePass> {
+  late final ChangePassBloc _bloc;
   TextEditingController oldPass = TextEditingController();
   TextEditingController newPass = TextEditingController();
 
-  Future<void> changePass() async {
-    final oldp = oldPass.text;
-    final np = newPass.text;
-    try {
-      final res = await Api.getAsync(
-        endPoint: "${ApiPath.changePass}?oldPassword=$oldp&password=$np",
-      );
-      if (oldp.isEmpty || np.isEmpty || np == oldp) {
-        return;
-      } else if (res['status'] == "SUCCESS") {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          duration: Duration(seconds: 1),
-          content: Text('Change Success!'),
-        ));
-      } else {
-        // Xử lý lỗi
-        print('Fail: ${res.statusCode}');
-        print(res.data);
-        return;
-      }
-    } on DioException catch (e) {
-      // Xử lý lỗi Dio
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        duration: Duration(seconds: 1),
-        content: Text('Old Pass Wrong!!'),
-      ));
-      print('Lỗi Dio: ${e.error}');
-    } catch (e) {
-      // Xử lý lỗi khác
-      print('Lỗi: $e');
-    }
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = ChangePassBloc();
   }
 
   @override
   Widget build(BuildContext context) {
+    oldPass = _bloc.oldp;
+    newPass = _bloc.np;
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -141,11 +115,13 @@ class _ChangePassState extends State<ChangePass> {
                             children: [
                               CircleAvatar(
                                 radius: 30,
-                                backgroundColor:  const Color(0xff4c505b),
+                                backgroundColor: const Color(0xff4c505b),
                                 child: IconButton(
-                                  color: Colors.white, onPressed: () { Navigator.of(context)
-                                    .pop(); }, icon: const Icon(Icons.arrow_back),
-                                  
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  icon: const Icon(Icons.arrow_back),
                                 ),
                               ),
                               CircleAvatar(
@@ -177,13 +153,23 @@ class _ChangePassState extends State<ChangePass> {
                                                   ),
                                                   CupertinoDialogAction(
                                                     isDefaultAction: true,
-                                                    onPressed: () async {
-                                                      changePass();
-                                                      oldPass.clear();
-                                                      newPass.clear();
-                                                      const CircularProgressIndicator();
-                                                      Navigator.of(context)
-                                                          .pop();
+                                                    onPressed: () {
+                                                      if (_bloc.oldp.text
+                                                                  .isNotEmpty &&
+                                                              _bloc.np.text
+                                                                  .isNotEmpty &&
+                                                          _bloc.oldp.text !=
+                                                              _bloc.np.text){
+                                                        _bloc.changePass();
+                                                        Navigator.pop(context);
+                                                        newPass.clear();
+                                                        oldPass.clear();
+                                                      }
+                                                      else{
+                                                        print("Not Value");
+                                                        Navigator.pop(context);
+                                                      }
+
                                                     },
                                                     child: Text("Đồng ý",
                                                         style: StyleApp

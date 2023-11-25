@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               CustomTextField(
                 textFieldType: TextFieldType.USERNAME,
-                hintText: TextApp.enterPhone,
+                hintText: TextApp.userName,
                 controller: usernameController,
                 validator: (value) {
                   // return ValidatorApp.checkPhone(text: value);
@@ -138,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const LogUpScreen()));
+                              builder: (context) => const SignUpScreen()));
                     },
                     child: const Text(
                       "Sign Up",

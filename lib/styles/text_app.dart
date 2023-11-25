@@ -8,5 +8,5 @@ class TextApp {
   static const String pass = 'Password';
   static const String enterPass = 'Password';
   static const String changePass = 'Change Pass';
-
+  static const String userName = 'User Name';
 }

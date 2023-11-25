@@ -21,6 +21,7 @@ class InforBloc extends Bloc<InforEvent, InforState> {
               var res = await Api.getAsync(endPoint: ApiPath.inforUser);
               if (res['status'] == "SUCCESS") {
                 _ifUser = InforUser.fromJson(res['data']);
+                inforUsers.add(InforUser.fromJson(res['data']));
                 emit(InforSuccess2(_ifUser!));
               }
               else {

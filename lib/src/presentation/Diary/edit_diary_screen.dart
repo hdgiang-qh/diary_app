@@ -22,20 +22,15 @@ class EditDiaryScreen extends StatefulWidget {
 
 class _EditDiaryScreenState extends State<EditDiaryScreen> {
   late final DetailDiaryBloc _detailDiaryBloc;
-  late final MoodBloc _moodBloc;
   TextEditingController happened = TextEditingController();
   String? dropdownValue;
-  late final DiaryUserBloc _bloc;
 
   @override
   void initState() {
     super.initState();
-    _moodBloc = MoodBloc();
-    _moodBloc.getMood();
-    _detailDiaryBloc = DetailDiaryBloc();
-    _bloc = DiaryUserBloc();
+    _detailDiaryBloc = DetailDiaryBloc(widget.id);
+    _detailDiaryBloc.getDetailDiary(widget.id);
   }
-
 
   Widget buildDrop() {
     List<String> list = <String>['PUBLIC', 'PRIVATE'];
@@ -59,21 +54,21 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
   }
 
   Widget buildIdDiary() {
+    _detailDiaryBloc.happen = happened;
+    _detailDiaryBloc.status.text = dropdownValue.toString();
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return BlocBuilder<DetailDiaryBloc, DetailDiaryState>(
-        bloc: _detailDiaryBloc..add(GetIdDiary(id: widget.id)),
+        bloc: _detailDiaryBloc,
         builder: (context, state) {
           if (state is DetailLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (state is DetailFailure) {
-            return ItemLoadFail(
-                msg: state.er,
-                onRefresh: () {
-                  _detailDiaryBloc.add(GetIdDiary(id: widget.id));
-                });
+            return Center(
+              child: Text(state.er.toString()),
+            );
           } else if (state is DetailSuccessV2) {
             happened.text =
                 _detailDiaryBloc.model!.happened.validate().toString();
@@ -113,8 +108,12 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                         width: width * 0.3,
                         child: ElevatedButton(
                             onPressed: () {
-                              updateDiary(
-                                  _detailDiaryBloc.model!.id.validate());
+                              if(_detailDiaryBloc.status.text.isNotEmpty && _detailDiaryBloc.happen.text.isNotEmpty){
+                                _detailDiaryBloc.updateDiary(
+                                    _detailDiaryBloc.model!.id.validate());
+                                toastEditComplete("");
+                                Navigator.pop(context);
+                              }
                             },
                             child: const Text("Save"))),
                   ],
@@ -135,40 +134,6 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
       backgroundColor: Colors.blueAccent,
       textColor: Colors.white);
 
-  Future<void> updateDiary(int id) async {
-    final happen = happened.text;
-    final statuses = dropdownValue;
-    try {
-      Map<String, dynamic> data = {
-        'happened': happen,
-        'status': statuses,
-      };
-      final res = await Api.putAsync(
-        endPoint: "${ApiPath.curdDiary}/$id",
-        req: data,
-      );
-      if (happen.isEmpty || dropdownValue.toString().isEmpty) {
-        return;
-      } else if (res['status'] == "SUCCESS") {
-        return toastEditComplete("");
-      } else {
-        // Xử lý lỗi
-        print('Fail: ${res.statusCode}');
-        print(res.data);
-        return;
-      }
-    } on DioException catch (e) {
-      // Xử lý lỗi Dio
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        duration: Duration(seconds: 1),
-        content: Text('Hãy điền đầy đủ thông tin'),
-      ));
-      print('Lỗi Dio: ${e.error}');
-    } catch (e) {
-      // Xử lý lỗi khác
-      print('Lỗi: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -178,8 +143,6 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
-            _bloc.listDU.clear();
-            _bloc.getListDU();
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),
@@ -192,7 +155,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
             buildIdDiary(),
           ],
         ),
-      ),
+      ).paddingOnly(top: 5),
     );
   }
 }

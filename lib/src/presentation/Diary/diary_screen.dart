@@ -210,7 +210,13 @@ class _DiaryScreenState extends State<DiaryScreen> {
                       MaterialPageRoute(
                           builder: (context) => const AddDiaryScreen()));
                 },
-                icon: const Icon(Icons.add))
+                icon: const Icon(Icons.add)),
+            IconButton(
+                onPressed: () {
+                  _bloc.listDU.clear();
+                  _bloc.getListDU();
+                },
+                icon: const Icon(Icons.refresh))
           ],
         ),
         body: SafeArea(

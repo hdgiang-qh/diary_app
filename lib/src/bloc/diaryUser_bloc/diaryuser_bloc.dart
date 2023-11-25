@@ -68,22 +68,4 @@ class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
     }
   }
 
-
-  void updateDiary(int id) async {
-    emit(DiaryUserLoading());
-    try {
-      var res = await Api.getAsync(endPoint: "${ApiPath.curdDiary}/$id");
-      if (res['status'] == "SUCCESS") {
-        listDU.clear();
-        getListDU();
-        emit(UpdateDiarySuccess());
-      } else {
-        emit(DiaryUserFailure(error: res['message']));
-      }
-    } on DioException catch (e) {
-      emit(DiaryUserFailure(error: e.toString()));
-    } catch (e) {
-      emit(DiaryUserFailure(error: e.toString()));
-    }
-  }
 }

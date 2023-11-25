@@ -11,6 +11,7 @@ import 'package:nb_utils/nb_utils.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -18,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late final GetAllDiaryBloc _bloc;
   late TextEditingController textController;
+  String? length;
 
   @override
   void initState() {
@@ -28,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildListDiary() {
+
     return BlocBuilder<GetAllDiaryBloc, GetAllDiaryState>(
       bloc: _bloc,
       builder: (context, state) {
@@ -87,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          "Comments •",
+                         "",
                           style: TextStyle(fontSize: 12),
                         ),
                       ],
@@ -121,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: const Row(
                               children: [
                                 Text(
-                                  "Comment ",
+                                  "Comment",
                                   style: TextStyle(color: Colors.blue),
                                 ),
                               ],
