@@ -1,4 +1,5 @@
 import 'package:diary/src/bloc/getAlldiary_bloc/get_all_diary_bloc.dart';
+import 'package:diary/src/presentation/HomePage/Search/Search_screen.dart';
 import 'package:diary/src/presentation/HomePage/comment_screen.dart';
 import 'package:diary/src/presentation/HomePage/separator_widget.dart';
 import 'package:diary/styles/color_styles.dart';
@@ -10,7 +11,6 @@ import 'package:nb_utils/nb_utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -30,7 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildListDiary() {
-
     return BlocBuilder<GetAllDiaryBloc, GetAllDiaryState>(
       bloc: _bloc,
       builder: (context, state) {
@@ -90,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                         "",
+                          "",
                           style: TextStyle(fontSize: 12),
                         ),
                       ],
@@ -174,8 +173,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.only(
                     top: 16, left: 5, right: 5, bottom: 10),
                 child: CupertinoSearchTextField(
-                  controller: textController,
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.grey),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(15))),
+                  enabled: true,
                   placeholder: 'Search',
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SearchScreen()));
+                  },
                 ),
               ),
               buildListDiary(),

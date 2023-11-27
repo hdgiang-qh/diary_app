@@ -2,45 +2,20 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+
 import '../apiPath.dart';
 import '../const.dart';
 
 class AuthService {
+  static const String _kRememberMeKey = 'remember_me';
+  static const String _kUsernameKey = 'username';
+  static const String _kPasswordKey = 'password';
   final Dio dio = Dio();
-  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+  static const FlutterSecureStorage secureStorage =  FlutterSecureStorage();
   String? _error;
+
   String? get error => _error;
-  bool isLoggedIn = false;
-  // void registerUser() async {
-  //   final dio = Dio();
-  //
-  //   FormData formData = FormData.fromMap({
-  //     'username': 'your_username',
-  //     'password': 'your_password',
-  //     'email': 'your_email',
-  //   });
-  //
-  //   try {
-  //     final response = await dio.post(
-  //       Const.api_host + ApiPath.register,
-  //       data: formData,
-  //     );
-  //
-  //     if (response.statusCode == 200) {
-  //       print('Đăng ký thành công');
-  //       print(response.data);
-  //     } else {
-  //       // Xử lý lỗi
-  //       print('Đăng ký thất bại: ${response.statusCode}');
-  //       print(response.data);
-  //     }
-  //   } catch (e) {
-  //     print('Lỗi: $e');
-  //   }
-  // }
 
-
-  //// Login
   Future<String?> login(String username, String password) async {
     try {
       Response response = await dio.post(Const.api_host + ApiPath.login,
@@ -49,7 +24,6 @@ class AuthService {
       if (response.statusCode == 200) {
         final token = response.data['token'];
         await secureStorage.write(key: 'token', value: token);
-        isLoggedIn = true;
         _error = null;
         return token;
       } else {
@@ -65,15 +39,37 @@ class AuthService {
     }
   }
 
-
   Future<String?> getToken() async {
     return await secureStorage.read(key: 'token');
   }
 
   Future<void> logout() async {
     await secureStorage.delete(key: 'token');
-    isLoggedIn = false;
+  }
+
+  static Future<bool> getRememberMe() async {
+    String? value = await secureStorage.read(key: _kRememberMeKey);
+    return value == 'true';
+  }
+
+  static Future<void> setRememberMe(bool value) async {
+    await secureStorage.write(key: _kRememberMeKey, value: value.toString());
+  }
+
+  static Future<String?> getUsername() async {
+    return secureStorage.read(key: _kUsernameKey);
+  }
+
+  static Future<void> setUsername(String username) async {
+    await secureStorage.write(key: _kUsernameKey, value: username);
+  }
+
+  static Future<String?> getPassword() async {
+    return secureStorage.read(key: _kPasswordKey);
+  }
+
+  static Future<void> setPassword(String password) async {
+    await secureStorage.write(key: _kPasswordKey, value: password);
   }
 }
-
 

@@ -185,7 +185,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
         bloc: _bloc,
         builder: (context, state) {
           return state is DiaryUserLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: const CircularProgressIndicator().paddingTop(5))
               : (_bloc.listDU.isEmpty
                   ? const Center(
                       child: Text("Not Value"),

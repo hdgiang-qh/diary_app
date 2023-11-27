@@ -15,7 +15,7 @@ import '../SignUp/signup_screen.dart';
 
 class LoginPage extends StatefulWidget {
 
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -26,14 +26,60 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   final AuthService authService = AuthService();
   final BoolBloc changeState = BoolBloc();
-  bool remember = false;
-
+  bool _remember = true;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  _loadSavedData() async {
+    _remember = await AuthService.getRememberMe();
+    if (_remember) {
+      String? savedUsername = await AuthService.getUsername();
+      String? savedPassword = await AuthService.getPassword();
+      if (savedUsername != null && savedPassword != null) {
+        usernameController.text = savedUsername;
+        passwordController.text = savedPassword;
+      }
+    }
+    setState(() {});
+  }
+
+  _toLogin() async {
+    final username = usernameController.text;
+    final password = passwordController.text;
+    if (_remember) {
+      AuthService.setUsername(username);
+      AuthService.setPassword(password);
+    } else {
+      AuthService.setUsername('');
+      AuthService.setPassword('');
+    }
+    final token = await authService.login(username, password);
+
+    if (token != null) {
+      Provider.of<AuthProvider>(context, listen: false)
+          .setToken(token);
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const DashBoard()));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: const Duration(seconds: 1),
+        content: Text('Đăng nhập thành công.'),
+      ));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: const Duration(seconds: 1),
+        content: Text(
+            'Đăng nhập không thành công. Vui lòng kiểm tra tên đăng nhập và mật khẩu.'),
+      ));
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedData();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final authService = AuthService();
-    final error = authService.error;
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
@@ -81,7 +127,8 @@ class _LoginPageState extends State<LoginPage> {
                                     value: state,
                                     onChanged: (value) async {
                                       changeState.changeValue(value!);
-                                      remember = value;
+                                      _remember = value;
+                                      AuthService.setRememberMe(_remember);
                                     });
                               }),
                           Text(TextApp.remember,
@@ -105,27 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(),
                   onPressed: () async {
-                    final username = usernameController.text;
-                    final password = passwordController.text;
-
-                    final token = await authService.login(username, password);
-
-                    if (token != null) {
-                      Provider.of<AuthProvider>(context, listen: false)
-                          .setToken(token);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => DashBoard()));
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        duration: const Duration(seconds: 1),
-                        content: Text('Đăng nhập thành công.'),
-                      ));
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        duration: const Duration(seconds: 1),
-                        content: Text(
-                            'Đăng nhập không thành công. Vui lòng kiểm tra tên đăng nhập và mật khẩu.'),
-                      ));
-                    }
+                    _toLogin();
                   },
                   child: const Text('Đăng nhập'),
                 ),

@@ -6,8 +6,8 @@ import 'share_pref/app_key.dart';
 
 class Const {
   static final format = NumberFormat("#,##0.##", "vi");
-
-  static const api_host = 'http://localhost:8080/api/v1';
+ // static const api_host = 'http://10.0.2.2:8000/api/v1';
+   static const api_host = 'http://localhost:8080/api/v1';
 
   static checkLogin(BuildContext context, {required Function nextPage}) async {
     bool isLogin = await SharedPrefs.readBool(AppKey.login);
@@ -43,15 +43,15 @@ class Const {
         .format(DateTime.fromMillisecondsSinceEpoch(time));
   }
 
-  static convertPrice(
-    dynamic price,
-  ) {
-    var res = isNumeric(price.toString());
-    if (res) {
-      return format.format(double.parse(price.toString())).toString();
-    }
-    return "0";
-  }
+  // static convertPrice(
+  //   dynamic price,
+  // ) {
+  //   var res = isNumeric(price.toString());
+  //   if (res) {
+  //     return format.format(double.parse(price.toString())).toString();
+  //   }
+  //   return "0";
+  // }
 
   static convertPhone(String? phone,
       {bool check = false, bool isHint = false}) {
