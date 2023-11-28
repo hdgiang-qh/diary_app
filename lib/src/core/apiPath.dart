@@ -9,4 +9,5 @@ class ApiPath{
   static const inforUser = "/account/info";
   static const changePass = "/account/update-pass";
   static const comment = "/comments";
+  static const search = "/account/search";
 }

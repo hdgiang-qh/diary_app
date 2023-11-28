@@ -11,7 +11,7 @@ part 'infor_state.dart';
 
 class InforBloc extends Bloc<InforEvent, InforState> {
   List<InforUser> inforUsers = [];
-  InforUser? _ifUser;
+  InforUser? ifUser;
   InforBloc() : super(InforInitial()){
     on<InforEvent>(
         (event, emit) async {
@@ -20,9 +20,9 @@ class InforBloc extends Bloc<InforEvent, InforState> {
             try {
               var res = await Api.getAsync(endPoint: ApiPath.inforUser);
               if (res['status'] == "SUCCESS") {
-                _ifUser = InforUser.fromJson(res['data']);
-                inforUsers.add(InforUser.fromJson(res['data']));
-                emit(InforSuccess2(_ifUser!));
+                ifUser = InforUser.fromJson(res['data']);
+               // inforUsers.add(InforUser.fromJson(res['data']));
+                emit(InforSuccess2(ifUser!));
               }
               else {
                 emit(InforFailure(error: res['']));

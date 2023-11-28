@@ -104,7 +104,6 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -128,89 +127,89 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
         title: const Text("New A Diary"),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Text("Status Mode : "),
-                buildDrop(context).paddingRight(10),
-              ],
-            ),
-            SizedBox(
-              height: height * 0.2,
-              width: width,
-              child: TextField(
-                controller: happened,
-                maxLines: null,
-                expands: true,
-                decoration: const InputDecoration(
-                    filled: true,
-                    // border: OutlineInputBorder(),
-                    hintText: "How are you feeling now?"),
-              ),
-            ).paddingSymmetric(horizontal: 10),
-            SizedBox(
-              height: height * 0.15,
-              width: width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Card(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Text("List Feel Can :"),
-                  buildMood(),
+                  const Text("Status Mode : "),
+                  buildDrop(context).paddingRight(10),
                 ],
               ),
-            ).paddingSymmetric(horizontal: 10),
-            Row(
-              children: [
-                Expanded(
-                    child: Row(
+              SizedBox(
+                height: height * 0.2,
+                width: width,
+                child: TextField(
+                  controller: happened,
+                  maxLines: null,
+                  expands: true,
+                  decoration: const InputDecoration(
+                      filled: true,
+                      // border: OutlineInputBorder(),
+                      hintText: "How are you feeling now?"),
+                ),
+              ).paddingSymmetric(horizontal: 10),
+              SizedBox(
+                height: height * 0.15,
+                width: width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Mood Feel : "),
-                    SizedBox(
-                      height: 35,
-                      width: 70,
-                      child: TextField(
-                        controller: mood,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: "Num?",
-                          hintStyle: TextStyle(fontSize: 14),
-                          isDense: true,
-                        ),
-                      ),
-                    )
+                    const Text("List Feel Can :"),
+                    buildMood(),
                   ],
-                )),
-              ],
-            ).paddingSymmetric(horizontal: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SizedBox(
-                    width: width * 0.3,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          if (_bloc.happened.text.isNotEmpty &&
-                              _bloc.mood.text.isNotEmpty &&
-                              _bloc.dropdownValue.toString().isNotEmpty){
-                            _bloc.createDiary();
-                            happened.clear();
-                            mood.clear();
-                            dropdownValue= '';
-                            Navigator.of(context).pop();
-                          }
-                          else {
-                            String err = "Value is not Empty";
-                          }
-
-                        },
-                        child: const Text("Save"))),
-              ],
-            ).paddingTop(15)
-          ],
+                ),
+              ).paddingSymmetric(horizontal: 10),
+              Row(
+                children: [
+                  Expanded(
+                      child: Row(
+                    children: [
+                      const Text("Mood Feel : "),
+                      SizedBox(
+                        height: 35,
+                        width: 70,
+                        child: TextField(
+                          controller: mood,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: "Num?",
+                            hintStyle: TextStyle(fontSize: 14),
+                            isDense: true,
+                          ),
+                        ),
+                      )
+                    ],
+                  )),
+                ],
+              ).paddingSymmetric(horizontal: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                      width: width * 0.3,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            if (_bloc.happened.text.isNotEmpty &&
+                                _bloc.mood.text.isNotEmpty &&
+                                _bloc.dropdownValue.toString().isNotEmpty) {
+                              _bloc.createDiary();
+                              happened.clear();
+                              mood.clear();
+                              dropdownValue = '';
+                              Navigator.of(context).pop();
+                            } else {
+                              String err = "Value is not Empty";
+                            }
+                          },
+                          child: const Text("Save"))),
+                ],
+              ).paddingOnly(top: 10, bottom: 5)
+            ],
+          ),
         ),
       ),
     );

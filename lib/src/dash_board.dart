@@ -87,7 +87,7 @@ class _DashBoardState extends State<DashBoard>
                   label : 'Category'
               ),
             ],
-            selectedItemColor: primaryColor,
+            selectedItemColor: Colors.deepPurpleAccent,
             selectedLabelStyle: boldTextStyle(size: 14),
             unselectedLabelStyle: boldTextStyle(size: 10),
             selectedFontSize: 12,

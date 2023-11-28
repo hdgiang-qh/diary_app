@@ -52,9 +52,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               flex: 2,
                               child: Row(
                                 children: [
-                                  const CircleAvatar(
+                                  CircleAvatar(
+                                    backgroundColor:
+                                        ColorAppStyle.getRandomColor(),
                                     radius: 20.0,
-                                    child: Text("G"),
+                                    child: Text(
+                                      _bloc.getAllDiaries[index].createdBy
+                                          .validate()
+                                          .toString(),
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ).paddingRight(5),
                                   Text(
                                     _bloc.getAllDiaries[index].nickname
@@ -147,15 +157,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.deepPurpleAccent,
         automaticallyImplyLeading: false,
         title: const Text(
           "Diary For You",
         ),
         actions: [
           GestureDetector(
-            child: const CircleAvatar(
-              backgroundColor: primaryColor,
-              child: Text('G'),
+            child:const CircleAvatar(
+              //backgroundColor: primaryColor,
+              child: Text("A"),
             ).paddingRight(10),
             onTap: () {
               if (kDebugMode) {

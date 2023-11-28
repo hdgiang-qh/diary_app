@@ -25,28 +25,36 @@ class UserScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    radius: 60.0,
-                    child: Text(state.ifUser.nickName.removeAllWhiteSpace()),
-                  ),
-                  Column(
-                   crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
-                    Text("Name : ${state.ifUser.nickName.validate()}"),
-                    Text("Phone : ${state.ifUser.phone.validate()}"),
-                    Text("Age : ${state.ifUser.age.validate().toString()}")
-                  ],)
-
+                      CircleAvatar(
+                        radius: 60.0,
+                        child:
+                            Text(state.ifUser.nickName.removeAllWhiteSpace()),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Name : ${state.ifUser.nickName.validate()}"),
+                          Text("Phone : ${state.ifUser.phone.validate()}"),
+                          Text(
+                              "Age : ${state.ifUser.age.validate().toString()}"),
+                          Text("Email : ${state.ifUser.email.validate()}")
+                        ],
+                      )
+                    ],
+                  ),
                 ],
               ).paddingTop(15),
             );
-          }
-          else if(state is InforFailure){
+          } else if (state is InforFailure) {
             return Center(
               child: Text(state.error),
             );
-          }
-          else{
+          } else {
             return Container();
           }
         });

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class ColorAppStyle {
@@ -28,6 +30,15 @@ class ColorAppStyle {
   static const Color whiteFA = Color(0xfffaf5ed);
   static const Color white = Color(0xffffffff);
   static const Color brownD2 = Color(0xffd2af6c);
+
+  static List<Color> colorList = [
+    black1A, black2C,green1D,blue0B,blueMid,redFB,yellowFE,yellowFF
+  ];
+
+  static Color getRandomColor() {
+    Random random = Random();
+    return colorList[random.nextInt(colorList.length)];
+  }
 }
 
 const Color primaryColor = Color(0xff0089d1);

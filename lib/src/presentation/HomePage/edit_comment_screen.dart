@@ -25,7 +25,7 @@ class _EditCommentState extends State<EditComment> {
     _bloc = EditCommentBloc(widget.id);
     _bloc.getComment(widget.id);
   }
-  void toastDeleteComplate(String messenger) => Fluttertoast.showToast(
+  void toastDeleteComplete(String messenger) => Fluttertoast.showToast(
       msg: "Delete Success",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
@@ -33,7 +33,7 @@ class _EditCommentState extends State<EditComment> {
       backgroundColor: Colors.blueAccent,
       textColor: Colors.white);
 
-  void toastEditComplate(String messenger) => Fluttertoast.showToast(
+  void toastEditComplete(String messenger) => Fluttertoast.showToast(
       msg: "Edit Success",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
@@ -56,14 +56,17 @@ class _EditCommentState extends State<EditComment> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TextField(
+                  style: const TextStyle(height: 1),
                   maxLines: null,
                   controller: editCmt,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)
+                    ),
                   ),
                 ),
               ],
-            );
+            ).paddingSymmetric(horizontal: 10);
           } else if (state is EditCommentFailure) {
             return Center(
               child: Text(state.er.toString()),
@@ -81,14 +84,14 @@ class _EditCommentState extends State<EditComment> {
         ElevatedButton(
             onPressed: () {
               _bloc.deleteComment();
-              toastDeleteComplate("");
+              toastDeleteComplete("");
               Navigator.pop(context);
             },
             child: const Text("Delete")),
         ElevatedButton(
             onPressed: () {
               _bloc.editComment(_bloc.model!.diaryId);
-              toastEditComplate("");
+              toastEditComplete("");
               Navigator.pop(context);
             },
             child: const Text('Apply')),

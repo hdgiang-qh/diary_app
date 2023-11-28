@@ -51,7 +51,7 @@ Widget CommonButton(
     double? width,
     double? height,
     double? margin,
-    Color color = primaryColor}) {
+    Color color = Colors.deepPurpleAccent}) {
   return AppButton(
     onTap: onTap,
     height: height,
@@ -155,7 +155,7 @@ Widget settingIconWidget({IconData? icon}) {
     alignment: Alignment.center,
     margin: const EdgeInsets.symmetric(vertical: 8),
     padding: const EdgeInsets.all(8),
-    decoration: const BoxDecoration(color: primaryColor, shape: BoxShape.circle),
+    decoration: const BoxDecoration(color: Colors.deepPurpleAccent, shape: BoxShape.circle),
     child: Icon(icon, color: white, size: 20),
   );
 }

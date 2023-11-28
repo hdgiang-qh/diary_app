@@ -1,6 +1,8 @@
+import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/src/bloc/editComment_bloc/edit_comment_bloc.dart';
 import 'package:diary/src/bloc/get_comment_id/get_comment_bloc.dart';
 import 'package:diary/src/presentation/HomePage/edit_comment_screen.dart';
+import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -21,13 +23,12 @@ class _CommentScreenState extends State<CommentScreen> {
   TextEditingController textComment = TextEditingController();
   TextEditingController editComment = TextEditingController();
   late final GetCommentBloc _bloc;
-  late final EditCommentBloc _commentBloc;
-
+  late final InforBloc _inforBloc;
 
   @override
   void initState() {
     super.initState();
-    _commentBloc = EditCommentBloc(widget.id);
+    _inforBloc = InforBloc();
     _bloc = GetCommentBloc(widget.id);
     _bloc.getListComment(widget.id);
   }
@@ -91,9 +92,12 @@ class _CommentScreenState extends State<CommentScreen> {
                                   flex: 2,
                                   child: Row(
                                     children: [
-                                      const CircleAvatar(
+                                      CircleAvatar(
+                                        backgroundColor:
+                                            ColorAppStyle.getRandomColor(),
                                         radius: 20.0,
-                                        child: Text("G"),
+                                        child: Text(_bloc.list[index].createdBy
+                                            .validate()),
                                       ).paddingRight(5),
                                       Text(
                                         _bloc.list[index].nickName
@@ -111,9 +115,10 @@ class _CommentScreenState extends State<CommentScreen> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      if (_bloc.list[index].createdBy.validate() !=
-                                     _commentBloc.model?.createdBy
-                                          ) ...[
+                                      if (_bloc.list[index].createdBy
+                                              .validate()
+                                              .toString() !=
+                                          _inforBloc.ifUser?.id.validate().toString()) ...[
                                         SizedBox(
                                           width: 50,
                                           child: IconButton(
@@ -124,14 +129,14 @@ class _CommentScreenState extends State<CommentScreen> {
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           EditComment(
-                                                            id: _bloc.list[index].id
+                                                            id: _bloc
+                                                                .list[index].id
                                                                 .validate(),
                                                           )));
                                             },
                                           ),
                                         )
                                       ],
-
                                     ],
                                   ),
                                 )
@@ -176,11 +181,13 @@ class _CommentScreenState extends State<CommentScreen> {
               icon: const Icon(Icons.refresh))
         ],
       ),
-      body: Column(
-        children: [
-          SingleChildScrollView(child: buildCommentDiary()),
-          buildTextComposer()
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SingleChildScrollView(child: buildCommentDiary()),
+            buildTextComposer()
+          ],
+        ),
       ),
     );
   }

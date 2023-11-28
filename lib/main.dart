@@ -1,6 +1,5 @@
 
 import 'package:diary/src/core/service/provider_token.dart';
-import 'package:diary/src/presentation/Auth/ChangePass/change_pass.dart';
 import 'package:diary/src/presentation/Auth/Welcome/LogIn_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,16 +19,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: "/",
       routes: {
-        '/login' : (context) => LoginPage(),
-       // '/changePass' : (context) => const ChangePass()
+        '/login' : (context) => const LoginPage(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: const LoginPage(),
+      color: Colors.deepPurpleAccent,
     );
   }
 }

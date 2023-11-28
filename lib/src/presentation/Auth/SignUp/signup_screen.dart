@@ -75,8 +75,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         children: [
                           TextField(
                             controller: nameUser,
-                            style: const TextStyle(color: Colors.white),
+                            style:
+                                const TextStyle(color: Colors.white, height: 1),
                             decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.person_2_outlined),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
@@ -89,32 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     color: Colors.white,
                                   ),
                                 ),
-                                hintText: "Name User",
-                                hintStyle: const TextStyle(color: Colors.white),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                )),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          TextField(
-                            controller: numberPhone,
-                            style: const TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                hintText: "Phone",
+                                label: const Text("Name User"),
                                 hintStyle: const TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -125,9 +102,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           TextField(
                             controller: passWord,
-                            style: const TextStyle(color: Colors.white),
-                            obscureText: true,
+                            style:
+                                const TextStyle(color: Colors.white, height: 1),
+                            obscureText: false,
                             decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.lock_outline),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
@@ -140,7 +119,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     color: Colors.white,
                                   ),
                                 ),
-                                hintText: "Password",
+                                label: const Text("Password"),
+                                hintStyle: const TextStyle(color: Colors.white),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextField(
+                            controller: numberPhone,
+                            style:
+                                const TextStyle(color: Colors.white, height: 1),
+                            decoration: InputDecoration(
+                                prefixIcon:
+                                    const Icon(Icons.phone_android_outlined),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                label: const Text("Phone"),
                                 hintStyle: const TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -151,8 +158,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           TextField(
                             controller: nickName,
-                            style: const TextStyle(color: Colors.white),
+                            style:
+                                const TextStyle(color: Colors.white, height: 1),
                             decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.person_3_outlined),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
@@ -165,8 +174,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     color: Colors.white,
                                   ),
                                 ),
-                                hintText: "Nick Name",
-                                hintStyle: const TextStyle(color: Colors.white),
+                                label: const Text("Nick Name"),
+                                hintStyle: const TextStyle(
+                                    color: Colors.white, height: 1),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 )),
@@ -176,8 +186,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           TextField(
                             controller: date,
-                            style: const TextStyle(color: Colors.white),
+                            style:
+                                const TextStyle(color: Colors.white, height: 1),
                             decoration: InputDecoration(
+                                prefixIcon:
+                                    const Icon(Icons.calendar_month_outlined),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
@@ -190,11 +203,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     color: Colors.white,
                                   ),
                                 ),
-                                hintText: "Date",
+                                label: const Text("Date"),
                                 hintStyle: const TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 )),
+                          ),
+                          const SizedBox(
+                            height: 10,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -220,8 +236,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         _bloc.register();
                                         toastComplete("");
                                         Navigator.pop(context);
-                                      }
-                                      else{
+                                      } else {
                                         print("object");
                                       }
                                     },

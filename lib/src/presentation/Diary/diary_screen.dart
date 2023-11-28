@@ -61,11 +61,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
     return ListView.separated(
       padding: const EdgeInsets.symmetric(vertical: 5),
       physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) => Container(
-        decoration: BoxDecoration(
-            border: Border.all(), borderRadius: BorderRadius.circular(10)),
+      itemBuilder: (context, index) => Card(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +76,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                       child: Text(
                         _bloc.listDU[index].nickname.validate().toString(),
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12),
+                            fontWeight: FontWeight.w400, fontSize: 12),
                       ),
                     ),
                     Expanded(
@@ -88,21 +86,22 @@ class _DiaryScreenState extends State<DiaryScreen> {
                           color:
                               _bloc.listDU[index].status.toString() == "PUBLIC"
                                   ? Colors.green
-                                  : Colors.red),
+                                  : Colors.red, fontWeight: FontWeight.bold),
                     )),
                   ],
                 ),
                 SingleChildScrollView(
                   child: SizedBox(
                     child: Text(_bloc.listDU[index].happened.validate(),
-                        style: const TextStyle(fontSize: 15.0), maxLines: null),
+                        style: const TextStyle(fontSize: 14.0), maxLines: null),
                   ),
                 ),
               ],
             ).paddingOnly(left: 5, bottom: 5, top: 5),
+            Text(_bloc.listDU[index].createdAt.validate()),
             const Divider(
               height: 1,
-              color: Colors.black,
+              color: Colors.grey,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -172,7 +171,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
             ).paddingSymmetric(vertical: 8)
           ],
         ),
-      ).paddingBottom(30),
+      ),
       separatorBuilder: (context, index) => Container(),
       itemCount: _bloc.listDU.length,
       shrinkWrap: true,
