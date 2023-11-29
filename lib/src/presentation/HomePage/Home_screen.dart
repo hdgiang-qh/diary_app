@@ -1,3 +1,4 @@
+import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/src/bloc/getAlldiary_bloc/get_all_diary_bloc.dart';
 import 'package:diary/src/presentation/HomePage/Search/Search_screen.dart';
 import 'package:diary/src/presentation/HomePage/comment_screen.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late final GetAllDiaryBloc _bloc;
-  late TextEditingController textController;
+  late final InforBloc _inforBloc;
   String? length;
 
   @override
@@ -26,7 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _bloc = GetAllDiaryBloc();
     _bloc.getAllDiary();
-    textController = TextEditingController(text: '');
+    _inforBloc = InforBloc();
+    _inforBloc.getInforUser();
   }
 
   Widget buildListDiary() {
@@ -42,65 +45,66 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SeparatorWidget(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor:
-                                        ColorAppStyle.getRandomColor(),
-                                    radius: 20.0,
-                                    child: Text(
-                                      _bloc.getAllDiaries[index].createdBy
-                                          .validate()
-                                          .toString(),
-                                      style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ).paddingRight(5),
-                                  Text(
-                                    _bloc.getAllDiaries[index].nickname
-                                        .validate()
-                                        .toString(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: Text(
-                                " Feeling : ${_bloc.getAllDiaries[index].mood.validate()}",
-                              ),
-                            )
-                          ],
-                        ).paddingTop(5),
-                        SingleChildScrollView(
-                          child: SizedBox(
+                        Expanded(
+                          flex: 1,
+                          child: CircleAvatar(
+                            backgroundColor: ColorAppStyle.getRandomColor(),
+                            radius: 20.0,
                             child: Text(
-                                _bloc.getAllDiaries[index].happened.validate(),
-                                style: const TextStyle(fontSize: 15.0),
-                                maxLines: null),
+                              _bloc.getAllDiaries[index].createdBy
+                                  .validate()
+                                  .toString(),
+                              style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          flex: 9,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _bloc.getAllDiaries[index].nickname.validate(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "đang cảm thấy : ${_bloc.getAllDiaries[index].mood.validate()}",
+                                style: GoogleFonts.lato(
+                                  textStyle: const TextStyle(
+                                      fontSize: 12,
+                                      fontStyle: FontStyle.italic,
+                                      letterSpacing: .5),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
-                    ).paddingLeft(10),
-                    const Row(
+                    ).paddingOnly(top: 5, left: 10, bottom: 5),
+                    SingleChildScrollView(
+                      child: SizedBox(
+                        child: Text(
+                            _bloc.getAllDiaries[index].happened.validate(),
+                            style: const TextStyle(fontSize: 15.0),
+                            maxLines: null),
+                      ),
+                    ).paddingSymmetric(horizontal: 10),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          "",
-                          style: TextStyle(fontSize: 12),
+                          _bloc.getAllDiaries[index].createdAt.validate(),
+                          style: const TextStyle(fontSize: 12),
                         ),
                       ],
                     ).paddingOnly(right: 10, bottom: 3, top: 3),
@@ -127,6 +131,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   MaterialPageRoute(
                                       builder: (context) => CommentScreen(
                                             id: _bloc.getAllDiaries[index].id
+                                                .validate(),
+                                            idUser: _inforBloc.ifUser!.id
                                                 .validate(),
                                           )));
                             },
@@ -157,15 +163,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Colors.cyan,
         automaticallyImplyLeading: false,
         title: const Text(
           "Diary For You",
         ),
         actions: [
           GestureDetector(
-            child:const CircleAvatar(
-              //backgroundColor: primaryColor,
+            child: const CircleAvatar(
               child: Text("A"),
             ).paddingRight(10),
             onTap: () {

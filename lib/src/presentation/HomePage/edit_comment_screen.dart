@@ -1,7 +1,9 @@
 import 'package:diary/src/bloc/editComment_bloc/edit_comment_bloc.dart';
 import 'package:diary/src/core/api.dart';
 import 'package:diary/src/core/apiPath.dart';
+import 'package:diary/styles/text_style.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -83,9 +85,37 @@ class _EditCommentState extends State<EditComment> {
       children: [
         ElevatedButton(
             onPressed: () {
-              _bloc.deleteComment();
-              toastDeleteComplete("");
-              Navigator.pop(context);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                showCupertinoDialog(
+                    context: context,
+                    builder: (context) {
+                      return CupertinoAlertDialog(
+                        title: const Icon(CupertinoIcons.info_circle),
+                        content: const Text(
+                          'Bạn Muốn Xoá Bình Luận Này?',
+                          textAlign: TextAlign.center,
+                        ),
+                        actions: [
+                          CupertinoDialogAction(
+                            isDefaultAction: true,
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("Huỷ", style: StyleApp.textStyle402()),
+                          ),
+                          CupertinoDialogAction(
+                            isDefaultAction: true,
+                            onPressed: () {
+                              _bloc.deleteComment();
+                              toastDeleteComplete("");
+                              Navigator.pop(context);
+                            },
+                            child:
+                            Text("Đồng ý", style: StyleApp.textStyle401()),
+                          ),
+                        ],
+                      );
+                    });
+              });
+
             },
             child: const Text("Delete")),
         ElevatedButton(

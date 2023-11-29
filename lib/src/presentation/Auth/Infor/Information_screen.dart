@@ -18,64 +18,69 @@ class Information extends StatefulWidget {
 }
 
 class _InformationState extends State<Information> {
-  final InforBloc _inforBloc = InforBloc()..add(GetInforUser());
+
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Column(
-      children: [
-        UserScreen(
-          inforBloc: _inforBloc,
-        ),
-        SettingItemWidget(
-            leading: settingIconWidget(icon: Icons.logout),
-            title: 'Đăng Xuất',
-            padding: const EdgeInsets.symmetric(
-              vertical: 1,
-              horizontal: 16,
-            ),
-            onTap: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                showCupertinoDialog(
-                    context: context,
-                    builder: (context) {
-                      return CupertinoAlertDialog(
-                        title: const Icon(CupertinoIcons.info_circle),
-                        content: const Text(
-                          'Bạn Muốn Đăng Xuất Khỏi Thiết Bị?',
-                          textAlign: TextAlign.center,
-                        ),
-                        actions: [
-                          CupertinoDialogAction(
-                            isDefaultAction: true,
-                            onPressed: () => Navigator.pop(context),
-                            child: Text("Huỷ", style: StyleApp.textStyle402()),
-                          ),
-                          CupertinoDialogAction(
-                            isDefaultAction: true,
-                            onPressed: () async {
-                              await authService.logout();
-                              Provider.of<AuthProvider>(context, listen: false)
-                                  .setToken(null);
-                              CircularProgressIndicator();
-                              Navigator.pushReplacementNamed(context, '/login');
-                            },
-                            child:
-                                Text("Đồng ý", style: StyleApp.textStyle401()),
-                          ),
-                        ],
-                      );
-                    });
-              });
-            }),
-        SettingItemWidget(
-          leading: settingIconWidget(icon: Icons.lock_outline),
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text('Information'),
+      ),
+      body: SafeArea(
+          child: Column(
+        children: [
+          const UserScreen(
+          ),
+          SettingItemWidget(
+            leading: settingIconWidget(icon: Icons.lock_outline),
             title: "Change Pass",
-        onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> const ChangePass()));
-        },)
-      ],
-    ));
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const ChangePass()));
+            },),
+          SettingItemWidget(
+              leading: settingIconWidget(icon: Icons.logout),
+              title: 'Đăng Xuất',
+              padding: const EdgeInsets.symmetric(
+                vertical: 1,
+                horizontal: 16,
+              ),
+              onTap: () {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  showCupertinoDialog(
+                      context: context,
+                      builder: (context) {
+                        return CupertinoAlertDialog(
+                          title: const Icon(CupertinoIcons.info_circle),
+                          content: const Text(
+                            'Bạn Muốn Đăng Xuất Khỏi Thiết Bị?',
+                            textAlign: TextAlign.center,
+                          ),
+                          actions: [
+                            CupertinoDialogAction(
+                              isDefaultAction: true,
+                              onPressed: () => Navigator.pop(context),
+                              child: Text("Huỷ", style: StyleApp.textStyle402()),
+                            ),
+                            CupertinoDialogAction(
+                              isDefaultAction: true,
+                              onPressed: () async {
+                                await authService.logout();
+                                Provider.of<AuthProvider>(context, listen: false)
+                                    .setToken(null);
+                                Navigator.pushReplacementNamed(context, '/login');
+                              },
+                              child:
+                                  Text("Đồng ý", style: StyleApp.textStyle401()),
+                            ),
+                          ],
+                        );
+                      });
+                });
+              }),
+
+        ],
+      )),
+    );
   }
 }

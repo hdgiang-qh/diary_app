@@ -3,6 +3,8 @@ import 'package:diary/src/bloc/diaryUser_bloc/diaryuser_bloc.dart';
 import 'package:diary/src/bloc/mood_bloc/mood_bloc.dart';
 import 'package:diary/src/presentation/Diary/diary_screen.dart';
 import 'package:diary/styles/color_styles.dart';
+import 'package:diary/styles/text_style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -28,6 +30,21 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
     _moodBloc = MoodBloc();
     _moodBloc.getMood();
   }
+  void toastPostComplete(String messenger) => Fluttertoast.showToast(
+      msg: "Post Success",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blueAccent,
+      textColor: Colors.white);
+  void toastError(String messenger) => Fluttertoast.showToast(
+      msg: "Please fill in all information",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blueAccent,
+      textColor: Colors.white);
+
 
   Widget buildMood() {
     final height = MediaQuery.of(context).size.height;
@@ -193,17 +210,47 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                       width: width * 0.3,
                       child: ElevatedButton(
                           onPressed: () {
-                            if (_bloc.happened.text.isNotEmpty &&
-                                _bloc.mood.text.isNotEmpty &&
-                                _bloc.dropdownValue.toString().isNotEmpty) {
-                              _bloc.createDiary();
-                              happened.clear();
-                              mood.clear();
-                              dropdownValue = '';
-                              Navigator.of(context).pop();
-                            } else {
-                              String err = "Value is not Empty";
-                            }
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              showCupertinoDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return CupertinoAlertDialog(
+                                      title: const Icon(CupertinoIcons.info_circle),
+                                      content: const Text(
+                                        'Xác nhận tạo nội dung Diary?',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                          isDefaultAction: true,
+                                          onPressed: () => Navigator.pop(context),
+                                          child: Text("Huỷ", style: StyleApp.textStyle402()),
+                                        ),
+                                        CupertinoDialogAction(
+                                          isDefaultAction: true,
+                                          onPressed: () async {
+                                            if (_bloc.happened.text.isNotEmpty &&
+                                                _bloc.mood.text.isNotEmpty &&
+                                                _bloc.dropdownValue.toString().isNotEmpty) {
+                                              _bloc.createDiary();
+                                              happened.clear();
+                                              mood.clear();
+                                              dropdownValue = '';
+                                              toastPostComplete("");
+                                              Navigator.of(context).pop();
+                                            } else {
+                                              toastError("");
+                                              Navigator.of(context).pop();
+                                            }
+                                          },
+                                          child:
+                                          Text("Đồng ý", style: StyleApp.textStyle401()),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            });
+
                           },
                           child: const Text("Save"))),
                 ],

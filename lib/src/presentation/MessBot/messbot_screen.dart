@@ -1,23 +1,166 @@
-
+import 'package:diary/src/core/api.dart';
+import 'package:diary/src/core/apiPath.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class MessBotScreen extends StatefulWidget {
   const MessBotScreen({super.key});
 
   @override
-  State<MessBotScreen> createState() => _MessBotScreenState();
+  State createState() => MessBotScreenState();
 }
 
-class _MessBotScreenState extends State<MessBotScreen> {
+class MessBotScreenState extends State<MessBotScreen> {
+  final TextEditingController _textController = TextEditingController();
+  final List<ChatMessage> _messages = [];
+  late final List<String> list;
+
+
+  Future<String> generateResponse(String inputText) async {
+    // final apiKey = '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';
+    // final apiUrl = 'https://api.openai.com/v1/completions';
+
+    final res = await Api.getAsync(
+      endPoint: "${ApiPath.chat}?prompt=$inputText",
+    );
+
+    if (res.statusCode == 200) {
+      final data = jsonDecode(res);
+      list.add(data);
+      final generatedText = data;
+      return generatedText;
+    } else {
+      throw Exception('Failed to generate response');
+    }
+  }
+
+  void _handleSubmitted(String text) async {
+    _textController.clear();
+    ChatMessage message = ChatMessage(
+      text: text,
+      isUserMessage: true,
+    );
+    setState(() {
+      _messages.insert(0, message);
+    });
+
+    try {
+      String response = await generateResponse(text);
+      ChatMessage botMessage = ChatMessage(
+        text: response.toString(),
+        isUserMessage: false,
+      );
+      setState(() {
+        _messages.insert(0, botMessage);
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _messages;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Chatbot App'),
-      automaticallyImplyLeading: false,),
-      body: const Column(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text('Chat AI App'),
+      ),
+      body: Column(
+        children: <Widget>[
+          Flexible(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(8.0),
+              reverse: true,
+              itemBuilder: (_, int index) => _messages[index],
+              itemCount: _messages.length,
+            ),
+          ),
+          const Divider(height: 1.0),
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+            ),
+            child: _buildTextComposer(),
+          ),
+        ],
       ),
     );
   }
 
+  Widget _buildTextComposer() {
+    return IconTheme(
+      data: IconThemeData(color: Theme.of(context).primaryColor),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Row(
+          children: <Widget>[
+            Flexible(
+              child: TextField(
+                controller: _textController,
+                onSubmitted: _handleSubmitted,
+                decoration: const InputDecoration.collapsed(
+                  hintText: 'Send a message',
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: IconButton(
+                icon: const Icon(Icons.send),
+                onPressed: () => _handleSubmitted(_textController.text),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
+class ChatMessage extends StatelessWidget {
+  const ChatMessage({super.key, required this.text, required this.isUserMessage});
+
+  final String text;
+  final bool isUserMessage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(10.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          isUserMessage
+              ? const CircleAvatar(
+            child: Icon(Icons.person),
+          )
+              : const CircleAvatar(
+            child: Icon(Icons.chat_bubble),
+          ),
+          Flexible(
+            child: Container(
+              margin: const EdgeInsets.only(left: 8.0),
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                color: isUserMessage
+                    ? Colors.blue[100]
+                    : Colors.green[100],
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Text(
+                text,
+                style: const TextStyle(fontSize: 16.0),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

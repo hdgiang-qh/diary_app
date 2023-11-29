@@ -23,12 +23,12 @@ class MyApp extends StatelessWidget {
       },
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
       home: const LoginPage(),
-      color: Colors.deepPurpleAccent,
+      color: Colors.cyan,
     );
   }
 }

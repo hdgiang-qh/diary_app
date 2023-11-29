@@ -72,53 +72,56 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
           } else if (state is DetailSuccessV2) {
             happened.text =
                 _detailDiaryBloc.model!.happened.validate().toString();
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                        "Mood Feel : ${_detailDiaryBloc.model!.mood.validate()}"),
-                    Row(
-                      children: [
-                        const Text("Status Mode : "),
-                        buildDrop(),
-                      ],
-                    )
-                  ],
-                ).paddingSymmetric(horizontal: 10),
-                SizedBox(
-                  height: height * 0.2,
-                  width: width,
-                  child: TextField(
-                    controller: happened,
-                    maxLines: null,
-                    expands: true,
-                    decoration: const InputDecoration(
-                        filled: true,
-                        // border: OutlineInputBorder(),
-                        hintText: "How are you feeling now?"),
-                  ),
-                ).paddingSymmetric(horizontal: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                        width: width * 0.3,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              if(_detailDiaryBloc.status.text.isNotEmpty && _detailDiaryBloc.happen.text.isNotEmpty){
-                                _detailDiaryBloc.updateDiary(
-                                    _detailDiaryBloc.model!.id.validate());
-                                toastEditComplete("");
-                                Navigator.pop(context);
-                              }
-                            },
-                            child: const Text("Save"))),
-                  ],
-                ).paddingTop(15)
-              ],
+            return Card(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          "Mood Feel : ${_detailDiaryBloc.model!.mood.validate()}"),
+                      Row(
+                        children: [
+                          const Text("Status Mode : "),
+                          buildDrop(),
+                        ],
+                      )
+                    ],
+                  ).paddingSymmetric(horizontal: 10),
+                  SizedBox(
+                    height: height * 0.2,
+                    width: width,
+                    child: TextField(
+                      controller: happened,
+                      maxLines: null,
+                      expands: true,
+                      decoration: const InputDecoration(
+                          filled: true,
+                          // border: OutlineInputBorder(),
+                          hintText: "How are you feeling now?"),
+                    ),
+                  ).paddingSymmetric(horizontal: 0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(
+                          width: width * 0.3,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                if (_detailDiaryBloc.status.text.isNotEmpty &&
+                                    _detailDiaryBloc.happen.text.isNotEmpty) {
+                                  _detailDiaryBloc.updateDiary(
+                                      _detailDiaryBloc.model!.id.validate());
+                                  toastEditComplete("");
+                                  Navigator.pop(context);
+                                }
+                              },
+                              child: const Text("Save"))),
+                    ],
+                  ).paddingTop(15)
+                ],
+              ),
             );
           } else {
             return Container();
@@ -133,7 +136,6 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.blueAccent,
       textColor: Colors.white);
-
 
   @override
   Widget build(BuildContext context) {

@@ -59,7 +59,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
 
   Widget buildUserDiary() {
     return ListView.separated(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => Card(
         child: Column(
@@ -171,7 +171,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
             ).paddingSymmetric(vertical: 8)
           ],
         ),
-      ),
+      ).paddingBottom(5),
       separatorBuilder: (context, index) => Container(),
       itemCount: _bloc.listDU.length,
       shrinkWrap: true,

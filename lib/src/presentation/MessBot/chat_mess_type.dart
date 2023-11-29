@@ -1,7 +1,7 @@
 enum ChatMessType{user, bot}
 
-class ChatMess{
-  final String text;
-  final ChatMess chatMess;
-  ChatMess({required this.text, required this.chatMess});
+class ChatMessage{
+  String messageContent;
+  String messageType;
+  ChatMessage({required this.messageContent, required this.messageType});
 }

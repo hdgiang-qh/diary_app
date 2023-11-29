@@ -1,5 +1,4 @@
 import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
-import 'package:diary/src/bloc/editComment_bloc/edit_comment_bloc.dart';
 import 'package:diary/src/bloc/get_comment_id/get_comment_bloc.dart';
 import 'package:diary/src/presentation/HomePage/edit_comment_screen.dart';
 import 'package:diary/styles/color_styles.dart';
@@ -8,11 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class CommentScreen extends StatefulWidget {
-  final int id;
+  final int id,idUser;
 
   const CommentScreen({
     super.key,
     required this.id,
+    required this.idUser
   });
 
   @override
@@ -29,6 +29,7 @@ class _CommentScreenState extends State<CommentScreen> {
   void initState() {
     super.initState();
     _inforBloc = InforBloc();
+    _inforBloc.getInforUser();
     _bloc = GetCommentBloc(widget.id);
     _bloc.getListComment(widget.id);
   }
@@ -117,8 +118,8 @@ class _CommentScreenState extends State<CommentScreen> {
                                     children: [
                                       if (_bloc.list[index].createdBy
                                               .validate()
-                                              .toString() !=
-                                          _inforBloc.ifUser?.id.validate().toString()) ...[
+                                              .toString() ==
+                                          widget.idUser.toString()) ...[
                                         SizedBox(
                                           width: 50,
                                           child: IconButton(

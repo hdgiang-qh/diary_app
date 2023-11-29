@@ -3,12 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class UserScreen extends StatelessWidget {
+class UserScreen extends StatefulWidget {
   const UserScreen({
-    super.key,
-    required InforBloc inforBloc,
-  }) : _bloc = inforBloc;
-  final InforBloc _bloc;
+    super.key});
+
+  @override
+  State<UserScreen> createState() => _UserScreenState();
+}
+
+class _UserScreenState extends State<UserScreen> {
+  late final InforBloc _bloc;
+  @override
+  void initState() {
+    super.initState();
+    _bloc = InforBloc();
+    _bloc.getInforUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +37,16 @@ class UserScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      CircleAvatar(
-                        radius: 60.0,
-                        child:
-                            Text(state.ifUser.nickName.removeAllWhiteSpace()),
-                      ),
+                      Container(
+                        height: 80,
+                          width: 80,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: NetworkImage("${state.ifUser.avatar}")
+                            )
+                          ),
+                          child: Container()),
                       const SizedBox(
                         width: 20,
                       ),

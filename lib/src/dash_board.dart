@@ -27,6 +27,27 @@ class _DashBoardState extends State<DashBoard>
   late final StateNavBloc _blocNav;
   var selectedIndex = 0;
 
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Are you sure?'),
+        content: const Text('Do you want to exit an App'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false), //<-- SEE HERE
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true), // <-- SEE HERE
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    )) ??
+        false;
+  }
+
   var pages = [
     const HomeScreen(),
     const PodCastScreen(),
@@ -50,51 +71,54 @@ class _DashBoardState extends State<DashBoard>
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<StateNavBloc, StateNavState>(
-      bloc: _blocNav,
-      listener: (context, state) {
-      },
-      builder: (context, state) {
-        return Scaffold(
-          body: TabBarView(
-            controller: _blocNav.tabcontroller,
-            children: pages,
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Colors.white,
-            onTap: _blocNav.onItemTapped,
-            currentIndex: _blocNav.selectedIndex,
-            type: BottomNavigationBarType.fixed,
-            items: const [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label : 'Home',
-              ),
-              BottomNavigationBarItem(
-                  icon:  Icon(Icons.podcasts),
-                  label : 'PodCast'
-              ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.forum),
-                  label : 'MessBot'
-              ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.edit_note),
-                  label : 'Diary'
-              ),
-              BottomNavigationBarItem(
-                  icon:  Icon(Icons.grid_view),
-                  label : 'Category'
-              ),
-            ],
-            selectedItemColor: Colors.deepPurpleAccent,
-            selectedLabelStyle: boldTextStyle(size: 14),
-            unselectedLabelStyle: boldTextStyle(size: 10),
-            selectedFontSize: 12,
-            unselectedFontSize: 12,
-          ),
-        );
-      },
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: BlocConsumer<StateNavBloc, StateNavState>(
+        bloc: _blocNav,
+        listener: (context, state) {
+        },
+        builder: (context, state) {
+          return Scaffold(
+            body: TabBarView(
+              controller: _blocNav.tabcontroller,
+              children: pages,
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: Colors.white,
+              onTap: _blocNav.onItemTapped,
+              currentIndex: _blocNav.selectedIndex,
+              type: BottomNavigationBarType.fixed,
+              items: const [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label : 'Home',
+                ),
+                BottomNavigationBarItem(
+                    icon:  Icon(Icons.podcasts),
+                    label : 'PodCast'
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.forum),
+                    label : 'MessBot'
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.edit_note),
+                    label : 'Diary'
+                ),
+                BottomNavigationBarItem(
+                    icon:  Icon(Icons.grid_view),
+                    label : 'Category'
+                ),
+              ],
+              selectedItemColor: Colors.cyan,
+              selectedLabelStyle: boldTextStyle(size: 14),
+              unselectedLabelStyle: boldTextStyle(size: 10),
+              selectedFontSize: 12,
+              unselectedFontSize: 12,
+            ),
+          );
+        },
+      ),
     );
   }
 }
