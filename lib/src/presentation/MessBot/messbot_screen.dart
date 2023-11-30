@@ -1,8 +1,7 @@
-import 'package:diary/src/core/api.dart';
 import 'package:diary/src/core/apiPath.dart';
+import 'package:diary/src/core/const.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class MessBotScreen extends StatefulWidget {
   const MessBotScreen({super.key});
@@ -14,22 +13,17 @@ class MessBotScreen extends StatefulWidget {
 class MessBotScreenState extends State<MessBotScreen> {
   final TextEditingController _textController = TextEditingController();
   final List<ChatMessage> _messages = [];
-  late final List<String> list;
-
+  late final List<String> list = [];
 
   Future<String> generateResponse(String inputText) async {
-    // final apiKey = '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';
-    // final apiUrl = 'https://api.openai.com/v1/completions';
-
-    final res = await Api.getAsync(
-      endPoint: "${ApiPath.chat}?prompt=$inputText",
+    final res = await http.get(
+      Uri.parse("${Const.api_host}${ApiPath.chat}?prompt=$inputText"),
     );
 
     if (res.statusCode == 200) {
-      final data = jsonDecode(res);
-      list.add(data);
-      final generatedText = data;
-      return generatedText;
+      String textData = res.body;
+      list.add(textData);
+      return textData;
     } else {
       throw Exception('Failed to generate response');
     }
@@ -48,7 +42,7 @@ class MessBotScreenState extends State<MessBotScreen> {
     try {
       String response = await generateResponse(text);
       ChatMessage botMessage = ChatMessage(
-        text: response.toString(),
+        text: response,
         isUserMessage: false,
       );
       setState(() {
@@ -62,33 +56,41 @@ class MessBotScreenState extends State<MessBotScreen> {
   @override
   void initState() {
     super.initState();
-    _messages;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text('Chat AI App'),
-      ),
-      body: Column(
-        children: <Widget>[
-          Flexible(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(8.0),
-              reverse: true,
-              itemBuilder: (_, int index) => _messages[index],
-              itemCount: _messages.length,
-            ),
-          ),
-          const Divider(height: 1.0),
-          Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-            ),
-            child: _buildTextComposer(),
-          ),
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.refresh))
         ],
+      ),
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            list.isEmpty
+                ?  const Flexible(child: Center(child: Text("Can I Help You?")))
+                : Flexible(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(8.0),
+                      reverse: true,
+                      itemBuilder: (_, int index) => _messages[index],
+                      itemCount: _messages.length,
+                    ),
+                  ),
+            const Divider(height: 1.0),
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+              ),
+              child: _buildTextComposer(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -123,12 +125,18 @@ class MessBotScreenState extends State<MessBotScreen> {
   }
 }
 
-class ChatMessage extends StatelessWidget {
-  const ChatMessage({super.key, required this.text, required this.isUserMessage});
+class ChatMessage extends StatefulWidget {
+  const ChatMessage(
+      {super.key, required this.text, required this.isUserMessage});
 
   final String text;
   final bool isUserMessage;
 
+  @override
+  State<ChatMessage> createState() => _ChatMessageState();
+}
+
+class _ChatMessageState extends State<ChatMessage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -136,25 +144,23 @@ class ChatMessage extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          isUserMessage
+          widget.isUserMessage
               ? const CircleAvatar(
-            child: Icon(Icons.person),
-          )
+                child: Icon(Icons.person),
+              )
               : const CircleAvatar(
-            child: Icon(Icons.chat_bubble),
-          ),
+                child: Icon(Icons.chat_bubble),
+              ),
           Flexible(
             child: Container(
               margin: const EdgeInsets.only(left: 8.0),
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
-                color: isUserMessage
-                    ? Colors.blue[100]
-                    : Colors.green[100],
+                color: widget.isUserMessage ? Colors.blue[100] : Colors.green[100],
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Text(
-                text,
+                widget.text,
                 style: const TextStyle(fontSize: 16.0),
               ),
             ),
