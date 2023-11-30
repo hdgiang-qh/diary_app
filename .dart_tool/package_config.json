@@ -266,6 +266,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "page_transition",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/page_transition-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "path",
       "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/path-1.8.3",
       "packageUri": "lib/",
@@ -506,7 +512,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-11-29T10:19:08.150523Z",
+  "generated": "2023-11-30T14:04:27.535719Z",
   "generator": "pub",
   "generatorVersion": "3.1.3"
 }

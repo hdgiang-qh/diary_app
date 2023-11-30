@@ -23,6 +23,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
   late final formatter = DateFormat('yyyy-MM-dd');
   late String startDate = formatter.format(date);
   late final DiaryUserBloc _bloc;
+  String choosesDate = 'Choose Day';
 
   @override
   void initState() {
@@ -63,42 +64,39 @@ class _DiaryScreenState extends State<DiaryScreen> {
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => Card(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        _bloc.listDU[index].nickname.validate().toString(),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w400, fontSize: 12),
-                      ),
-                    ),
-                    Expanded(
-                        child: Text(
-                      _bloc.listDU[index].status.toString(),
-                      style: TextStyle(
-                          color:
-                              _bloc.listDU[index].status.toString() == "PUBLIC"
-                                  ? Colors.green
-                                  : Colors.red, fontWeight: FontWeight.bold),
-                    )),
-                  ],
-                ),
-                SingleChildScrollView(
-                  child: SizedBox(
-                    child: Text(_bloc.listDU[index].happened.validate(),
-                        style: const TextStyle(fontSize: 14.0), maxLines: null),
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    _bloc.listDU[index].nickname.validate().toString(),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 12),
                   ),
                 ),
+                Expanded(
+                    child: Text(
+                  _bloc.listDU[index].status.toString(),
+                  style: TextStyle(
+                      color:
+                          _bloc.listDU[index].status.toString() == "PUBLIC"
+                              ? Colors.green
+                              : Colors.red, fontWeight: FontWeight.bold),
+                )),
               ],
             ).paddingOnly(left: 5, bottom: 5, top: 5),
-            Text(_bloc.listDU[index].createdAt.validate()),
+            SingleChildScrollView(
+              child: SizedBox(
+                child: Text(_bloc.listDU[index].happened.validate(),
+                    style: const TextStyle(fontSize: 14.0), maxLines: null),
+              ),
+            ).paddingOnly(left: 5),
+            Align(
+              alignment: Alignment.centerRight,
+                child: Text(_bloc.listDU[index].createdAt.validate())),
             const Divider(
               height: 1,
               color: Colors.grey,

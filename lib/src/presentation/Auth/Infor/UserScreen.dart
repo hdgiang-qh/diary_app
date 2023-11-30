@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class UserScreen extends StatefulWidget {
-  const UserScreen({
-    super.key});
+  const UserScreen({super.key});
 
   @override
   State<UserScreen> createState() => _UserScreenState();
@@ -13,6 +12,7 @@ class UserScreen extends StatefulWidget {
 
 class _UserScreenState extends State<UserScreen> {
   late final InforBloc _bloc;
+
   @override
   void initState() {
     super.initState();
@@ -38,14 +38,13 @@ class _UserScreenState extends State<UserScreen> {
                   Row(
                     children: [
                       Container(
-                        height: 80,
+                          height: 80,
                           width: 80,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: NetworkImage("${state.ifUser.avatar}")
-                            )
-                          ),
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      "https://static.antoree.com/avatar.png"))),
                           child: Container()),
                       const SizedBox(
                         width: 20,

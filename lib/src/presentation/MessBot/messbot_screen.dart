@@ -20,6 +20,7 @@ class MessBotScreenState extends State<MessBotScreen> {
       Uri.parse("${Const.api_host}${ApiPath.chat}?prompt=$inputText"),
     );
 
+    print("${Const.api_host}${ApiPath.chat}?prompt=$inputText");
     if (res.statusCode == 200) {
       String textData = res.body;
       list.add(textData);

@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		cqGpPbiM5rPnhatnqHO6xlvwxMs=
+		7L7fiLPJX1aofj03RrDUh3jsLoc=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -54,15 +54,15 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		MtzCKU0KDr5c/81WlLZynl1S6fg=
+		/vdaptswv23yh20UXLeqbZ3K2ls=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
 		<data>
-		UlLT+0g9O5MmA7m6BYJWfxzSz1Y=
+		5QkxGrSaYKwD258kkXZHpfgt2Ls=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.json</key>
 		<data>
-		ZgM70PZxSa25mdsf7Guy+XPNYjk=
+		2d1q7SDfu5tPsWr56vuVpNB9d/A=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/FontManifest.json</key>
 		<data>
@@ -70,15 +70,27 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/NOTICES.Z</key>
 		<data>
-		jjkJ95aTUbMmm/n+SbyU1zVZQvs=
+		6v1rZLsr1hMFA3F0Ih6tlHeJxJ8=
+		</data>
+		<key>Frameworks/App.framework/flutter_assets/assets/images/chatgpt_logo.png</key>
+		<data>
+		nmTJQHWXtV2bkcDUssnJcTisKe0=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/assets/images/login.png</key>
 		<data>
 		f2RLmxM2t+VggP1MA2UsRY5qSxQ=
 		</data>
+		<key>Frameworks/App.framework/flutter_assets/assets/images/logo.png</key>
+		<data>
+		uzcXVlBHcbWuTQsCCX9Pm9QMqeU=
+		</data>
 		<key>Frameworks/App.framework/flutter_assets/assets/images/register.png</key>
 		<data>
 		orRkqSopw+wBFW9tJ5XUQmfTxsM=
+		</data>
+		<key>Frameworks/App.framework/flutter_assets/assets/images/shape.png</key>
+		<data>
+		ZURB5FVChj9iFqNw2yMzdZJzvRc=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<data>
@@ -90,7 +102,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		PI1/SMRzDHGSCk682MeAKnhWsXM=
+		zo/6fH/o2T7FaxYPtd2Iz1TR4XQ=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -285,7 +297,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			LoDFzFet2MlwLYvzSA3zWLEtk+8uyQEs0geMmkXGllo=
+			01iHG3FiDtZIxGzy46YZE4yFjZA+5sSm2j7bNf9kRfE=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -299,21 +311,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			dkeHMnXSgT6k0kHhztFzHaRfgnvDM2rEF4tkikJ/1LA=
+			8BsduWez9Ybq59opMVng3aAMTyGdxH9pj2uiebe5n8U=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Vq4n9bZGnRj7wGvs8PSz+tvj2PHFpb/ZYKkXrme8OBU=
+			0ALi1IZ8vY9BZZFIUKDlJ7zUGa2TcX5qkKEeo6mIDs8=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			WmpIOsoL7G+DHY9q4V/DyVohT1N8Wxa9simOXY6v52E=
+			dhcseMtZJ+wA/wmLOVYinmCJa8ghF4FQ+D+X650KvBQ=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/FontManifest.json</key>
@@ -327,7 +339,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			SDQ1h2a8/zj4iYiOCLCkkXjoESdNCgA/hjmuBJ+Mpm0=
+			Dw+pVUaaYkA/fAvdHgFMXpyyZzzqNV0x9miRbxVK4ZM=
+			</data>
+		</dict>
+		<key>Frameworks/App.framework/flutter_assets/assets/images/chatgpt_logo.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			li2hntwzYKrwMVXhbwPRHhpar3LLFpAX4mBnnh2g58Y=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/assets/images/login.png</key>
@@ -337,11 +356,25 @@
 			gFdib03VybKCz/ule08ZIQH+2mNlk1z8ECXQVDujpzA=
 			</data>
 		</dict>
+		<key>Frameworks/App.framework/flutter_assets/assets/images/logo.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ca5Kc/UFYp+yJBmQQC/4rkHDmTE3VsM2zuGluUhJP8o=
+			</data>
+		</dict>
 		<key>Frameworks/App.framework/flutter_assets/assets/images/register.png</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			R8iZXNQDZhuExkYNUy0jZZ5WCZAelN5a99J/Pi0iO5k=
+			</data>
+		</dict>
+		<key>Frameworks/App.framework/flutter_assets/assets/images/shape.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+jiTxZanIKhbThMZ3reSciKTC/+wAAPeDBMykI6TEsM=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
@@ -362,7 +395,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			SuyBwo+2zKOtKQsTmmFI1m3rpfcPi4ysMX7vHNP1Yi4=
+			yHtM1DBjRoIfIFLiZh6OMenPsXfWYC18j+SHRamveqI=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>

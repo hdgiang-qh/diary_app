@@ -38,6 +38,7 @@ dependencies:
   bloc: ^8.1.2
   dio: ^5.3.3
   intl: ^0.18.1
+  page_transition: ^2.1.0
   shared_preferences: ^2.2.2
   url_launcher: ^6.2.1
   flutter_bloc: ^8.1.3

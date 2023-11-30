@@ -1,3 +1,4 @@
+import 'package:diary/src/core/validator.dart';
 import 'package:diary/src/dash_board.dart';
 import 'package:diary/src/core/service/auth_service.dart';
 import 'package:diary/src/presentation/widget/text_field.dart';
@@ -25,18 +26,21 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   final AuthService authService = AuthService();
   final BoolBloc changeState = BoolBloc();
-  bool _remember = true;
+  bool _remember = false;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   _loadSavedData() async {
     _remember = await AuthService.getRememberMe();
-    if (_remember) {
+    if (_remember.toString() == true.toString()) {
       String? savedUsername = await AuthService.getUsername();
       String? savedPassword = await AuthService.getPassword();
       if (savedUsername != null && savedPassword != null) {
         usernameController.text = savedUsername;
         passwordController.text = savedPassword;
       }
+    } else{
+      usernameController.text = '';
+      passwordController.text ='';
     }
     setState(() {});
   }
@@ -44,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
   _toLogin() async {
     final username = usernameController.text;
     final password = passwordController.text;
-    if (_remember) {
+    if (_remember = true) {
       AuthService.setUsername(username);
       AuthService.setPassword(password);
     } else {
@@ -101,6 +105,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     _loadSavedData();
+    _remember;
   }
 
   @override
@@ -136,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: TextApp.enterPass,
                   controller: passwordController,
                   validator: (value) {
-                    // return ValidatorApp.checkPass(text: value);
+                   // return ValidatorApp.checkPass(text: value);
                   },
                   isPass: true,
                 ),
@@ -154,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                                       value: state,
                                       onChanged: (value) async {
                                         changeState.changeValue(value!);
-                                        _remember = value;
+                                         value = _remember;
                                         AuthService.setRememberMe(_remember);
                                       });
                                 }),

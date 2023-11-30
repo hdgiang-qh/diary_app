@@ -1,4 +1,7 @@
 
+
+
+import 'package:diary/splash_screen.dart';
 import 'package:diary/src/core/service/provider_token.dart';
 import 'package:diary/src/presentation/Auth/Welcome/LogIn_screen.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +30,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const LoginPage(),
+      home:  const SplashScreen(),
       color: Colors.cyan,
     );
   }
 }
+
+
 

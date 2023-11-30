@@ -13,7 +13,7 @@ class ValidatorApp {
     // RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$');
     if (text == "null" || text == "" || text == null) {
       return "Không bỏ trống";
-    } else if (text.length < 6) {
+    } else if (text.length < 5) {
       // return "Mật khẩu phải chứa chữ cái viết hoa, thường số và lớn hơn 6 ký tự";
       return "Mật khẩu phải lớn hơn 6 ký tự";
     } else if (text != text2 && isSign) {
