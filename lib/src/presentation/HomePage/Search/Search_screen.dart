@@ -1,4 +1,5 @@
 import 'package:diary/src/bloc/Search_bloc/search_bloc.dart';
+import 'package:diary/src/presentation/HomePage/Search/view_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,53 +24,58 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget buildSearch() {
     return BlocBuilder<SearchBloc, SearchState>(
-        bloc: _bloc, builder: (context, state)  {
-      if (state is SearchLoading) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (state is SearchSuccess) {
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Card(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ListTile(
-                  leading: const Icon(Icons.album),
-                  title:  Text(state.inforUser.nickName.validate()),
-                  subtitle: Text(state.inforUser.date.validate()),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+        bloc: _bloc,
+        builder: (context, state) {
+          if (state is SearchLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is SearchSuccess) {
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    const SizedBox(width: 8),
-                    TextButton(
-                      child: const Text('VIEW'),
-                      onPressed: () {},
+                    ListTile(
+                      leading: const Icon(Icons.album),
+                      title: Text(state.inforUser.nickName.validate()),
+                      subtitle: Text(state.inforUser.date.validate()),
                     ),
-                    const SizedBox(width: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        const SizedBox(width: 8),
+                        TextButton(
+                          child: const Text('VIEW'),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                       ViewSearchScreen( createBy: _bloc.inforUser!.id)));
+                          },
+                        ),
+                        const SizedBox(width: 8),
+                      ],
+                    ),
                   ],
                 ),
-              ],
-            ),
-          ),
-        );
-      }
-      else if(state is SearchFailure){
-        return Center(
-          child: Text(state.error),
-        );
-      }
-      else{
-        return Container();
-      }
-    });
+              ),
+            );
+          } else if (state is SearchFailure) {
+            return Center(
+              child: Text(state.error),
+            );
+          } else {
+            return Container();
+          }
+        });
   }
 
   @override
   Widget build(BuildContext context) {
-   findByPhone = _bloc.findByPhone;
+    findByPhone = _bloc.findByPhone;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Find by Phone'),
@@ -88,7 +94,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   suffixIcon: IconButton(
                       onPressed: () {
                         _bloc.getSearch();
-                      }, icon: const Icon(Icons.search)),
+                        findByPhone.clear();
+                      },
+                      icon: const Icon(Icons.search)),
                   hintText: "Search",
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15))),

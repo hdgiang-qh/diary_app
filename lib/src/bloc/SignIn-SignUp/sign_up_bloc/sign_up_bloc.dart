@@ -22,7 +22,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       final response = await dio.post(
         Const.api_host + ApiPath.register,
         data: {
-          "avatar": "string",
+          "avatar": "https://i.imgur.com/6WCf7zr.jpg",
           "date": date.text,
           "email": "string",
           "firstName": "string",

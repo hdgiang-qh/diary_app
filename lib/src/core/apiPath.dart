@@ -2,6 +2,7 @@ class ApiPath{
   static const login = "/authenticate/login";
   static const register = "/authenticate/register";
   static const getAllDiaryFeed = "/diary/feed";
+  static const getSearchFeedUser = "/diary/feed/user";
   static const curdDiary= "/diary";
   static const moodStatus = "/mood/all";
   static const diaryCalendar = "/diary/calendar";

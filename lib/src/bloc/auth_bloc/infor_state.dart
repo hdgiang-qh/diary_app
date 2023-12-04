@@ -6,12 +6,17 @@ abstract class InforState {}
 class InforInitial extends InforState {}
 
 class InforSuccess extends InforState{
-  final List<InforUser> inforUser;
-  InforSuccess(this.inforUser);
+  final List<InforUserRole> inforUserRole;
+  InforSuccess(this.inforUserRole);
 }
 class InforSuccess2 extends InforState{
   final InforUser ifUser;
   InforSuccess2(this.ifUser);
+}
+
+class InforSuccess3 extends InforState{
+  final InforUser ifUser1;
+  InforSuccess3(this.ifUser1);
 }
 
 class InforLoading extends InforState{}
