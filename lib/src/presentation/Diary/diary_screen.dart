@@ -34,14 +34,13 @@ class _DiaryScreenState extends State<DiaryScreen> {
     _bloc.getListDU();
   }
 
-  void toastDeleteComplete(String messenger) =>
-      Fluttertoast.showToast(
-          msg: "Delete Success",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.blueAccent,
-          textColor: Colors.white);
+  void toastDeleteComplete(String messenger) => Fluttertoast.showToast(
+      msg: "Delete Success",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blueAccent,
+      textColor: Colors.white);
 
   Widget buildDate() {
     return ElevatedButton(
@@ -63,165 +62,40 @@ class _DiaryScreenState extends State<DiaryScreen> {
 
   Widget buildDateV2() {
     return TableCalendar(
-        firstDay: DateTime.utc(2010, 10, 20),
-        lastDay: DateTime.utc(2040, 10, 20),
-        focusedDay: DateTime.now(),
-        headerVisible: true,
-        daysOfWeekVisible: true,
-        sixWeekMonthsEnforced: true,
-        shouldFillViewport: false,
-        headerStyle: const HeaderStyle(
-          titleTextStyle:
-          TextStyle(color: Colors.red, fontSize: 20.0),
-          decoration: BoxDecoration(
-              color: Colors.yellow,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10))),
-          formatButtonTextStyle:
-          TextStyle(color: Colors.orange, fontSize: 16.0),
-          formatButtonDecoration: BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.all(
-              Radius.circular(5.0),
-            ),),
-          leftChevronIcon: Icon(
-            Icons.chevron_left,
-            color: Colors.grey,
-            size: 28,
-          ),
-          rightChevronIcon: Icon(
-            Icons.chevron_right,
-            color: Colors.green,
-            size: 28,
+      firstDay: DateTime.utc(2010, 10, 20),
+      lastDay: DateTime.utc(2040, 10, 20),
+      focusedDay: DateTime.now(),
+      headerVisible: true,
+      daysOfWeekVisible: true,
+      sixWeekMonthsEnforced: true,
+      shouldFillViewport: false,
+      headerStyle: const HeaderStyle(
+        titleTextStyle: TextStyle(color: Colors.red, fontSize: 20.0),
+        decoration: BoxDecoration(
+            color: Colors.yellow,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+        formatButtonTextStyle: TextStyle(color: Colors.orange, fontSize: 16.0),
+        formatButtonDecoration: BoxDecoration(
+          color: Colors.blue,
+          borderRadius: BorderRadius.all(
+            Radius.circular(5.0),
           ),
         ),
-        calendarStyle: const CalendarStyle(
-        todayTextStyle: TextStyle(
-        fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold)),
-    );
-  }
-
-  Widget buildUserDiary() {
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) =>
-          Card(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        _bloc.listDU[index].nickname.validate().toString(),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w400, fontSize: 12),
-                      ),
-                    ),
-                    Expanded(
-                        child: Text(
-                          _bloc.listDU[index].status.toString(),
-                          style: TextStyle(
-                              color: _bloc.listDU[index].status.toString() ==
-                                  "PUBLIC"
-                                  ? Colors.green
-                                  : Colors.red,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ],
-                ).paddingOnly(left: 5, bottom: 5, top: 5),
-                SingleChildScrollView(
-                  child: SizedBox(
-                    child: Text(_bloc.listDU[index].happened.validate(),
-                        style: const TextStyle(fontSize: 14.0), maxLines: null),
-                  ),
-                ).paddingOnly(left: 5),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(_bloc.listDU[index].createdAt.validate())),
-                const Divider(
-                  height: 1,
-                  color: Colors.grey,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      height: 30,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        EditDiaryScreen(
-                                          id: _bloc.listDU[index].id.validate(),
-                                        )));
-                          },
-                          child: const Text(
-                            "Edit Diary",
-                            style: TextStyle(fontSize: 12),
-                          )),
-                    ),
-                    SizedBox(
-                      height: 30,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              showCupertinoDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return CupertinoAlertDialog(
-                                      title: const Icon(
-                                        CupertinoIcons.info_circle,
-                                      ),
-                                      content: const Text(
-                                        'Do you want to remove this diary from the list?',
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      actions: [
-                                        CupertinoDialogAction(
-                                          isDefaultAction: true,
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: Text("Cancel",
-                                              style: StyleApp.textStyle401()),
-                                        ),
-                                        CupertinoDialogAction(
-                                          isDefaultAction: true,
-                                          onPressed: () {
-                                            _bloc.deletedDiary(
-                                                _bloc.listDU[index].id
-                                                    .validate());
-                                            Navigator.pop(context);
-                                            toastDeleteComplete("");
-                                            _bloc.getListDU();
-                                          },
-                                          child: Text("Apply",
-                                              style: StyleApp.textStyle402()),
-                                        ),
-                                      ],
-                                    );
-                                  });
-                            });
-                          },
-                          child: const Icon(
-                            Icons.delete_forever,
-                            size: 14,
-                          )),
-                    ),
-                  ],
-                ).paddingSymmetric(vertical: 8)
-              ],
-            ),
-          ).paddingBottom(5),
-      separatorBuilder: (context, index) => Container(),
-      itemCount: _bloc.listDU.length,
-      shrinkWrap: true,
+        leftChevronIcon: Icon(
+          Icons.chevron_left,
+          color: Colors.grey,
+          size: 28,
+        ),
+        rightChevronIcon: Icon(
+          Icons.chevron_right,
+          color: Colors.green,
+          size: 28,
+        ),
+      ),
+      calendarStyle: const CalendarStyle(
+          todayTextStyle: TextStyle(
+              fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold)),
     );
   }
 
@@ -233,10 +107,156 @@ class _DiaryScreenState extends State<DiaryScreen> {
           return state is DiaryUserLoading
               ? Center(child: const CircularProgressIndicator().paddingTop(5))
               : (_bloc.listDU.isEmpty
-              ? const Center(
-            child: Text("Not Value"),
-          )
-              : buildUserDiary());
+                  ? const Center(
+                      child: Text("Not Value"),
+                    )
+                  : ListView.separated(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => Card(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 3,
+                                  child: Text(
+                                    _bloc.listDU[index].nickname
+                                        .validate()
+                                        .toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12),
+                                  ),
+                                ),
+                                Expanded(
+                                    child: Text(
+                                  _bloc.listDU[index].status.toString(),
+                                  style: TextStyle(
+                                      color: _bloc.listDU[index].status
+                                                  .toString() ==
+                                              "PUBLIC"
+                                          ? Colors.green
+                                          : Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                              ],
+                            ).paddingOnly(left: 5, bottom: 5, top: 5),
+                            SingleChildScrollView(
+                              child: SizedBox(
+                                child: Text(
+                                    _bloc.listDU[index].happened.validate(),
+                                    style: const TextStyle(fontSize: 14.0),
+                                    maxLines: null),
+                              ),
+                            ).paddingOnly(left: 5),
+                            Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(() {
+                                  if (_bloc.listDU[index].createdAt != null) {
+                                    try {
+                                      DateTime createdAt = DateTime.parse(_bloc
+                                          .listDU[index].createdAt
+                                          .toString());
+
+                                      String formattedTime =
+                                          DateFormat('yyyy-MM-dd')
+                                              .format(createdAt);
+                                      return formattedTime;
+                                    } catch (e) {
+                                      return '';
+                                    }
+                                  } else {
+                                    return '';
+                                  }
+                                }())),
+                            const Divider(
+                              height: 1,
+                              color: Colors.grey,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SizedBox(
+                                  height: 30,
+                                  child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EditDiaryScreen(
+                                                      id: _bloc.listDU[index].id
+                                                          .validate(),
+                                                    )));
+                                      },
+                                      child: const Text(
+                                        "Edit Diary",
+                                        style: TextStyle(fontSize: 12),
+                                      )),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                  child: ElevatedButton(
+                                      onPressed: () {
+                                        WidgetsBinding.instance
+                                            .addPostFrameCallback((_) {
+                                          showCupertinoDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return CupertinoAlertDialog(
+                                                  title: const Icon(
+                                                    CupertinoIcons.info_circle,
+                                                  ),
+                                                  content: const Text(
+                                                    'Do you want to remove this diary from the list?',
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  actions: [
+                                                    CupertinoDialogAction(
+                                                      isDefaultAction: true,
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              context),
+                                                      child: Text("Cancel",
+                                                          style: StyleApp
+                                                              .textStyle401()),
+                                                    ),
+                                                    CupertinoDialogAction(
+                                                      isDefaultAction: true,
+                                                      onPressed: () {
+                                                        _bloc.deletedDiary(_bloc
+                                                            .listDU[index].id
+                                                            .validate());
+                                                        Navigator.pop(context);
+                                                        toastDeleteComplete("");
+                                                        _bloc.getListDU();
+                                                      },
+                                                      child: Text("Apply",
+                                                          style: StyleApp
+                                                              .textStyle402()),
+                                                    ),
+                                                  ],
+                                                );
+                                              });
+                                        });
+                                      },
+                                      child: const Icon(
+                                        Icons.delete_forever,
+                                        size: 14,
+                                      )),
+                                ),
+                              ],
+                            ).paddingSymmetric(vertical: 8)
+                          ],
+                        ),
+                      ).paddingBottom(5),
+                      separatorBuilder: (context, index) => Container(),
+                      itemCount: _bloc.listDU.length,
+                      shrinkWrap: true,
+                    ));
         },
       ).paddingSymmetric(horizontal: 10),
     );

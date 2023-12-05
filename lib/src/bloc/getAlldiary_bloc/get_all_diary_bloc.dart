@@ -12,6 +12,7 @@ part 'get_all_diary_state.dart';
 class GetAllDiaryBloc extends Bloc<GetAllDiaryEvent, GetAllDiaryState> {
   GetAllDiaryBloc() : super(GetAllDiaryInitial());
   List<GetAllDiaryPublicModel> getAllDiaries = [];
+  List<GetAllDiaryPublicModel> reversedList = [];
 
   void getAllDiary() async{
     emit(GetAllDiaryLoading());
@@ -21,8 +22,9 @@ class GetAllDiaryBloc extends Bloc<GetAllDiaryEvent, GetAllDiaryState> {
         if((res['data'] as List).isNotEmpty){
           for(var json in res['data']){
             getAllDiaries.add(GetAllDiaryPublicModel.fromJson(json));
+            reversedList = getAllDiaries.reversed.toList();
           }
-         emit(GetAllDiarySuccess(getAllDiaries));
+         emit(GetAllDiarySuccess(reversedList));
         }
         else{
           emit(GetAllDiaryFailure(error :'Data Empty'));

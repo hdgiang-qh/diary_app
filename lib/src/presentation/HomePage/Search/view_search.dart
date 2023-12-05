@@ -76,10 +76,10 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
         bloc: _diaryUserSearchBloc,
         builder: (context, state) {
           return state is DiaryUserSearchLoading
-              ? Center(child: const CircularProgressIndicator().paddingTop(5))
+              ? const Center(child: Text('Data Loading...'))
               : (_diaryUserSearchBloc.list.isEmpty
                   ? const Center(
-                      child: CircularProgressIndicator(),
+                      child: Text('Not Value'),
                     )
                   : ListView.separated(
                       padding: const EdgeInsets.symmetric(vertical: 10),

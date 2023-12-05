@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -54,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             backgroundColor: ColorAppStyle.getRandomColor(),
                             radius: 20.0,
                             child: Text(
-                              _bloc.getAllDiaries[index].createdBy
+                              _bloc.reversedList[index].createdBy
                                   .validate()
                                   .toString(),
                               style: const TextStyle(
@@ -73,12 +74,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                _bloc.getAllDiaries[index].nickname.validate(),
+                                _bloc.reversedList[index].nickname.validate(),
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                "đang cảm thấy : ${_bloc.getAllDiaries[index].mood.validate()}",
+                                "đang cảm thấy : ${_bloc.reversedList[index].mood.validate()}",
                                 style: GoogleFonts.lato(
                                   textStyle: const TextStyle(
                                       fontSize: 12,
@@ -94,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SingleChildScrollView(
                       child: SizedBox(
                         child: Text(
-                            _bloc.getAllDiaries[index].happened.validate(),
+                            _bloc.reversedList[index].happened.validate(),
                             style: const TextStyle(fontSize: 15.0),
                             maxLines: null),
                       ),
@@ -103,7 +104,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          _bloc.getAllDiaries[index].createdAt.validate(),
+                          () {
+                            if (_bloc.reversedList[index].createdAt != null) {
+                              try {
+                                DateTime createdAt = DateTime.parse(_bloc
+                                    .reversedList[index].createdAt
+                                    .toString());
+                                String formattedTime =
+                                    DateFormat('dd-MM-yyyy').format(createdAt);
+                                return formattedTime;
+                              } catch (e) {
+                                return '';
+                              }
+                            } else {
+                              return '';
+                            }
+                          }(),
                           style: const TextStyle(fontSize: 12),
                         ),
                       ],
@@ -130,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => CommentScreen(
-                                            id: _bloc.getAllDiaries[index].id
+                                            id: _bloc.reversedList[index].id
                                                 .validate(),
                                             idUser: _inforBloc.ifUser!.id
                                                 .validate(),
@@ -152,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 separatorBuilder: (context, index) => Container(),
-                itemCount: _bloc.getAllDiaries.length,
+                itemCount: _bloc.reversedList.length,
                 shrinkWrap: true,
               ));
       },
