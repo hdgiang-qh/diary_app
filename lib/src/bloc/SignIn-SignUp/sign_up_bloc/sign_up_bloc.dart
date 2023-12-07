@@ -15,6 +15,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   TextEditingController phone = TextEditingController();
   TextEditingController nickName = TextEditingController();
   TextEditingController date = TextEditingController();
+  TextEditingController email = TextEditingController();
 
   void register()async{
     emit(SignUpLoading());
@@ -24,7 +25,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         data: {
           "avatar": "https://i.imgur.com/6WCf7zr.jpg",
           "date": date.text,
-          "email": "string",
+          "email": email.text,
           "firstName": "string",
           "lastName": "string",
           'nickName': nickName.text,

@@ -2,6 +2,7 @@ import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/src/bloc/search_userDiary/diary_user_search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class ViewSearchScreen extends StatefulWidget {
@@ -128,7 +129,24 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                             Align(
                                 alignment: Alignment.centerRight,
                                 child: Text(
-                                    _diaryUserSearchBloc.list[index].createdAt.validate())),
+                                        () {
+                                      if (_diaryUserSearchBloc.list[index].createdAt != null) {
+                                        try {
+                                          DateTime createdAt = DateTime.parse(_diaryUserSearchBloc
+                                              .list[index].createdAt
+                                              .toString());
+
+                                          String formattedTime =
+                                          DateFormat('dd-MM-yyyy')
+                                              .format(createdAt);
+                                          return formattedTime;
+                                        } catch (e) {
+                                          return '';
+                                        }
+                                      } else {
+                                        return '';
+                                      }
+                                    }())),
                             const Divider(
                               height: 1,
                               color: Colors.grey,

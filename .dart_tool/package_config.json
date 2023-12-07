@@ -14,6 +14,60 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "audio_session",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/audio_session-0.1.18",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "audio_video_progress_bar",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/audio_video_progress_bar-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/audioplayers-5.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_android",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/audioplayers_android-4.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_darwin",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/audioplayers_darwin-5.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_linux",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/audioplayers_linux-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_platform_interface",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/audioplayers_platform_interface-6.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_web",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/audioplayers_web-4.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_windows",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/audioplayers_windows-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "bloc",
       "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/bloc-8.1.2",
       "packageUri": "lib/",
@@ -224,6 +278,24 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "just_audio",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/just_audio-0.9.36",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "just_audio_platform_interface",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/just_audio_platform_interface-4.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "just_audio_web",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/just_audio_web-0.4.9",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "lints",
       "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/lints-2.1.1",
       "packageUri": "lib/",
@@ -338,6 +410,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "rxdart",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/rxdart-0.27.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "shared_preferences",
       "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/shared_preferences-2.2.2",
       "packageUri": "lib/",
@@ -398,6 +476,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "sprintf",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/sprintf-7.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "stack_trace",
       "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/stack_trace-1.11.0",
       "packageUri": "lib/",
@@ -412,6 +496,12 @@
     {
       "name": "string_scanner",
       "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/string_scanner-1.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "synchronized",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/synchronized-3.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -488,6 +578,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "uuid",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/uuid-4.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "vector_math",
       "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/vector_math-2.1.4",
       "packageUri": "lib/",
@@ -524,7 +620,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-12-04T17:14:29.944933Z",
+  "generated": "2023-12-07T15:24:07.868474Z",
   "generator": "pub",
   "generatorVersion": "3.1.3"
 }

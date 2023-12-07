@@ -25,6 +25,11 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences-2.2.2" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/connectivity_plus-5.0.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_windows-2.3.2" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/audioplayers-5.2.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/audioplayers_web-4.1.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/just_audio_web-0.4.9" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/just_audio-0.9.36" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/audio_session-0.1.18" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

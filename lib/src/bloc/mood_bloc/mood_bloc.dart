@@ -13,6 +13,8 @@ part 'mood_state.dart';
 class MoodBloc extends Bloc<MoodEvent, MoodState> {
   MoodBloc() : super(MoodInitial()) ;
   List<MoodModel> mood= [];
+  MoodModel? moodModel;
+
 
   void getMood() async{
     emit(MoodLoading());

@@ -39,138 +39,156 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, state) {
         return state is GetAllDiaryLoading
             ? const Center(child: CircularProgressIndicator())
-            : (ListView.separated(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SeparatorWidget(),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+            : (_bloc.getAllDiaries.isEmpty
+                ? const Center(
+                    child: Text("Data Value"),
+                  )
+                : ListView.separated(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          flex: 1,
-                          child: CircleAvatar(
-                            backgroundColor: ColorAppStyle.getRandomColor(),
-                            radius: 20.0,
-                            child: Text(
-                              _bloc.reversedList[index].createdBy
-                                  .validate()
-                                  .toString(),
-                              style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          flex: 9,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _bloc.reversedList[index].nickname.validate(),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "đang cảm thấy : ${_bloc.reversedList[index].mood.validate()}",
-                                style: GoogleFonts.lato(
-                                  textStyle: const TextStyle(
+                        const SeparatorWidget(),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: CircleAvatar(
+                                backgroundColor: ColorAppStyle.getRandomColor(),
+                                radius: 20.0,
+                                child: Text(
+                                  _bloc.reversedList[index].createdBy
+                                      .validate()
+                                      .toString(),
+                                  style: const TextStyle(
                                       fontSize: 12,
-                                      fontStyle: FontStyle.italic,
-                                      letterSpacing: .5),
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              flex: 9,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    _bloc.reversedList[index].nickname
+                                        .validate(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    "đang cảm thấy : ${_bloc.reversedList[index].mood.validate()}",
+                                    style: GoogleFonts.lato(
+                                      textStyle: const TextStyle(
+                                          fontSize: 12,
+                                          fontStyle: FontStyle.italic,
+                                          letterSpacing: .5),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ).paddingOnly(top: 5, left: 10, bottom: 5),
+                        SingleChildScrollView(
+                          child: SizedBox(
+                            child: Text(
+                                _bloc.reversedList[index].happened.validate(),
+                                style: const TextStyle(fontSize: 15.0),
+                                maxLines: null),
+                          ),
+                        ).paddingSymmetric(horizontal: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              () {
+                                if (_bloc.reversedList[index].createdAt !=
+                                    null) {
+                                  try {
+                                    DateTime createdAt = DateTime.parse(_bloc
+                                        .reversedList[index].createdAt
+                                        .toString());
+                                    // String formattedTime =
+                                    //     DateFormat('dd-MM-yyyy').format(createdAt);
+                                    DateTime now = DateTime.now();
+                                    Duration dif = createdAt.difference(now);
+                                    int days = dif.inDays.abs();
+                                    int hour = dif.inHours.abs();
+                                    int minute = dif.inMinutes.abs();
+                                    String showTime;
+                                    days > 0
+                                        ? showTime = "$days ngày trước"
+                                        : (hour > 0
+                                            ? showTime =
+                                                "${hour % 24} giờ trước"
+                                            : showTime = "$minute phút trước");
+                                    return showTime;
+                                  } catch (e) {
+                                    return '';
+                                  }
+                                } else {
+                                  return '';
+                                }
+                              }(),
+                              style: const TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        ).paddingOnly(right: 10, bottom: 3, top: 3),
+                        const Divider(
+                          height: 1,
+                          color: Colors.grey,
+                          thickness: 1,
+                          indent: 8,
+                          endIndent: 8,
+                        ),
+                        SizedBox(
+                          height: 40,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.comment,
+                                size: 18,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CommentScreen(
+                                                id: _bloc.reversedList[index].id
+                                                    .validate(),
+                                                idUser: _inforBloc.ifUser!.id
+                                                    .validate(),
+                                              )));
+                                },
+                                child: const Row(
+                                  children: [
+                                    Text(
+                                      "Comment",
+                                      style: TextStyle(color: Colors.blue),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                        )
-                      ],
-                    ).paddingOnly(top: 5, left: 10, bottom: 5),
-                    SingleChildScrollView(
-                      child: SizedBox(
-                        child: Text(
-                            _bloc.reversedList[index].happened.validate(),
-                            style: const TextStyle(fontSize: 15.0),
-                            maxLines: null),
-                      ),
-                    ).paddingSymmetric(horizontal: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          () {
-                            if (_bloc.reversedList[index].createdAt != null) {
-                              try {
-                                DateTime createdAt = DateTime.parse(_bloc
-                                    .reversedList[index].createdAt
-                                    .toString());
-                                String formattedTime =
-                                    DateFormat('dd-MM-yyyy').format(createdAt);
-                                return formattedTime;
-                              } catch (e) {
-                                return '';
-                              }
-                            } else {
-                              return '';
-                            }
-                          }(),
-                          style: const TextStyle(fontSize: 12),
                         ),
+                        const SeparatorWidget()
                       ],
-                    ).paddingOnly(right: 10, bottom: 3, top: 3),
-                    const Divider(
-                      height: 1,
-                      color: Colors.grey,
-                      thickness: 1,
-                      indent: 8,
-                      endIndent: 8,
                     ),
-                    SizedBox(
-                      height: 40,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.comment,
-                            size: 18,
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CommentScreen(
-                                            id: _bloc.reversedList[index].id
-                                                .validate(),
-                                            idUser: _inforBloc.ifUser!.id
-                                                .validate(),
-                                          )));
-                            },
-                            child: const Row(
-                              children: [
-                                Text(
-                                  "Comment",
-                                  style: TextStyle(color: Colors.blue),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SeparatorWidget()
-                  ],
-                ),
-                separatorBuilder: (context, index) => Container(),
-                itemCount: _bloc.reversedList.length,
-                shrinkWrap: true,
-              ));
+                    separatorBuilder: (context, index) => Container(),
+                    itemCount: _bloc.reversedList.length,
+                    shrinkWrap: true,
+                  ));
       },
     );
   }

@@ -162,7 +162,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                           .toString());
 
                                       String formattedTime =
-                                          DateFormat('yyyy-MM-dd')
+                                          DateFormat('dd-MM-yyyy')
                                               .format(createdAt);
                                       return formattedTime;
                                     } catch (e) {

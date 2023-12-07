@@ -1,4 +1,11 @@
 # This is a generated file; do not edit or check into version control.
+audio_session=/Users/macmini/.pub-cache/hosted/pub.dev/audio_session-0.1.18/
+audioplayers=/Users/macmini/.pub-cache/hosted/pub.dev/audioplayers-5.2.1/
+audioplayers_android=/Users/macmini/.pub-cache/hosted/pub.dev/audioplayers_android-4.0.3/
+audioplayers_darwin=/Users/macmini/.pub-cache/hosted/pub.dev/audioplayers_darwin-5.0.2/
+audioplayers_linux=/Users/macmini/.pub-cache/hosted/pub.dev/audioplayers_linux-3.1.0/
+audioplayers_web=/Users/macmini/.pub-cache/hosted/pub.dev/audioplayers_web-4.1.0/
+audioplayers_windows=/Users/macmini/.pub-cache/hosted/pub.dev/audioplayers_windows-3.1.0/
 connectivity_plus=/Users/macmini/.pub-cache/hosted/pub.dev/connectivity_plus-5.0.1/
 flutter_secure_storage=/Users/macmini/.pub-cache/hosted/pub.dev/flutter_secure_storage-9.0.0/
 flutter_secure_storage_linux=/Users/macmini/.pub-cache/hosted/pub.dev/flutter_secure_storage_linux-1.2.0/
@@ -6,6 +13,8 @@ flutter_secure_storage_macos=/Users/macmini/.pub-cache/hosted/pub.dev/flutter_se
 flutter_secure_storage_web=/Users/macmini/.pub-cache/hosted/pub.dev/flutter_secure_storage_web-1.1.2/
 flutter_secure_storage_windows=/Users/macmini/.pub-cache/hosted/pub.dev/flutter_secure_storage_windows-3.0.0/
 fluttertoast=/Users/macmini/.pub-cache/hosted/pub.dev/fluttertoast-8.2.2/
+just_audio=/Users/macmini/.pub-cache/hosted/pub.dev/just_audio-0.9.36/
+just_audio_web=/Users/macmini/.pub-cache/hosted/pub.dev/just_audio_web-0.4.9/
 nb_utils=/Users/macmini/.pub-cache/hosted/pub.dev/nb_utils-6.0.6/
 path_provider=/Users/macmini/.pub-cache/hosted/pub.dev/path_provider-2.1.1/
 path_provider_android=/Users/macmini/.pub-cache/hosted/pub.dev/path_provider_android-2.2.1/

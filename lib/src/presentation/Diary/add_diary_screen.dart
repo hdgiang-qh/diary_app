@@ -1,7 +1,6 @@
 import 'package:diary/src/bloc/add_diary_bloc/add_diary_bloc.dart';
-import 'package:diary/src/bloc/diaryUser_bloc/diaryuser_bloc.dart';
 import 'package:diary/src/bloc/mood_bloc/mood_bloc.dart';
-import 'package:diary/src/presentation/Diary/diary_screen.dart';
+import 'package:diary/src/models/mood_model.dart';
 import 'package:diary/styles/color_styles.dart';
 import 'package:diary/styles/text_style.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,6 +29,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
     _moodBloc = MoodBloc();
     _moodBloc.getMood();
   }
+
   void toastPostComplete(String messenger) => Fluttertoast.showToast(
       msg: "Post Success",
       toastLength: Toast.LENGTH_SHORT,
@@ -37,6 +37,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.blueAccent,
       textColor: Colors.white);
+
   void toastError(String messenger) => Fluttertoast.showToast(
       msg: "Please fill in all information",
       toastLength: Toast.LENGTH_SHORT,
@@ -45,59 +46,51 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
       backgroundColor: Colors.blueAccent,
       textColor: Colors.white);
 
-
   Widget buildMood() {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return SingleChildScrollView(
-      child: Container(
-        // color: Colors.red,
-        child: BlocBuilder<MoodBloc, MoodState>(
-          bloc: _moodBloc,
-          builder: (context, state) {
-            return state is MoodLoading
-                ? const Center(child: CircularProgressIndicator())
-                : GridView.builder(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5))),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _moodBloc.mood[index].id.validate().toString(),
-                                style: const TextStyle(fontSize: 12),
-                              ).paddingAll(5),
-                              Text(
-                                _moodBloc.mood[index].mood
-                                    .validate()
-                                    .toString(),
-                                style: const TextStyle(fontSize: 12),
-                              ).paddingAll(5),
-                            ],
-                          ),
-                        ),
-                      ],
+    return BlocBuilder<MoodBloc, MoodState>(
+      bloc: _moodBloc,
+      builder: (context, state) {
+        return state is MoodLoading
+            ? const Center(child: CircularProgressIndicator())
+            : GridView.builder(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(5))),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _moodBloc.mood[index].id.validate().toString(),
+                            style: const TextStyle(fontSize: 12),
+                          ).paddingAll(5),
+                          Text(
+                            _moodBloc.mood[index].mood.validate().toString(),
+                            style: const TextStyle(fontSize: 12),
+                          ).paddingAll(5),
+                        ],
+                      ),
                     ),
-                    itemCount: _moodBloc.mood.length,
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        childAspectRatio: width / (height / 7),
-                        crossAxisSpacing: 5.0,
-                        mainAxisSpacing: 5.0),
-                  );
-          },
-        ).paddingSymmetric(horizontal: 10),
-      ),
-    );
+                  ],
+                ),
+                itemCount: _moodBloc.mood.length,
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: width / (height / 7),
+                    crossAxisSpacing: 5.0,
+                    mainAxisSpacing: 5.0),
+              );
+      },
+    ).paddingSymmetric(horizontal: 10);
   }
 
   Widget buildDrop(BuildContext context) {
@@ -134,129 +127,133 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
-            // Navigator.pushReplacement(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => const DiaryScreen()),
-            // );
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),
         title: const Text("New A Diary"),
       ),
-      body: SingleChildScrollView(
-        child: Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Text("Status Mode : "),
-                  buildDrop(context).paddingRight(10),
-                ],
+      body: Card(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Text("Status Mode : "),
+                buildDrop(context).paddingRight(10),
+              ],
+            ),
+            SizedBox(
+              height: height * 0.2,
+              width: width,
+              child: TextField(
+                controller: happened,
+                maxLines: null,
+                expands: true,
+                decoration: const InputDecoration(
+                    filled: true,
+                    // border: OutlineInputBorder(),
+                    hintText: "How are you feeling now?"),
               ),
-              SizedBox(
-                height: height * 0.2,
-                width: width,
-                child: TextField(
-                  controller: happened,
-                  maxLines: null,
-                  expands: true,
-                  decoration: const InputDecoration(
-                      filled: true,
-                      // border: OutlineInputBorder(),
-                      hintText: "How are you feeling now?"),
-                ),
-              ).paddingSymmetric(horizontal: 10),
-              SizedBox(
-                height: height * 0.15,
-                width: width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text("List Feel Can :"),
-                    buildMood(),
-                  ],
-                ),
-              ).paddingSymmetric(horizontal: 10),
-              Row(
+            ).paddingSymmetric(horizontal: 10),
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                      child: Row(
-                    children: [
-                      const Text("Mood Feel : "),
-                      SizedBox(
-                        height: 35,
-                        width: 70,
-                        child: TextField(
-                          controller: mood,
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: "Num?",
-                            hintStyle: TextStyle(fontSize: 14),
-                            isDense: true,
-                          ),
-                        ),
-                      )
-                    ],
-                  )),
+                  const Text("List Feel Can :"),
+                  buildMood(),
                 ],
               ).paddingSymmetric(horizontal: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                      width: width * 0.3,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              showCupertinoDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return CupertinoAlertDialog(
-                                      title: const Icon(CupertinoIcons.info_circle),
-                                      content: const Text(
-                                        'Xác nhận tạo nội dung Diary?',
-                                        textAlign: TextAlign.center,
+            ),
+            Row(
+              children: [
+                const Align(
+                    alignment: Alignment.centerLeft, child: Text('Mood Feels')),
+                Container(
+                  height: 45,
+                  padding: const EdgeInsets.only(left: 5),
+                  width: 200,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(width: 1, color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: DropdownButton(
+                    hint: const Text("Vui lòng chọn",
+                        style: TextStyle(fontSize: 16)),
+                    underline: Container(),
+                    isExpanded: true,
+                    value: _moodBloc.moodModel,
+                    items: _moodBloc.mood
+                        .map<DropdownMenuItem<MoodModel>>(
+                            (e) => DropdownMenuItem<MoodModel>(
+                                  value: e,
+                                  child: Text(e.mood ?? ""),
+                                ))
+                        .toList(),
+                    onChanged: (MoodModel? mood) {
+                      setState(() {
+                        _moodBloc.moodModel = mood;
+                        _bloc.moodId = mood?.id;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ).paddingSymmetric(horizontal: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SizedBox(
+                    width: width * 0.3,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            showCupertinoDialog(
+                                context: context,
+                                builder: (context) {
+                                  return CupertinoAlertDialog(
+                                    title:
+                                        const Icon(CupertinoIcons.info_circle),
+                                    content: const Text(
+                                      'Xác nhận tạo nội dung Diary?',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    actions: [
+                                      CupertinoDialogAction(
+                                        isDefaultAction: true,
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text("Huỷ",
+                                            style: StyleApp.textStyle402()),
                                       ),
-                                      actions: [
-                                        CupertinoDialogAction(
-                                          isDefaultAction: true,
-                                          onPressed: () => Navigator.pop(context),
-                                          child: Text("Huỷ", style: StyleApp.textStyle402()),
-                                        ),
-                                        CupertinoDialogAction(
-                                          isDefaultAction: true,
-                                          onPressed: () async {
-                                            if (_bloc.happened.text.isNotEmpty &&
-                                                _bloc.mood.text.isNotEmpty &&
-                                                _bloc.dropdownValue.toString().isNotEmpty) {
-                                              _bloc.createDiary();
-                                              happened.clear();
-                                              mood.clear();
-                                              dropdownValue = '';
-                                              toastPostComplete("");
-                                              Navigator.of(context).pop();
-                                            } else {
-                                              toastError("");
-                                              Navigator.of(context).pop();
-                                            }
-                                          },
-                                          child:
-                                          Text("Đồng ý", style: StyleApp.textStyle401()),
-                                        ),
-                                      ],
-                                    );
-                                  });
-                            });
-
-                          },
-                          child: const Text("Save"))),
-                ],
-              ).paddingOnly(top: 10, bottom: 5)
-            ],
-          ),
+                                      CupertinoDialogAction(
+                                        isDefaultAction: true,
+                                        onPressed: () async {
+                                          if (_bloc.happened.text.isNotEmpty &&
+                                              _bloc.dropdownValue
+                                                  .toString()
+                                                  .isNotEmpty) {
+                                            _bloc.createDiary();
+                                            happened.clear();
+                                            dropdownValue = '';
+                                            toastPostComplete("");
+                                            Navigator.of(context).pop();
+                                          } else {
+                                            toastError("");
+                                            Navigator.of(context).pop();
+                                          }
+                                        },
+                                        child: Text("Đồng ý",
+                                            style: StyleApp.textStyle401()),
+                                      ),
+                                    ],
+                                  );
+                                });
+                          });
+                        },
+                        child: const Text("Save"))),
+              ],
+            ).paddingOnly(top: 10, bottom: 5)
+          ],
         ),
       ),
     );

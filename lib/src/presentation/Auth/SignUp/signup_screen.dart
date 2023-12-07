@@ -19,6 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController nameUser = TextEditingController();
   TextEditingController nickName = TextEditingController();
   TextEditingController date = TextEditingController();
+  TextEditingController email = TextEditingController();
   String? ErrorPass, ErrorPhone;
   bool passwordVisible = true;
 
@@ -51,6 +52,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     nameUser = _bloc.username;
     passWord = _bloc.password;
     nickName = _bloc.nickName;
+    email = _bloc.email;
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -191,6 +193,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             height: 20,
                           ),
                           TextField(
+                            controller: email,
+                            style:
+                                const TextStyle(color: Colors.white, height: 1),
+                            decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.alternate_email),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                label: const Text("Email"),
+                                hintStyle: const TextStyle(
+                                    color: Colors.white, height: 1),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextField(
                             controller: nickName,
                             style:
                                 const TextStyle(color: Colors.white, height: 1),
@@ -284,7 +314,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             _bloc.password.text.isNotEmpty &&
                                             _bloc.username.text.isNotEmpty &&
                                             _bloc.date.text.isNotEmpty &&
-                                            _bloc.phone.text.isNotEmpty) {
+                                            _bloc.phone.text.isNotEmpty &&
+                                            _bloc.email.text.isNotEmpty) {
                                           _bloc.register();
                                           toastComplete("");
                                           Navigator.pop(context);
