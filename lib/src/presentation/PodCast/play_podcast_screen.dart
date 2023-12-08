@@ -1,13 +1,12 @@
-
 import 'package:diary/src/bloc/podcast_bloc/podcast_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:just_audio/just_audio.dart';
 
-
 class PlayPodCastScreen extends StatefulWidget {
   final int? id;
   final String? track;
+
   const PlayPodCastScreen({super.key, required this.id, required this.track});
 
   @override
@@ -23,14 +22,14 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen> {
   bool loaded = false;
   bool playing = false;
 
-
   void loadMusic() async {
-     await player.setUrl("${widget.track}");
-    //await player.setAsset('assets/audio/MienDatHua.mp3');
+    await player.setUrl("${widget.track}");
+    print(widget.track);
     setState(() {
       loaded = true;
     });
   }
+
 
   void playMusic() async {
     setState(() {
