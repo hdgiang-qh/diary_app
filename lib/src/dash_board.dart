@@ -1,14 +1,12 @@
 
-import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/src/presentation/Auth/Infor/Information_screen.dart';
-import 'package:diary/src/presentation/Auth/Infor/UserScreen.dart';
 import 'package:diary/src/presentation/Diary/diary_screen.dart';
 import 'package:diary/src/presentation/HomePage/Home_screen.dart';
 import 'package:diary/src/presentation/MessBot/messbot_screen.dart';
 import 'package:diary/src/presentation/PodCast/podcast_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../styles/color_styles.dart';
+
 import '../styles/text_styles.dart';
 import 'bloc/state_bloc/state_nav_bloc.dart';
 

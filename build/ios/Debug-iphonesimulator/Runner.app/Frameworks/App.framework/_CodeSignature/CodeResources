@@ -10,11 +10,11 @@
 		</data>
 		<key>flutter_assets/AssetManifest.bin</key>
 		<data>
-		5QkxGrSaYKwD258kkXZHpfgt2Ls=
+		sSYNStELFYtWT5kOUUp9/bZHWTI=
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		2d1q7SDfu5tPsWr56vuVpNB9d/A=
+		LtYbsASEPPVDtnxbadj0rpt6s/g=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -22,7 +22,11 @@
 		</data>
 		<key>flutter_assets/NOTICES.Z</key>
 		<data>
-		54zzMpJQIzkdvTww9kUdkmHL+c8=
+		5FalRJhOPzLmX2D1XN5kyJ6Xu5A=
+		</data>
+		<key>flutter_assets/assets/audio/MienDatHua.mp3</key>
+		<data>
+		0XXDHE9UEIulmRR74L8FQxKn3E4=
 		</data>
 		<key>flutter_assets/assets/images/chatgpt_logo.png</key>
 		<data>
@@ -54,7 +58,7 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		DJ0ArhbZavx1hNxfYtdfuZIwB/Q=
+		P3oJKpbvBosI5BtURufFNajp1PY=
 		</data>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -62,11 +66,11 @@
 		</data>
 		<key>flutter_assets/packages/fluttertoast/assets/toastify.css</key>
 		<data>
-		HVkEhoid+n6bwOYCwZg4DdmGBHY=
+		w0yScZgyE5s0j7sPuGOLXy3ISfM=
 		</data>
 		<key>flutter_assets/packages/fluttertoast/assets/toastify.js</key>
 		<data>
-		v5LMft1C/Ps/+tw6D+zco3p3Urk=
+		gPIgba2QIn/qWmLFfVogsD4MxPU=
 		</data>
 		<key>flutter_assets/packages/nb_utils/fonts/LineAwesome.ttf</key>
 		<data>
@@ -87,14 +91,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			0ALi1IZ8vY9BZZFIUKDlJ7zUGa2TcX5qkKEeo6mIDs8=
+			zto/2CzAxZBpXOfPDcrArxWymmvsfpreO0XWnBAakNg=
 			</data>
 		</dict>
 		<key>flutter_assets/AssetManifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			dhcseMtZJ+wA/wmLOVYinmCJa8ghF4FQ+D+X650KvBQ=
+			LfCM5YNy1eCWAgIZdSMg4D2+D2yi41oEJQT0tAA3Azk=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -108,7 +112,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			fFhLYPPza2Jaku1qaxOvvyTYX4SOncDmkgo13xJ2k7E=
+			ZKTdsTIAptBR9NrB2JhxboFtxKtO5fDy4YMBevn5G/o=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/audio/MienDatHua.mp3</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			jNrpjx7Q870Cwphq87U9LNhAv6cK4kUUkvvVwCKXJqQ=
 			</data>
 		</dict>
 		<key>flutter_assets/assets/images/chatgpt_logo.png</key>
@@ -164,7 +175,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			bgfIyeQLItXF2M/cP/5b60rbcWm6r6Zrr+BCmwMDKRI=
+			rtiu7iy1cM4AaVKOYgbfVe2WUaqI/IlYXteYgYvUKTg=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
@@ -178,14 +189,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			abr0T+pbPv0zd7q8FU7xuDv4JjuRAgKox9bnRddRNJ8=
+			OA6cPd56JZLHb6TFMDSJcQW1dQpoPp1gk3TDCrW7kJY=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/fluttertoast/assets/toastify.js</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			CRyacJlKIATuArBPER1Aq+QMB7BmhWOZ9YxYcELsKZA=
+			zYIrdfUdie9n3mKKElLvN1sxiImupJ++RP/PCwgqbb0=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/nb_utils/fonts/LineAwesome.ttf</key>

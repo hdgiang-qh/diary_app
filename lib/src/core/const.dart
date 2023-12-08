@@ -6,8 +6,8 @@ import 'share_pref/app_key.dart';
 
 class Const {
   static final format = NumberFormat("#,##0.##", "vi");
-   //static const api_host = 'http://10.0.2.2:8080/api/v1';
-    static const api_host = 'http://localhost:8080/api/v1';
+   static const api_host = 'http://10.0.2.2:8080/api/v1';
+   // static const api_host = 'http://localhost:8080/api/v1';
 
   static checkLogin(BuildContext context, {required Function nextPage}) async {
     bool isLogin = await SharedPrefs.readBool(AppKey.login);

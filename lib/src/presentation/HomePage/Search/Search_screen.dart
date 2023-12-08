@@ -1,6 +1,5 @@
 import 'package:diary/src/bloc/Search_bloc/search_bloc.dart';
 import 'package:diary/src/presentation/HomePage/Search/view_search.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';

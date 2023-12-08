@@ -19,78 +19,100 @@
 16-->[:nb_utils] /Applications/Development/diary_app/build/nb_utils/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-79
 16-->[:nb_utils] /Applications/Development/diary_app/build/nb_utils/intermediates/merged_manifest/debug/AndroidManifest.xml:10:22-76
 17
-18    <permission
-18-->[androidx.core:core:1.10.1] /Users/macmini/.gradle/caches/transforms-3/c4988ff80110f75080a936fc6f044848/transformed/core-1.10.1/AndroidManifest.xml:22:5-24:47
-19        android:name="com.example.diary.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-19-->[androidx.core:core:1.10.1] /Users/macmini/.gradle/caches/transforms-3/c4988ff80110f75080a936fc6f044848/transformed/core-1.10.1/AndroidManifest.xml:23:9-81
-20        android:protectionLevel="signature" />
-20-->[androidx.core:core:1.10.1] /Users/macmini/.gradle/caches/transforms-3/c4988ff80110f75080a936fc6f044848/transformed/core-1.10.1/AndroidManifest.xml:24:9-44
-21
-22    <uses-permission android:name="com.example.diary.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-22-->[androidx.core:core:1.10.1] /Users/macmini/.gradle/caches/transforms-3/c4988ff80110f75080a936fc6f044848/transformed/core-1.10.1/AndroidManifest.xml:26:5-97
-22-->[androidx.core:core:1.10.1] /Users/macmini/.gradle/caches/transforms-3/c4988ff80110f75080a936fc6f044848/transformed/core-1.10.1/AndroidManifest.xml:26:22-94
-23
-24    <application
-25        android:name="android.app.Application"
-26        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-26-->[androidx.core:core:1.10.1] /Users/macmini/.gradle/caches/transforms-3/c4988ff80110f75080a936fc6f044848/transformed/core-1.10.1/AndroidManifest.xml:28:18-86
-27        android:debuggable="true"
-28        android:icon="@mipmap/ic_launcher"
-29        android:label="diary" >
-30        <activity
-31            android:name="com.example.diary.MainActivity"
-32            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-33            android:exported="true"
-34            android:hardwareAccelerated="true"
-35            android:launchMode="singleTop"
-36            android:theme="@style/LaunchTheme"
-37            android:windowSoftInputMode="adjustResize" >
-38
-39            <!--
-40                 Specifies an Android theme to apply to this Activity as soon as
-41                 the Android process has started. This theme is visible to the user
-42                 while the Flutter UI initializes. After that, this theme continues
-43                 to determine the Window background behind the Flutter UI.
-44            -->
-45            <meta-data
-46                android:name="io.flutter.embedding.android.NormalTheme"
-47                android:resource="@style/NormalTheme" />
-48
-49            <intent-filter>
-50                <action android:name="android.intent.action.MAIN" />
-51
-52                <category android:name="android.intent.category.LAUNCHER" />
-53            </intent-filter>
-54        </activity>
-55        <!--
-56             Don't delete the meta-data below.
-57             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
-58        -->
-59        <meta-data
-60            android:name="flutterEmbedding"
-61            android:value="2" />
-62
-63        <activity
-63-->[:url_launcher_android] /Applications/Development/diary_app/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-13:74
-64            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
-64-->[:url_launcher_android] /Applications/Development/diary_app/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-74
-65            android:exported="false"
-65-->[:url_launcher_android] /Applications/Development/diary_app/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-37
-66            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-66-->[:url_launcher_android] /Applications/Development/diary_app/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-71
-67
-68        <uses-library
-68-->[androidx.window:window:1.0.0-beta04] /Users/macmini/.gradle/caches/transforms-3/25cee5f028ac2a6b79fd6278ff5b59e2/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
-69            android:name="androidx.window.extensions"
-69-->[androidx.window:window:1.0.0-beta04] /Users/macmini/.gradle/caches/transforms-3/25cee5f028ac2a6b79fd6278ff5b59e2/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:26:13-54
-70            android:required="false" />
-70-->[androidx.window:window:1.0.0-beta04] /Users/macmini/.gradle/caches/transforms-3/25cee5f028ac2a6b79fd6278ff5b59e2/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:27:13-37
-71        <uses-library
-71-->[androidx.window:window:1.0.0-beta04] /Users/macmini/.gradle/caches/transforms-3/25cee5f028ac2a6b79fd6278ff5b59e2/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:28:9-30:40
-72            android:name="androidx.window.sidecar"
-72-->[androidx.window:window:1.0.0-beta04] /Users/macmini/.gradle/caches/transforms-3/25cee5f028ac2a6b79fd6278ff5b59e2/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
-73            android:required="false" />
-73-->[androidx.window:window:1.0.0-beta04] /Users/macmini/.gradle/caches/transforms-3/25cee5f028ac2a6b79fd6278ff5b59e2/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
-74    </application>
-75
-76</manifest>
+18    <queries>
+18-->[androidx.media2:media2-session:1.2.1] /Users/macmini/.gradle/caches/transforms-3/10631808666e75726da3a6526958e9ec/transformed/jetified-media2-session-1.2.1/AndroidManifest.xml:24:5-34:15
+19        <intent>
+19-->[androidx.media2:media2-session:1.2.1] /Users/macmini/.gradle/caches/transforms-3/10631808666e75726da3a6526958e9ec/transformed/jetified-media2-session-1.2.1/AndroidManifest.xml:25:9-27:18
+20            <action android:name="android.media.browse.MediaBrowserService" />
+20-->[androidx.media2:media2-session:1.2.1] /Users/macmini/.gradle/caches/transforms-3/10631808666e75726da3a6526958e9ec/transformed/jetified-media2-session-1.2.1/AndroidManifest.xml:26:13-79
+20-->[androidx.media2:media2-session:1.2.1] /Users/macmini/.gradle/caches/transforms-3/10631808666e75726da3a6526958e9ec/transformed/jetified-media2-session-1.2.1/AndroidManifest.xml:26:21-76
+21        </intent>
+22        <intent>
+22-->[androidx.media2:media2-session:1.2.1] /Users/macmini/.gradle/caches/transforms-3/10631808666e75726da3a6526958e9ec/transformed/jetified-media2-session-1.2.1/AndroidManifest.xml:28:9-30:18
+23            <action android:name="androidx.media2.session.MediaSessionService" />
+23-->[androidx.media2:media2-session:1.2.1] /Users/macmini/.gradle/caches/transforms-3/10631808666e75726da3a6526958e9ec/transformed/jetified-media2-session-1.2.1/AndroidManifest.xml:29:13-82
+23-->[androidx.media2:media2-session:1.2.1] /Users/macmini/.gradle/caches/transforms-3/10631808666e75726da3a6526958e9ec/transformed/jetified-media2-session-1.2.1/AndroidManifest.xml:29:21-79
+24        </intent>
+25        <intent>
+25-->[androidx.media2:media2-session:1.2.1] /Users/macmini/.gradle/caches/transforms-3/10631808666e75726da3a6526958e9ec/transformed/jetified-media2-session-1.2.1/AndroidManifest.xml:31:9-33:18
+26            <action android:name="androidx.media2.session.MediaLibraryService" />
+26-->[androidx.media2:media2-session:1.2.1] /Users/macmini/.gradle/caches/transforms-3/10631808666e75726da3a6526958e9ec/transformed/jetified-media2-session-1.2.1/AndroidManifest.xml:32:13-82
+26-->[androidx.media2:media2-session:1.2.1] /Users/macmini/.gradle/caches/transforms-3/10631808666e75726da3a6526958e9ec/transformed/jetified-media2-session-1.2.1/AndroidManifest.xml:32:21-79
+27        </intent>
+28    </queries>
+29
+30    <permission
+30-->[androidx.core:core:1.10.1] /Users/macmini/.gradle/caches/transforms-3/f2c1b21e2617b8adc4232d8977a76481/transformed/core-1.10.1/AndroidManifest.xml:22:5-24:47
+31        android:name="com.example.diary.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+31-->[androidx.core:core:1.10.1] /Users/macmini/.gradle/caches/transforms-3/f2c1b21e2617b8adc4232d8977a76481/transformed/core-1.10.1/AndroidManifest.xml:23:9-81
+32        android:protectionLevel="signature" />
+32-->[androidx.core:core:1.10.1] /Users/macmini/.gradle/caches/transforms-3/f2c1b21e2617b8adc4232d8977a76481/transformed/core-1.10.1/AndroidManifest.xml:24:9-44
+33
+34    <uses-permission android:name="com.example.diary.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+34-->[androidx.core:core:1.10.1] /Users/macmini/.gradle/caches/transforms-3/f2c1b21e2617b8adc4232d8977a76481/transformed/core-1.10.1/AndroidManifest.xml:26:5-97
+34-->[androidx.core:core:1.10.1] /Users/macmini/.gradle/caches/transforms-3/f2c1b21e2617b8adc4232d8977a76481/transformed/core-1.10.1/AndroidManifest.xml:26:22-94
+35
+36    <application
+37        android:name="android.app.Application"
+38        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+38-->[androidx.core:core:1.10.1] /Users/macmini/.gradle/caches/transforms-3/f2c1b21e2617b8adc4232d8977a76481/transformed/core-1.10.1/AndroidManifest.xml:28:18-86
+39        android:debuggable="true"
+40        android:icon="@mipmap/ic_launcher"
+41        android:label="diary" >
+42        <activity
+43            android:name="com.example.diary.MainActivity"
+44            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+45            android:exported="true"
+46            android:hardwareAccelerated="true"
+47            android:launchMode="singleTop"
+48            android:theme="@style/LaunchTheme"
+49            android:windowSoftInputMode="adjustResize" >
+50
+51            <!--
+52                 Specifies an Android theme to apply to this Activity as soon as
+53                 the Android process has started. This theme is visible to the user
+54                 while the Flutter UI initializes. After that, this theme continues
+55                 to determine the Window background behind the Flutter UI.
+56            -->
+57            <meta-data
+58                android:name="io.flutter.embedding.android.NormalTheme"
+59                android:resource="@style/NormalTheme" />
+60
+61            <intent-filter>
+62                <action android:name="android.intent.action.MAIN" />
+63
+64                <category android:name="android.intent.category.LAUNCHER" />
+65            </intent-filter>
+66        </activity>
+67        <!--
+68             Don't delete the meta-data below.
+69             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+70        -->
+71        <meta-data
+72            android:name="flutterEmbedding"
+73            android:value="2" />
+74
+75        <activity
+75-->[:url_launcher_android] /Applications/Development/diary_app/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-13:74
+76            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+76-->[:url_launcher_android] /Applications/Development/diary_app/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-74
+77            android:exported="false"
+77-->[:url_launcher_android] /Applications/Development/diary_app/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-37
+78            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+78-->[:url_launcher_android] /Applications/Development/diary_app/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-71
+79
+80        <uses-library
+80-->[androidx.window:window:1.0.0-beta04] /Users/macmini/.gradle/caches/transforms-3/9d49facf698b424265aaadef2393f467/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
+81            android:name="androidx.window.extensions"
+81-->[androidx.window:window:1.0.0-beta04] /Users/macmini/.gradle/caches/transforms-3/9d49facf698b424265aaadef2393f467/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:26:13-54
+82            android:required="false" />
+82-->[androidx.window:window:1.0.0-beta04] /Users/macmini/.gradle/caches/transforms-3/9d49facf698b424265aaadef2393f467/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:27:13-37
+83        <uses-library
+83-->[androidx.window:window:1.0.0-beta04] /Users/macmini/.gradle/caches/transforms-3/9d49facf698b424265aaadef2393f467/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:28:9-30:40
+84            android:name="androidx.window.sidecar"
+84-->[androidx.window:window:1.0.0-beta04] /Users/macmini/.gradle/caches/transforms-3/9d49facf698b424265aaadef2393f467/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
+85            android:required="false" />
+85-->[androidx.window:window:1.0.0-beta04] /Users/macmini/.gradle/caches/transforms-3/9d49facf698b424265aaadef2393f467/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
+86    </application>
+87
+88</manifest>
