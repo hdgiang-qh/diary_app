@@ -64,7 +64,7 @@ class MessBotScreenState extends State<MessBotScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Chat AI App'),
+        title: const Text('Chat Bot'),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.refresh))
         ],
@@ -74,7 +74,13 @@ class MessBotScreenState extends State<MessBotScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             list.isEmpty
-                ?  const Flexible(child: Center(child: Text("Can I Help You?")))
+                ? const Flexible(
+                    child: Column(
+                    children: [
+                      Image(image: AssetImage('assets/images/AI-bot-1.jpg')),
+                      Text("Hi there, Can I Help You?"),
+                    ],
+                  ))
                 : Flexible(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(8.0),
@@ -147,17 +153,23 @@ class _ChatMessageState extends State<ChatMessage> {
         children: <Widget>[
           widget.isUserMessage
               ? const CircleAvatar(
-                child: Icon(Icons.person),
-              )
-              : const CircleAvatar(
-                child: Icon(Icons.chat_bubble),
-              ),
+                  child: Icon(Icons.person),
+                )
+              : ClipOval(
+                  child: SizedBox.fromSize(
+                    size: const Size.fromRadius(20), // Image radius
+                    child: const Image(
+                      image: AssetImage('assets/images/AI-bot-1.jpg'),
+                    ),
+                  ),
+                ),
           Flexible(
             child: Container(
               margin: const EdgeInsets.only(left: 8.0),
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
-                color: widget.isUserMessage ? Colors.blue[100] : Colors.green[100],
+                color:
+                    widget.isUserMessage ? Colors.blue[100] : Colors.green[100],
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Text(

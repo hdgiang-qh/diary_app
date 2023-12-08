@@ -1,6 +1,7 @@
 import 'package:diary/src/core/validator.dart';
 import 'package:diary/src/dash_board.dart';
 import 'package:diary/src/core/service/auth_service.dart';
+import 'package:diary/src/presentation/widget/dia_log_item.dart';
 import 'package:diary/src/presentation/widget/text_field.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -169,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                         )),
                     Expanded(
                       child: GestureDetector(
-                        child: const Text("Forgot Password"),
+                        child: const Text(""),
                         onTap: () {
                           if (kDebugMode) {
                             print("hello now");
@@ -184,6 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(),
                     onPressed: () async {
+                      DialogItem.showLoading(context: context);
                       _toLogin();
                     },
                     child: const Text('Đăng nhập'),
@@ -191,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Row(
                   children: [
-                    const Text("Do not have an account?   "),
+                    const Text("Bạn chưa có tài khoản?   "),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -200,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                                 builder: (context) => const SignUpScreen()));
                       },
                       child: const Text(
-                        "Sign Up",
+                        "Đăng ký ngay",
                         style: TextStyle(color: Colors.red, fontSize: 14),
                       ),
                     )

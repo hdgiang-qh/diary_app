@@ -2,12 +2,19 @@ import 'package:diary/src/bloc/podcast_bloc/podcast_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class PlayPodCastScreen extends StatefulWidget {
   final int? id;
-  final String? track;
+  final String? track, image, title, author;
 
-  const PlayPodCastScreen({super.key, required this.id, required this.track});
+  const PlayPodCastScreen(
+      {super.key,
+      required this.id,
+      required this.track,
+      required this.image,
+      required this.title,
+      required this.author});
 
   @override
   State<PlayPodCastScreen> createState() => _PlayPodCastScreenState();
@@ -24,12 +31,10 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen> {
 
   void loadMusic() async {
     await player.setUrl("${widget.track}");
-    print(widget.track);
     setState(() {
       loaded = true;
     });
   }
-
 
   void playMusic() async {
     setState(() {
@@ -68,18 +73,20 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen> {
       body: Column(
         children: [
           const Spacer(
-            flex: 2,
+            flex: 1,
           ),
           ClipRRect(
-            borderRadius: BorderRadius.circular(100),
+            borderRadius: BorderRadius.circular(200),
             child: Image.network(
-              thumbnailImgUrl,
+              "${widget.image}",
               height: 350,
               width: 350,
               fit: BoxFit.cover,
             ),
-          ),
-          const Spacer(),
+          ).paddingBottom(10),
+          Column(
+            children: [Text("${widget.title}"), Text("${widget.author}")],
+          ).paddingBottom(40),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: StreamBuilder(

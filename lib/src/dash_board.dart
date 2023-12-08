@@ -89,7 +89,7 @@ class _DashBoardState extends State<DashBoard>
               items: const [
                 BottomNavigationBarItem(
                     icon: Icon(Icons.home),
-                    label : 'Home',
+                    label : 'Trang Tin',
                 ),
                 BottomNavigationBarItem(
                     icon:  Icon(Icons.podcasts),
@@ -97,15 +97,15 @@ class _DashBoardState extends State<DashBoard>
                 ),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.forum),
-                    label : 'MessBot'
+                    label : 'Chat Bot'
                 ),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.edit_note),
-                    label : 'Diary'
+                    label : 'Nhật Ký'
                 ),
                 BottomNavigationBarItem(
                     icon:  Icon(Icons.grid_view),
-                    label : 'Category'
+                    label : 'Tuỳ Chọn'
                 ),
               ],
               selectedItemColor: Colors.cyan,

@@ -130,7 +130,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),
-        title: const Text("New A Diary"),
+        title: const Text("Tạo nhật ký"),
       ),
       body: Card(
         child: Column(
@@ -153,7 +153,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                 decoration: const InputDecoration(
                     filled: true,
                     // border: OutlineInputBorder(),
-                    hintText: "How are you feeling now?"),
+                    hintText: "Bạn đang cảm thấy thế nào?"),
               ),
             ).paddingSymmetric(horizontal: 10),
             SingleChildScrollView(
@@ -168,9 +168,9 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
             Row(
               children: [
                 const Align(
-                    alignment: Alignment.centerLeft, child: Text('Mood Feels')),
+                    alignment: Alignment.centerLeft, child: Text('Cảm xúc hiện tại : ')),
                 Container(
-                  height: 45,
+                  height: 40,
                   padding: const EdgeInsets.only(left: 5),
                   width: 200,
                   decoration: BoxDecoration(

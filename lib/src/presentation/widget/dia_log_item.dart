@@ -61,14 +61,14 @@ class DialogItem {
       barrierDismissible: false,
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black.withOpacity(0.75),
         content: Container(
           height: 80,
           width: 100,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: Colors.black.withOpacity(0.75),
+           // color: Colors.black.withOpacity(0.75),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           child: Column(

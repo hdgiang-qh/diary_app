@@ -41,11 +41,11 @@ class _UserScreenState extends State<UserScreen> {
                       Container(
                           height: 80,
                           width: 80,
-                          decoration: const BoxDecoration(
+                          decoration:  BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
                                   image: NetworkImage(
-                                      "https://static.antoree.com/avatar.png"))),
+                                      state.ifUser.avatar.validate().toString()))),
                           child: Container()),
                       const SizedBox(
                         width: 20,

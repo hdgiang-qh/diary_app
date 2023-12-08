@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ? const Center(child: CircularProgressIndicator())
             : (_bloc.getAllDiaries.isEmpty
                 ? const Center(
-                    child: Text("Data Value"),
+                    child: Text("Dữ liệu trống"),
                   )
                 : ListView.separated(
                     padding: const EdgeInsets.symmetric(vertical: 5),
@@ -172,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: const Row(
                                   children: [
                                     Text(
-                                      "Comment",
+                                      "Bình luận",
                                       style: TextStyle(color: Colors.blue),
                                     ),
                                   ],
@@ -199,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.cyan,
         automaticallyImplyLeading: false,
         title: const Text(
-          "Diary For You",
+          "Nhật Ký Thường Ngày",
         ),
         actions: [
           GestureDetector(

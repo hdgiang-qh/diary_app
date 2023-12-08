@@ -76,7 +76,7 @@ class _ChangePassState extends State<ChangePass> {
                                     color: Colors.white,
                                   ),
                                 ),
-                                hintText: "Old Pass",
+                                hintText: "Nhập mật khẩu cũ",
                                 hintStyle: const TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -101,7 +101,7 @@ class _ChangePassState extends State<ChangePass> {
                                     color: Colors.white,
                                   ),
                                 ),
-                                hintText: "New Pass",
+                                hintText: "Mật khẩu mới",
                                 hintStyle: const TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),

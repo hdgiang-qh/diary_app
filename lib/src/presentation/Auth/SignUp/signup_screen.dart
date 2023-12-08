@@ -89,7 +89,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           const Align(
                               alignment: Alignment.centerRight,
                               child: Text(
-                                "Write immediately without punctuation",
+                                "Tên đăng nhập viết liền không dấu",
                                 style: TextStyle(fontSize: 10),
                               )).paddingOnly(right: 5),
                           TextField(
@@ -112,7 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     color: Colors.white,
                                   ),
                                 ),
-                                label: const Text("Name User"),
+                                label: const Text("Tên đăng nhập"),
                                 hintStyle: const TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -153,7 +153,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     color: Colors.white,
                                   ),
                                 ),
-                                label: const Text("Password"),
+                                label: const Text("Mật khẩu"),
                                 hintStyle: const TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -183,7 +183,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     color: Colors.white,
                                   ),
                                 ),
-                                label: const Text("Phone"),
+                                label: const Text("Điện thoại"),
                                 hintStyle: const TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -238,7 +238,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     color: Colors.white,
                                   ),
                                 ),
-                                label: const Text("Nick Name"),
+                                label: const Text("Tên người dùng"),
                                 hintStyle: const TextStyle(
                                     color: Colors.white, height: 1),
                                 border: OutlineInputBorder(
@@ -281,7 +281,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     color: Colors.white,
                                   ),
                                 ),
-                                label: const Text("Date"),
+                                label: const Text("Ngày sinh"),
                                 hintStyle: const TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -294,7 +294,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text(
-                                'Sign Up',
+                                'Đăng ký mới',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 27,
@@ -325,19 +325,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       } else if (passWord.text.length < 6 &&
                                           numberPhone.text.length == 10) {
                                         ErrorPass =
-                                            "Password must be longer than 6 characters";
+                                            "Mật khẩu phải dài hơn 6 kí tự";
                                         ErrorPhone = null;
                                       } else if (passWord.text.length > 5 &&
                                           numberPhone.text.length != 10) {
                                         ErrorPass = null;
                                         ErrorPhone =
-                                            "The phone number is not in the correct format";
+                                            "Số điện thoại phải đúng định dạng";
                                       } else if (passWord.text.length < 6 &&
                                           numberPhone.text.length != 10) {
                                         ErrorPass =
-                                            "Password must be longer than 6 characters";
+                                            "Mật khẩu phải dài hơn 6 kí tự";
                                         ErrorPhone =
-                                            "The phone number is not in the correct format";
+                                            "Số điện thoại phải đúng định dạng";
                                       }
                                       setState(() {});
                                     },
@@ -359,7 +359,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 },
                                 style: const ButtonStyle(),
                                 child: const Text(
-                                  'Sign In',
+                                  'Đăng nhập',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: primaryColor, fontSize: 18),

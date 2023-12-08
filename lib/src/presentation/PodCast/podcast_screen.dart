@@ -50,6 +50,9 @@ class _PodCastScreenState extends State<PodCastScreen>
                       PlayPodCastScreen(
                         id: _bloc.podcast[index].id.validate(),
                         track: _bloc.podcast[index].track.validate().toString(),
+                        image: _bloc.podcast[index].poster.validate().toString(),
+                        title: _bloc.podcast[index].title.validate(),
+                        author: _bloc.podcast[index].author.validate(),
                       ).launch(context);
                     });
                   },

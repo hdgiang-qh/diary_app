@@ -1,8 +1,5 @@
 import 'package:diary/src/bloc/editComment_bloc/edit_comment_bloc.dart';
-import 'package:diary/src/core/api.dart';
-import 'package:diary/src/core/apiPath.dart';
 import 'package:diary/styles/text_style.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -117,7 +114,7 @@ class _EditCommentState extends State<EditComment> {
               });
 
             },
-            child: const Text("Delete")),
+            child: const Text("Xoá")),
         ElevatedButton(
             onPressed: () {
               _bloc.editComment(_bloc.model!.diaryId);
@@ -135,7 +132,7 @@ class _EditCommentState extends State<EditComment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Edit Comment"),
+        title: const Text("Chỉnh sửa bình luận"),
       ),
       body: SafeArea(
         child: Column(

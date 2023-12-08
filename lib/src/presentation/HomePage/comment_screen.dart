@@ -7,13 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class CommentScreen extends StatefulWidget {
-  final int id,idUser;
+  final int id, idUser;
 
-  const CommentScreen({
-    super.key,
-    required this.id,
-    required this.idUser
-  });
+  const CommentScreen({super.key, required this.id, required this.idUser});
 
   @override
   State<CommentScreen> createState() => _CommentScreenState();
@@ -40,14 +36,19 @@ class _CommentScreenState extends State<CommentScreen> {
       data: IconThemeData(color: Theme.of(context).primaryColor),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(12),
+        ),
         child: Row(
           children: <Widget>[
             Flexible(
               child: TextField(
                 controller: textComment,
                 decoration: const InputDecoration.collapsed(
-                  hintText: 'Send a comment',
-                ),
+                    hintText: 'Nhập...'),
               ),
             ),
             Container(
@@ -64,7 +65,7 @@ class _CommentScreenState extends State<CommentScreen> {
               ),
             ),
           ],
-        ),
+        ).paddingLeft(5),
       ),
     );
   }
@@ -77,7 +78,7 @@ class _CommentScreenState extends State<CommentScreen> {
               ? const Center(child: CircularProgressIndicator())
               : (_bloc.list.isEmpty
                   ? const Center(
-                      child: Text("No Comment"),
+                      child: Text("Chưa có bình luận"),
                     )
                   : ListView.separated(
                       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -172,7 +173,7 @@ class _CommentScreenState extends State<CommentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Detail Diary"),
+        title: const Text("Bình luận bài viết"),
         actions: [
           IconButton(
               onPressed: () {
@@ -185,7 +186,7 @@ class _CommentScreenState extends State<CommentScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SingleChildScrollView(child: buildCommentDiary()),
+            SingleChildScrollView(child: buildCommentDiary()).paddingBottom(5),
             buildTextComposer()
           ],
         ),

@@ -25,7 +25,7 @@ class _InformationState extends State<Information> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Information'),
+        title: const Text('Thông tin tài khoản'),
       ),
       body: SafeArea(
           child: Column(
@@ -34,7 +34,7 @@ class _InformationState extends State<Information> {
           ),
           SettingItemWidget(
             leading: settingIconWidget(icon: Icons.lock_outline),
-            title: "Change Pass",
+            title: "Đổi mật khẩu",
             onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (context)=> const ChangePass()));
             },),

@@ -24,14 +24,23 @@ class _DiaryScreenState extends State<DiaryScreen> {
   late final formatter = DateFormat('yyyy-MM-dd');
   late String startDate = formatter.format(date);
   late final DiaryUserBloc _bloc;
-  String choosesDate = 'Choose Day';
+  CalendarFormat format = CalendarFormat.month;
+  String choosesDate = 'Chọn Ngày';
   String? note;
+  late DateTime _focusedDay;
+  late DateTime _firstDay;
+  late DateTime _lastDay;
+  late DateTime _selectedDay;
 
   @override
   void initState() {
     super.initState();
     _bloc = DiaryUserBloc();
     _bloc.getListDU();
+    _focusedDay = DateTime.now();
+    _firstDay = DateTime.now().subtract(const Duration(days: 1000));
+    _lastDay = DateTime.now().add(const Duration(days: 1000));
+    _selectedDay = DateTime.now();
   }
 
   void toastDeleteComplete(String messenger) => Fluttertoast.showToast(
@@ -51,20 +60,44 @@ class _DiaryScreenState extends State<DiaryScreen> {
             firstDate: DateTime(2018),
             lastDate: DateTime(2025));
         setState(() {
-          _bloc.time = picker;
+         // _bloc.time = picker;
           _bloc.listDU.clear();
           _bloc.getListDU();
         });
       },
-      child: const Text("Choose Day"),
+      child: const Text("Chọn ngày"),
     );
   }
 
   Widget buildDateV2() {
     return TableCalendar(
-      firstDay: DateTime.utc(2010, 10, 20),
-      lastDay: DateTime.utc(2040, 10, 20),
-      focusedDay: DateTime.now(),
+      // firstDay: DateTime.utc(2010, 10, 20),
+      // lastDay: DateTime.utc(2040, 10, 20),
+      // focusedDay: DateTime.now(),
+      focusedDay: _focusedDay,
+      firstDay: _firstDay,
+      lastDay: _lastDay,
+      calendarFormat: format,
+      onFormatChanged: (CalendarFormat _format){
+        setState(() {
+          format = _format;
+        });
+      },
+      onPageChanged: (focusedDay) {
+        setState(() {
+          _focusedDay = focusedDay;
+        });
+      },
+      selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
+      onDaySelected: (selectedDay, focusedDay) {
+        setState(() {
+          _selectedDay = selectedDay;
+          _focusedDay = focusedDay;
+          _bloc.time = selectedDay;
+          _bloc.listDU.clear();
+          _bloc.getListDU();
+        });
+      },
       headerVisible: true,
       daysOfWeekVisible: true,
       sixWeekMonthsEnforced: true,
@@ -108,7 +141,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
               ? Center(child: const CircularProgressIndicator().paddingTop(5))
               : (_bloc.listDU.isEmpty
                   ? const Center(
-                      child: Text("Not Value"),
+                      child: Text("Không có nhật ký nào"),
                     )
                   : ListView.separated(
                       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -193,7 +226,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                     )));
                                       },
                                       child: const Text(
-                                        "Edit Diary",
+                                        "Chỉnh sửa",
                                         style: TextStyle(fontSize: 12),
                                       )),
                                 ),
@@ -211,7 +244,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                     CupertinoIcons.info_circle,
                                                   ),
                                                   content: const Text(
-                                                    'Do you want to remove this diary from the list?',
+                                                    'Bạn có muốn xoá nhật ký này?',
                                                     textAlign: TextAlign.center,
                                                   ),
                                                   actions: [
@@ -267,7 +300,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text("Your Diary"),
+          title: const Text("Nhật ký của bạn"),
           actions: [
             IconButton(
                 onPressed: () {
@@ -279,6 +312,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 icon: const Icon(Icons.add)),
             IconButton(
                 onPressed: () {
+                  _bloc.time = null;
                   _bloc.listDU.clear();
                   _bloc.getListDU();
                 },
@@ -288,7 +322,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
-              children: <Widget>[buildDate(), buildDateV2(), buildListDiary()],
+              children: <Widget>[buildDateV2(), buildListDiary()],
             ),
           ).paddingSymmetric(horizontal: 5),
         ));
