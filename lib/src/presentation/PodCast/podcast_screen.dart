@@ -1,6 +1,7 @@
 import 'package:diary/src/bloc/mood_bloc/mood_bloc.dart';
 import 'package:diary/src/bloc/podcast_bloc/podcast_bloc.dart';
 import 'package:diary/src/presentation/PodCast/play_podcast_screen.dart';
+import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -77,52 +78,49 @@ class _PodCastScreenState extends State<PodCastScreen>
                   child: CircularProgressIndicator(),
                 )
               : GridView.builder(
-                primary: false,
-                gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 1.4,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5),
-                shrinkWrap: true,
-                itemCount: _bloc.podcast.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    color: Colors.cyan,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(
-                                '${_bloc.podcast[index].poster}'),
-                            fit: BoxFit.cover),
-                      ),
-                      child: ListTile(
-                        title: Text(
-                          _bloc.podcast[index].title.validate(),
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
+                  primary: false,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.4,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5),
+                  shrinkWrap: true,
+                  itemCount: _bloc.podcast.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  '${_bloc.podcast[index].poster}'),
+                              fit: BoxFit.cover),
                         ),
-                        subtitle: Text(
-                            _bloc.podcast[index].author.validate(),
-                            style: const TextStyle(color: Colors.white)),
+                        child: ListTile(
+                          title: Text(
+                            _bloc.podcast[index].title.validate(),
+                            style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900),
+                          ),
+                          subtitle: Text(_bloc.podcast[index].author.validate(),
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400)),
+                        ),
                       ),
-                    ),
-                  ).onTap(() {
-                    PlayPodCastScreen(
-                      id: _bloc.podcast[index].id.validate(),
-                      track: _bloc.podcast[index].track
-                          .validate()
-                          .toString(),
-                      image: _bloc.podcast[index].poster
-                          .validate()
-                          .toString(),
-                      title: _bloc.podcast[index].title.validate(),
-                      author: _bloc.podcast[index].author.validate(),
-                    ).launch(context);
-                  });
-                },
-              );
+                    ).onTap(() {
+                      PlayPodCastScreen(
+                        id: _bloc.podcast[index].id.validate(),
+                        track: _bloc.podcast[index].track.validate().toString(),
+                        image:
+                            _bloc.podcast[index].poster.validate().toString(),
+                        title: _bloc.podcast[index].title.validate(),
+                        author: _bloc.podcast[index].author.validate(),
+                      ).launch(context);
+                    });
+                  },
+                );
         });
   }
 
@@ -130,16 +128,33 @@ class _PodCastScreenState extends State<PodCastScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorAppStyle.purple8a,
         automaticallyImplyLeading: false,
         title: const Text('PodCast'),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              buildMoodMusic(),
-              buildListPod(),
-            ],
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                ColorAppStyle.purple6f,
+                ColorAppStyle.purple8a,
+                ColorAppStyle.blue75
+              ],
+            ),
+            image: DecorationImage(
+                image: AssetImage("assets/images/shape.png"),
+                fit: BoxFit.cover)),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                buildMoodMusic(),
+                buildListPod(),
+              ],
+            ),
           ),
         ),
       ),

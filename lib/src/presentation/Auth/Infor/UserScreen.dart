@@ -22,8 +22,7 @@ class _UserScreenState extends State<UserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return
-      BlocBuilder<InforBloc, InforState>(
+    return BlocBuilder<InforBloc, InforState>(
         bloc: _bloc,
         builder: (context, state) {
           if (state is InforLoading) {

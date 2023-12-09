@@ -4,6 +4,7 @@ import 'package:diary/src/core/service/provider_token.dart';
 import 'package:diary/src/presentation/Auth/ChangePass/change_pass.dart';
 import 'package:diary/src/presentation/Auth/Infor/UserScreen.dart';
 import 'package:diary/src/presentation/widget/common_widget.dart';
+import 'package:diary/styles/color_styles.dart';
 import 'package:diary/styles/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,69 +19,89 @@ class Information extends StatefulWidget {
 }
 
 class _InformationState extends State<Information> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorAppStyle.purple8a,
         automaticallyImplyLeading: false,
         title: const Text('Thông tin tài khoản'),
       ),
-      body: SafeArea(
-          child: Column(
-        children: [
-          const UserScreen(
-          ),
-          SettingItemWidget(
-            leading: settingIconWidget(icon: Icons.lock_outline),
-            title: "Đổi mật khẩu",
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const ChangePass()));
-            },),
-          SettingItemWidget(
-              leading: settingIconWidget(icon: Icons.logout),
-              title: 'Đăng Xuất',
-              padding: const EdgeInsets.symmetric(
-                vertical: 1,
-                horizontal: 16,
-              ),
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                ColorAppStyle.purple6f,
+                ColorAppStyle.purple8a,
+                ColorAppStyle.blue75
+              ],
+            ),
+            image: DecorationImage(
+                image: AssetImage("assets/images/shape.png"),
+                fit: BoxFit.cover)),
+        child: SafeArea(
+            child: Column(
+          children: [
+            const UserScreen(),
+            SettingItemWidget(
+              leading: settingIconWidget(icon: Icons.lock_outline),
+              title: "Đổi mật khẩu",
               onTap: () {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  showCupertinoDialog(
-                      context: context,
-                      builder: (context) {
-                        return CupertinoAlertDialog(
-                          title: const Icon(CupertinoIcons.info_circle),
-                          content: const Text(
-                            'Bạn Muốn Đăng Xuất Khỏi Thiết Bị?',
-                            textAlign: TextAlign.center,
-                          ),
-                          actions: [
-                            CupertinoDialogAction(
-                              isDefaultAction: true,
-                              onPressed: () => Navigator.pop(context),
-                              child: Text("Huỷ", style: StyleApp.textStyle402()),
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ChangePass()));
+              },
+            ),
+            SettingItemWidget(
+                leading: settingIconWidget(icon: Icons.logout),
+                title: 'Đăng Xuất',
+                padding: const EdgeInsets.symmetric(
+                  vertical: 1,
+                  horizontal: 16,
+                ),
+                onTap: () {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    showCupertinoDialog(
+                        context: context,
+                        builder: (context) {
+                          return CupertinoAlertDialog(
+                            title: const Icon(CupertinoIcons.info_circle),
+                            content: const Text(
+                              'Bạn Muốn Đăng Xuất Khỏi Thiết Bị?',
+                              textAlign: TextAlign.center,
                             ),
-                            CupertinoDialogAction(
-                              isDefaultAction: true,
-                              onPressed: () async {
-                                await authService.logout();
-                                Provider.of<AuthProvider>(context, listen: false)
-                                    .setToken(null);
-                                Navigator.pushReplacementNamed(context, '/login');
-                              },
-                              child:
-                                  Text("Đồng ý", style: StyleApp.textStyle401()),
-                            ),
-                          ],
-                        );
-                      });
-                });
-              }),
-
-        ],
-      )),
+                            actions: [
+                              CupertinoDialogAction(
+                                isDefaultAction: true,
+                                onPressed: () => Navigator.pop(context),
+                                child:
+                                    Text("Huỷ", style: StyleApp.textStyle402()),
+                              ),
+                              CupertinoDialogAction(
+                                isDefaultAction: true,
+                                onPressed: () async {
+                                  await authService.logout();
+                                  Provider.of<AuthProvider>(context,
+                                          listen: false)
+                                      .setToken(null);
+                                  Navigator.pushReplacementNamed(
+                                      context, '/login');
+                                },
+                                child: Text("Đồng ý",
+                                    style: StyleApp.textStyle401()),
+                              ),
+                            ],
+                          );
+                        });
+                  });
+                }),
+          ],
+        )),
+      ),
     );
   }
 }

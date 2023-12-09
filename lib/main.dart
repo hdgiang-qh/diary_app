@@ -1,6 +1,5 @@
 
 
-
 import 'package:diary/splash_screen.dart';
 import 'package:diary/src/core/service/provider_token.dart';
 import 'package:diary/src/presentation/Auth/Welcome/LogIn_screen.dart';

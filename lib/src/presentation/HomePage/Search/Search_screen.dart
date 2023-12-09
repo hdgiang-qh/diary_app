@@ -1,5 +1,6 @@
 import 'package:diary/src/bloc/Search_bloc/search_bloc.dart';
 import 'package:diary/src/presentation/HomePage/Search/view_search.dart';
+import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -77,34 +78,52 @@ class _SearchScreenState extends State<SearchScreen> {
     findByPhone = _bloc.findByPhone;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorAppStyle.purple8a,
         title: const Text('Find by Phone'),
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 70,
-              child: TextField(
-                //maxLines: null,
-                controller: findByPhone,
-                maxLength: 10,
-                style: const TextStyle(fontSize: 16),
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                      onPressed: () {
-                        _bloc.getSearch();
-                        findByPhone.clear();
-                      },
-                      icon: const Icon(Icons.search)),
-                  hintText: "Search",
-                  border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                  //hintStyle: TextStyle(fontSize: 14)
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration:  const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                ColorAppStyle.purple6f,
+                ColorAppStyle.purple8a,
+                ColorAppStyle.blue75
+              ],
+            ),
+            image: DecorationImage(
+                image: AssetImage("assets/images/shape.png"),
+                fit: BoxFit.cover)),
+        child: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 10,),
+              SizedBox(
+                height: 70,
+                child: TextField(
+                  //maxLines: null,
+                  controller: findByPhone,
+                  maxLength: 10,
+                  style: const TextStyle(fontSize: 16),
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          _bloc.getSearch();
+                          findByPhone.clear();
+                        },
+                        icon: const Icon(Icons.search)),
+                    hintText: "Search",
+                    border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    //hintStyle: TextStyle(fontSize: 14)
+                  ),
                 ),
-              ),
-            ).paddingSymmetric(horizontal: 10),
-            buildSearch()
-          ],
+              ).paddingSymmetric(horizontal: 10),
+              buildSearch()
+            ],
+          ),
         ),
       ),
     );

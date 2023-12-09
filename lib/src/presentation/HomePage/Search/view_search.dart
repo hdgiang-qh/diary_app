@@ -1,5 +1,6 @@
 import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/src/bloc/search_userDiary/diary_user_search_bloc.dart';
+import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -165,15 +166,32 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorAppStyle.purple8a,
         title: const Text('Trang Cas Nhan'),
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            buildInforSearch(),
-            const SizedBox(height: 10,),
-            buildList()
-          ],
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                ColorAppStyle.purple6f,
+                ColorAppStyle.purple8a,
+                ColorAppStyle.blue75
+              ],
+            ),
+            image: DecorationImage(
+                image: AssetImage("assets/images/shape.png"),
+                fit: BoxFit.cover)),
+        child: SafeArea(
+          child: Column(
+            children: [
+              buildInforSearch(),
+              const SizedBox(height: 10,),
+              buildList()
+            ],
+          ),
         ),
       ),
     );

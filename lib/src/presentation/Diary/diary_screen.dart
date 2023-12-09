@@ -1,6 +1,7 @@
 import 'package:diary/src/bloc/num_bloc.dart';
 import 'package:diary/src/presentation/Diary/add_diary_screen.dart';
 import 'package:diary/src/presentation/Diary/edit_diary_screen.dart';
+import 'package:diary/styles/color_styles.dart';
 import 'package:diary/styles/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -105,12 +106,12 @@ class _DiaryScreenState extends State<DiaryScreen> {
       headerStyle: const HeaderStyle(
         titleTextStyle: TextStyle(color: Colors.red, fontSize: 20.0),
         decoration: BoxDecoration(
-            color: Colors.yellow,
+            color: Colors.cyan,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         formatButtonTextStyle: TextStyle(color: Colors.orange, fontSize: 16.0),
         formatButtonDecoration: BoxDecoration(
-          color: Colors.blue,
+          color: Colors.white,
           borderRadius: BorderRadius.all(
             Radius.circular(5.0),
           ),
@@ -130,6 +131,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
         selectedDecoration: BoxDecoration(
           color: Colors.blue,
         ),
+
           todayTextStyle: TextStyle(
               fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold)),
     );
@@ -294,7 +296,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                       shrinkWrap: true,
                     ));
         },
-      ).paddingSymmetric(horizontal: 10),
+      ).paddingSymmetric(horizontal: 5),
     );
   }
 
@@ -302,6 +304,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: ColorAppStyle.purple8a,
           automaticallyImplyLeading: false,
           title: const Text("Nhật ký của bạn"),
           actions: [
@@ -322,12 +325,28 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 icon: const Icon(Icons.refresh))
           ],
         ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[buildDateV2(), buildListDiary()],
-            ),
-          ).paddingSymmetric(horizontal: 5),
+        body: Container(
+          constraints: const BoxConstraints.expand(),
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  ColorAppStyle.purple6f,
+                  ColorAppStyle.purple8a,
+                  ColorAppStyle.blue75
+                ],
+              ),
+              image: DecorationImage(
+                  image: AssetImage("assets/images/shape.png"),
+                  fit: BoxFit.cover)),
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [const SizedBox(height: 10,),buildDateV2(), buildListDiary()],
+              ),
+            ).paddingSymmetric(horizontal: 5),
+          ),
         ));
   }
 }

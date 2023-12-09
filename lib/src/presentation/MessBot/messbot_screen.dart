@@ -1,5 +1,6 @@
 import 'package:diary/src/core/apiPath.dart';
 import 'package:diary/src/core/const.dart';
+import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -63,6 +64,7 @@ class MessBotScreenState extends State<MessBotScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorAppStyle.purple8a,
         automaticallyImplyLeading: false,
         title: const Text('Chat Bot'),
         actions: [
@@ -76,34 +78,60 @@ class MessBotScreenState extends State<MessBotScreen> {
               icon: const Icon(Icons.refresh))
         ],
       ),
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            list.isEmpty
-                ? const Flexible(
-                    child: Column(
-                    children: [
-                      Image(image: AssetImage('assets/images/AI-bot-1.jpg')),
-                      Text("Hi there, Can I Help You?"),
-                    ],
-                  ))
-                : Flexible(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(8.0),
-                      reverse: true,
-                      itemBuilder: (_, int index) => _messages[index],
-                      itemCount: _messages.length,
-                    ),
-                  ),
-            const Divider(height: 1.0),
-            Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
-              ),
-              child: _buildTextComposer(),
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                ColorAppStyle.purple6f,
+                ColorAppStyle.purple8a,
+                ColorAppStyle.blue75
+              ],
             ),
-          ],
+            image: DecorationImage(
+                image: AssetImage("assets/images/shape.png"),
+                fit: BoxFit.cover)),
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              list.isEmpty
+                  ? Flexible(
+                      child: Column(
+                      children: [
+                        const SizedBox(height: 20,),
+                        Container(
+                          height: 100,
+                          width: 100,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: AssetImage('assets/images/AI-bot-1.jpg'),
+                            )
+                          ),
+                        ),
+                        const Text("Hi there, Can I Help You?"),
+                      ],
+                    ))
+                  : Flexible(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.all(8.0),
+                        reverse: true,
+                        itemBuilder: (_, int index) => _messages[index],
+                        itemCount: _messages.length,
+                      ),
+                    ),
+              const Divider(height: 1.0),
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                ),
+                child: _buildTextComposer(),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -113,22 +141,25 @@ class MessBotScreenState extends State<MessBotScreen> {
     return IconTheme(
       data: IconThemeData(color: Theme.of(context).primaryColor),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+        color: ColorAppStyle.purple8a,
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           children: <Widget>[
             Flexible(
               child: TextField(
+                style: const TextStyle(color: Colors.white),
                 controller: _textController,
                 onSubmitted: _handleSubmitted,
                 decoration: const InputDecoration.collapsed(
                   hintText: 'Send a message',
+                  hintStyle: TextStyle(color: Colors.white),
                 ),
               ),
             ),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 4.0),
               child: IconButton(
-                icon: const Icon(Icons.send),
+                icon: const Icon(Icons.send,color: Colors.blue,),
                 onPressed: () => _handleSubmitted(_textController.text),
               ),
             ),

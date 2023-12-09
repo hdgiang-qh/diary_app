@@ -37,18 +37,16 @@ class _CommentScreenState extends State<CommentScreen> {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
         decoration: BoxDecoration(
-          border: Border.all(
-            width: 1,
-          ),
-          borderRadius: BorderRadius.circular(12),
+          border: Border.all(width: 1, color: Colors.grey),
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
         ),
         child: Row(
-          children: <Widget>[
+          children: [
             Flexible(
               child: TextField(
                 controller: textComment,
-                decoration: const InputDecoration.collapsed(
-                    hintText: 'Nhập...'),
+                decoration:
+                    const InputDecoration.collapsed(hintText: 'Nhập...'),
               ),
             ),
             Container(
@@ -84,83 +82,94 @@ class _CommentScreenState extends State<CommentScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: Row(
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundColor:
-                                            ColorAppStyle.getRandomColor(),
-                                        radius: 20.0,
-                                        child: Text(_bloc.list[index].createdBy
-                                            .validate()),
-                                      ).paddingRight(5),
-                                      Text(
-                                        _bloc.list[index].nickName
-                                            .validate()
-                                            .toString(),
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      if (_bloc.list[index].createdBy
-                                              .validate()
-                                              .toString() ==
-                                          widget.idUser.toString()) ...[
-                                        SizedBox(
-                                          width: 50,
-                                          child: IconButton(
-                                            icon: const Icon(Icons.edit_square),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EditComment(
-                                                            id: _bloc
-                                                                .list[index].id
-                                                                .validate(),
-                                                          )));
-                                            },
+                        return Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: Colors.grey),
+                            borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(12),
+                                bottomRight: Radius.circular(12),
+                                topRight: Radius.circular(12)),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          height: 40,
+                                          width: 40,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: NetworkImage(_bloc
+                                                    .list[index].avatar
+                                                    .validate()
+                                                    .toString())),
                                           ),
-                                        )
+                                          child: Container(),
+                                        ).paddingRight(5),
+                                        Text(
+                                          _bloc.list[index].nickName
+                                              .validate()
+                                              .toString(),
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12),
+                                        ),
                                       ],
-                                    ],
+                                    ),
                                   ),
-                                )
-                              ],
-                            ).paddingTop(5),
-                            SingleChildScrollView(
-                              child: SizedBox(
-                                child: Text(
-                                    _bloc.list[index].comment.validate(),
-                                    style: const TextStyle(fontSize: 15.0),
-                                    maxLines: null),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        if (_bloc.list[index].createdBy
+                                                .validate()
+                                                .toString() ==
+                                            widget.idUser.toString()) ...[
+                                          SizedBox(
+                                            width: 50,
+                                            child: IconButton(
+                                              icon: const Icon(
+                                                Icons.edit_square,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            EditComment(
+                                                              id: _bloc
+                                                                  .list[index]
+                                                                  .id
+                                                                  .validate(),
+                                                            )));
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ).paddingTop(5),
+                              SingleChildScrollView(
+                                child: SizedBox(
+                                  child: Text(
+                                      _bloc.list[index].comment.validate(),
+                                      style: const TextStyle(fontSize: 15.0),
+                                      maxLines: null),
+                                ),
                               ),
-                            ),
-                            const Divider(
-                              height: 1,
-                              color: Colors.grey,
-                              thickness: 1,
-                              indent: 3,
-                              endIndent: 3,
-                            ),
-                          ],
-                        ).paddingLeft(10);
+                            ],
+                          ).paddingLeft(10),
+                        ).paddingSymmetric(horizontal: 10, vertical: 5);
                       },
                       separatorBuilder: (context, index) => Container(),
                       itemCount: _bloc.list.length,
@@ -173,6 +182,7 @@ class _CommentScreenState extends State<CommentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.purpleAccent,
         title: const Text("Bình luận bài viết"),
         actions: [
           IconButton(
@@ -183,12 +193,28 @@ class _CommentScreenState extends State<CommentScreen> {
               icon: const Icon(Icons.refresh))
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SingleChildScrollView(child: buildCommentDiary()).paddingBottom(5),
-            buildTextComposer()
-          ],
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                ColorAppStyle.purple6f,
+                ColorAppStyle.purple8a,
+                ColorAppStyle.blue75
+              ],
+            ),
+            image: DecorationImage(
+                image: AssetImage("assets/images/shape.png"),
+                fit: BoxFit.cover)),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SingleChildScrollView(child: buildCommentDiary()).paddingBottom(5),
+              buildTextComposer()
+            ],
+          ),
         ),
       ),
     );

@@ -30,6 +30,10 @@ class ColorAppStyle {
   static const Color whiteFA = Color(0xfffaf5ed);
   static const Color white = Color(0xffffffff);
   static const Color brownD2 = Color(0xffd2af6c);
+  static const Color purple6f = Color(0xff6f5f90);
+  static const Color purple8a = Color(0xff8a5082);
+  static const Color blue75 = Color(0xff758eb7);
+
 
   static List<Color> colorList = [
     black1A, black2C,green1D,blue0B,blueMid,redFB,yellowFE,yellowFF
