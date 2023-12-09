@@ -34,32 +34,38 @@ class _SearchScreenState extends State<SearchScreen> {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Card(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    ListTile(
-                      leading: const Icon(Icons.album),
-                      title: Text(state.inforUser.nickName.validate()),
-                      subtitle: Text(state.inforUser.date.validate()),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        const SizedBox(width: 8),
-                        TextButton(
-                          child: const Text('VIEW'),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                       ViewSearchScreen( createBy: _bloc.inforUser!.id)));
-                          },
-                        ),
-                        const SizedBox(width: 8),
-                      ],
-                    ),
-                  ],
+                child: Container(
+                  decoration:  BoxDecoration(
+                    color: Colors.orangeAccent,
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        leading: const Icon(Icons.album),
+                        title: Text(state.inforUser.nickName.validate()),
+                        subtitle: Text(state.inforUser.date.validate()),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          const SizedBox(width: 8),
+                          TextButton(
+                            child: const Text('VIEW'),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                         ViewSearchScreen( createBy: _bloc.inforUser!.id)));
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );

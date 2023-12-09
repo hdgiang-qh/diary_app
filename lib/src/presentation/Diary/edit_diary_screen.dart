@@ -1,12 +1,5 @@
 import 'package:diary/src/bloc/detail_diary/detail_diary_bloc.dart';
-import 'package:diary/src/bloc/diaryUser_bloc/diaryuser_bloc.dart';
-import 'package:diary/src/bloc/mood_bloc/mood_bloc.dart';
-import 'package:diary/src/core/api.dart';
-import 'package:diary/src/core/apiPath.dart';
-import 'package:diary/src/presentation/widget/item_load_fail.dart';
 import 'package:diary/styles/color_styles.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -73,54 +66,60 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
             happened.text =
                 _detailDiaryBloc.model!.happened.validate().toString();
             return Card(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                          "Mood Feel : ${_detailDiaryBloc.model!.mood.validate()}"),
-                      Row(
-                        children: [
-                          const Text("Status Mode : "),
-                          buildDrop(),
-                        ],
-                      )
-                    ],
-                  ).paddingSymmetric(horizontal: 10),
-                  SizedBox(
-                    height: height * 0.2,
-                    width: width,
-                    child: TextField(
-                      controller: happened,
-                      maxLines: null,
-                      expands: true,
-                      decoration: const InputDecoration(
-                          filled: true,
-                          // border: OutlineInputBorder(),
-                          hintText: "How are you feeling now?"),
-                    ),
-                  ).paddingSymmetric(horizontal: 0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SizedBox(
-                          width: width * 0.3,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                if (_detailDiaryBloc.status.text.isNotEmpty &&
-                                    _detailDiaryBloc.happen.text.isNotEmpty) {
-                                  _detailDiaryBloc.updateDiary(
-                                      _detailDiaryBloc.model!.id.validate());
-                                  toastEditComplete("");
-                                  Navigator.pop(context);
-                                }
-                              },
-                              child: const Text("Save"))),
-                    ],
-                  ).paddingTop(15)
-                ],
+              child: Container(
+                decoration:  BoxDecoration(
+                    color: Colors.orangeAccent,
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                            "Mood Feel : ${_detailDiaryBloc.model!.mood.validate()}"),
+                        Row(
+                          children: [
+                            const Text("Status Mode : "),
+                            buildDrop(),
+                          ],
+                        )
+                      ],
+                    ).paddingSymmetric(horizontal: 10),
+                    SizedBox(
+                      height: height * 0.2,
+                      width: width,
+                      child: TextField(
+                        controller: happened,
+                        maxLines: null,
+                        expands: true,
+                        decoration: const InputDecoration(
+                            filled: true,
+                            // border: OutlineInputBorder(),
+                            hintText: "How are you feeling now?"),
+                      ),
+                    ).paddingSymmetric(horizontal: 0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(
+                            width: width * 0.3,
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  if (_detailDiaryBloc.status.text.isNotEmpty &&
+                                      _detailDiaryBloc.happen.text.isNotEmpty) {
+                                    _detailDiaryBloc.updateDiary(
+                                        _detailDiaryBloc.model!.id.validate());
+                                    toastEditComplete("");
+                                    Navigator.pop(context);
+                                  }
+                                },
+                                child: const Text("Save"))),
+                      ],
+                    ).paddingSymmetric(vertical: 10)
+                  ],
+                ),
               ),
             );
           } else {
@@ -141,6 +140,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorAppStyle.purple8a,
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
@@ -150,14 +150,30 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
         ),
         title: const Text("Edit Diary"),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            buildIdDiary(),
-          ],
-        ),
-      ).paddingOnly(top: 5),
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                ColorAppStyle.purple6f,
+                ColorAppStyle.purple8a,
+                ColorAppStyle.blue75
+              ],
+            ),
+            image: DecorationImage(
+                image: AssetImage("assets/images/shape.png"),
+                fit: BoxFit.cover)),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              buildIdDiary(),
+            ],
+          ),
+        ).paddingOnly(top: 5),
+      ),
     );
   }
 }

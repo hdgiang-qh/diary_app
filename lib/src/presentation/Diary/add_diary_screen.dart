@@ -123,6 +123,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorAppStyle.purple8a,
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
@@ -132,128 +133,154 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
         ),
         title: const Text("Tạo nhật ký"),
       ),
-      body: Card(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Text("Status Mode : "),
-                buildDrop(context).paddingRight(10),
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                ColorAppStyle.purple6f,
+                ColorAppStyle.purple8a,
+                ColorAppStyle.blue75
               ],
             ),
-            SizedBox(
-              height: height * 0.2,
-              width: width,
-              child: TextField(
-                controller: happened,
-                maxLines: null,
-                expands: true,
-                decoration: const InputDecoration(
-                    filled: true,
-                    // border: OutlineInputBorder(),
-                    hintText: "Bạn đang cảm thấy thế nào?"),
-              ),
-            ).paddingSymmetric(horizontal: 10),
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("List Feel Can :"),
-                  buildMood(),
-                ],
-              ).paddingSymmetric(horizontal: 10),
-            ),
-            Row(
+            image: DecorationImage(
+                image: AssetImage("assets/images/shape.png"),
+                fit: BoxFit.cover)),
+        child: Card(
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.deepPurple,
+                borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                const Align(
-                    alignment: Alignment.centerLeft, child: Text('Cảm xúc hiện tại : ')),
-                Container(
-                  height: 40,
-                  padding: const EdgeInsets.only(left: 5),
-                  width: 200,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(8)),
-                  child: DropdownButton(
-                    hint: const Text("Vui lòng chọn",
-                        style: TextStyle(fontSize: 16)),
-                    underline: Container(),
-                    isExpanded: true,
-                    value: _moodBloc.moodModel,
-                    items: _moodBloc.mood
-                        .map<DropdownMenuItem<MoodModel>>(
-                            (e) => DropdownMenuItem<MoodModel>(
-                                  value: e,
-                                  child: Text(e.mood ?? ""),
-                                ))
-                        .toList(),
-                    onChanged: (MoodModel? mood) {
-                      setState(() {
-                        _moodBloc.moodModel = mood;
-                        _bloc.moodId = mood?.id;
-                      });
-                    },
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Text("Status Mode : "),
+                    buildDrop(context).paddingRight(10),
+                  ],
                 ),
-              ],
-            ).paddingSymmetric(horizontal: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
                 SizedBox(
-                    width: width * 0.3,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            showCupertinoDialog(
-                                context: context,
-                                builder: (context) {
-                                  return CupertinoAlertDialog(
-                                    title:
-                                        const Icon(CupertinoIcons.info_circle),
-                                    content: const Text(
-                                      'Xác nhận tạo nội dung Diary?',
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    actions: [
-                                      CupertinoDialogAction(
-                                        isDefaultAction: true,
-                                        onPressed: () => Navigator.pop(context),
-                                        child: Text("Huỷ",
-                                            style: StyleApp.textStyle402()),
-                                      ),
-                                      CupertinoDialogAction(
-                                        isDefaultAction: true,
-                                        onPressed: () async {
-                                          if (_bloc.happened.text.isNotEmpty &&
-                                              _bloc.dropdownValue
-                                                  .toString()
-                                                  .isNotEmpty) {
-                                            _bloc.createDiary();
-                                            happened.clear();
-                                            dropdownValue = '';
-                                            toastPostComplete("");
-                                            Navigator.of(context).pop();
-                                          } else {
-                                            toastError("");
-                                            Navigator.of(context).pop();
-                                          }
-                                        },
-                                        child: Text("Đồng ý",
-                                            style: StyleApp.textStyle401()),
-                                      ),
-                                    ],
-                                  );
-                                });
+                  height: height * 0.2,
+                  width: width,
+                  child: TextField(
+                    style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
+                    controller: happened,
+                    maxLines: null,
+                    expands: true,
+                    decoration: const InputDecoration(
+                      fillColor: Colors.orangeAccent,
+                        filled: true,
+                        // border: OutlineInputBorder(),
+                        hintText: "Bạn đang cảm thấy thế nào?"),
+                  ),
+                ).paddingSymmetric(horizontal: 10),
+                SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("List Feel Can :"),
+                      buildMood(),
+                    ],
+                  ).paddingSymmetric(horizontal: 10),
+                ),
+                Row(
+                  children: [
+                    const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('Cảm xúc hiện tại : ')),
+                    Container(
+                      height: 40,
+                      padding: const EdgeInsets.only(left: 5),
+                      width: 200,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(width: 1, color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: DropdownButton(
+                        hint: const Text("Vui lòng chọn",
+                            style: TextStyle(fontSize: 16)),
+                        underline: Container(),
+                        isExpanded: true,
+                        value: _moodBloc.moodModel,
+                        items: _moodBloc.mood
+                            .map<DropdownMenuItem<MoodModel>>(
+                                (e) => DropdownMenuItem<MoodModel>(
+                                      value: e,
+                                      child: Text(e.mood ?? ""),
+                                    ))
+                            .toList(),
+                        onChanged: (MoodModel? mood) {
+                          setState(() {
+                            _moodBloc.moodModel = mood;
+                            _bloc.moodId = mood?.id;
                           });
                         },
-                        child: const Text("Save"))),
+                      ),
+                    ),
+                  ],
+                ).paddingSymmetric(horizontal: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                        width: width * 0.3,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                showCupertinoDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return CupertinoAlertDialog(
+                                        title: const Icon(
+                                            CupertinoIcons.info_circle),
+                                        content: const Text(
+                                          'Xác nhận tạo nội dung Diary?',
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        actions: [
+                                          CupertinoDialogAction(
+                                            isDefaultAction: true,
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: Text("Huỷ",
+                                                style: StyleApp.textStyle402()),
+                                          ),
+                                          CupertinoDialogAction(
+                                            isDefaultAction: true,
+                                            onPressed: () async {
+                                              if (_bloc.happened.text
+                                                      .isNotEmpty &&
+                                                  _bloc.dropdownValue
+                                                      .toString()
+                                                      .isNotEmpty) {
+                                                _bloc.createDiary();
+                                                happened.clear();
+                                                dropdownValue = '';
+                                                toastPostComplete("");
+                                                Navigator.of(context).pop();
+                                              } else {
+                                                toastError("");
+                                                Navigator.of(context).pop();
+                                              }
+                                            },
+                                            child: Text("Đồng ý",
+                                                style: StyleApp.textStyle401()),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              });
+                            },
+                            child: const Text("Save"))),
+                  ],
+                ).paddingOnly(top: 10, bottom: 5)
               ],
-            ).paddingOnly(top: 10, bottom: 5)
-          ],
+            ),
+          ),
         ),
       ),
     );

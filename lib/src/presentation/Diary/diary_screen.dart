@@ -152,143 +152,149 @@ class _DiaryScreenState extends State<DiaryScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) => Card(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: Text(
-                                    _bloc.listDU[index].nickname
-                                        .validate()
-                                        .toString(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12),
-                                  ),
-                                ),
-                                Expanded(
+                        child: Container(
+                          decoration:  BoxDecoration(
+                              color: Colors.orangeAccent,
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    flex: 3,
                                     child: Text(
-                                  _bloc.listDU[index].status.toString(),
-                                  style: TextStyle(
-                                      color: _bloc.listDU[index].status
-                                                  .toString() ==
-                                              "PUBLIC"
-                                          ? Colors.green
-                                          : Colors.red,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                              ],
-                            ).paddingOnly(left: 5, bottom: 5, top: 5),
-                            SingleChildScrollView(
-                              child: SizedBox(
-                                child: Text(
-                                    _bloc.listDU[index].happened.validate(),
-                                    style: const TextStyle(fontSize: 14.0),
-                                    maxLines: null),
-                              ),
-                            ).paddingOnly(left: 5),
-                            Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(() {
-                                  if (_bloc.listDU[index].createdAt != null) {
-                                    try {
-                                      DateTime createdAt = DateTime.parse(_bloc
-                                          .listDU[index].createdAt
-                                          .toString());
+                                      _bloc.listDU[index].nickname
+                                          .validate()
+                                          .toString(),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12),
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: Text(
+                                    _bloc.listDU[index].status.toString(),
+                                    style: TextStyle(
+                                        color: _bloc.listDU[index].status
+                                                    .toString() ==
+                                                "PUBLIC"
+                                            ? Colors.green
+                                            : Colors.red,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                ],
+                              ).paddingOnly(left: 5, bottom: 5, top: 5),
+                              SingleChildScrollView(
+                                child: SizedBox(
+                                  child: Text(
+                                      _bloc.listDU[index].happened.validate(),
+                                      style: const TextStyle(fontSize: 14.0),
+                                      maxLines: null),
+                                ),
+                              ).paddingOnly(left: 5),
+                              Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(() {
+                                    if (_bloc.listDU[index].createdAt != null) {
+                                      try {
+                                        DateTime createdAt = DateTime.parse(_bloc
+                                            .listDU[index].createdAt
+                                            .toString());
 
-                                      String formattedTime =
-                                          DateFormat('dd-MM-yyyy')
-                                              .format(createdAt);
-                                      return formattedTime;
-                                    } catch (e) {
+                                        String formattedTime =
+                                            DateFormat('dd-MM-yyyy')
+                                                .format(createdAt);
+                                        return formattedTime;
+                                      } catch (e) {
+                                        return '';
+                                      }
+                                    } else {
                                       return '';
                                     }
-                                  } else {
-                                    return '';
-                                  }
-                                }())),
-                            const Divider(
-                              height: 1,
-                              color: Colors.grey,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                SizedBox(
-                                  height: 30,
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    EditDiaryScreen(
-                                                      id: _bloc.listDU[index].id
-                                                          .validate(),
-                                                    )));
-                                      },
-                                      child: const Text(
-                                        "Chỉnh sửa",
-                                        style: TextStyle(fontSize: 12),
-                                      )),
-                                ),
-                                SizedBox(
-                                  height: 30,
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        WidgetsBinding.instance
-                                            .addPostFrameCallback((_) {
-                                          showCupertinoDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return CupertinoAlertDialog(
-                                                  title: const Icon(
-                                                    CupertinoIcons.info_circle,
-                                                  ),
-                                                  content: const Text(
-                                                    'Bạn có muốn xoá nhật ký này?',
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                  actions: [
-                                                    CupertinoDialogAction(
-                                                      isDefaultAction: true,
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              context),
-                                                      child: Text("Cancel",
-                                                          style: StyleApp
-                                                              .textStyle401()),
+                                  }())),
+                              const Divider(
+                                height: 1,
+                                color: Colors.grey,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  SizedBox(
+                                    height: 30,
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EditDiaryScreen(
+                                                        id: _bloc.listDU[index].id
+                                                            .validate(),
+                                                      )));
+                                        },
+                                        child: const Text(
+                                          "Chỉnh sửa",
+                                          style: TextStyle(fontSize: 12),
+                                        )),
+                                  ),
+                                  SizedBox(
+                                    height: 30,
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          WidgetsBinding.instance
+                                              .addPostFrameCallback((_) {
+                                            showCupertinoDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return CupertinoAlertDialog(
+                                                    title: const Icon(
+                                                      CupertinoIcons.info_circle,
                                                     ),
-                                                    CupertinoDialogAction(
-                                                      isDefaultAction: true,
-                                                      onPressed: () {
-                                                        _bloc.deletedDiary(_bloc
-                                                            .listDU[index].id
-                                                            .validate());
-                                                        Navigator.pop(context);
-                                                        toastDeleteComplete("");
-                                                        _bloc.getListDU();
-                                                      },
-                                                      child: Text("Apply",
-                                                          style: StyleApp
-                                                              .textStyle402()),
+                                                    content: const Text(
+                                                      'Bạn có muốn xoá nhật ký này?',
+                                                      textAlign: TextAlign.center,
                                                     ),
-                                                  ],
-                                                );
-                                              });
-                                        });
-                                      },
-                                      child: const Icon(
-                                        Icons.delete_forever,
-                                        size: 14,
-                                      )),
-                                ),
-                              ],
-                            ).paddingSymmetric(vertical: 8)
-                          ],
+                                                    actions: [
+                                                      CupertinoDialogAction(
+                                                        isDefaultAction: true,
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                        child: Text("Cancel",
+                                                            style: StyleApp
+                                                                .textStyle401()),
+                                                      ),
+                                                      CupertinoDialogAction(
+                                                        isDefaultAction: true,
+                                                        onPressed: () {
+                                                          _bloc.deletedDiary(_bloc
+                                                              .listDU[index].id
+                                                              .validate());
+                                                          Navigator.pop(context);
+                                                          toastDeleteComplete("");
+                                                          _bloc.getListDU();
+                                                        },
+                                                        child: Text("Apply",
+                                                            style: StyleApp
+                                                                .textStyle402()),
+                                                      ),
+                                                    ],
+                                                  );
+                                                });
+                                          });
+                                        },
+                                        child: const Icon(
+                                          Icons.delete_forever,
+                                          size: 14,
+                                        )),
+                                  ),
+                                ],
+                              ).paddingSymmetric(vertical: 8)
+                            ],
+                          ),
                         ),
                       ).paddingBottom(5),
                       separatorBuilder: (context, index) => Container(),

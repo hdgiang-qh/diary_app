@@ -87,72 +87,76 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) => Card(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: Text(
-                                    _diaryUserSearchBloc.list[index].nickname
-                                        .validate()
-                                        .toString(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12),
-                                  ),
-                                ),
-                                Expanded(
+                        child: Container(
+                          decoration:  BoxDecoration(
+                              color: Colors.orangeAccent,
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    flex: 3,
                                     child: Text(
-                                  _diaryUserSearchBloc.list[index].status
-                                      .toString(),
-                                  style: TextStyle(
-                                      color: _diaryUserSearchBloc
-                                                  .list[index].status
-                                                  .toString() ==
-                                              "PUBLIC"
-                                          ? Colors.green
-                                          : Colors.red,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                              ],
-                            ).paddingOnly(left: 5, bottom: 5, top: 5),
-                            SingleChildScrollView(
-                              child: SizedBox(
-                                child: Text(
-                                    _diaryUserSearchBloc.list[index].happened.validate(),
-                                    style: const TextStyle(fontSize: 14.0),
-                                    maxLines: null),
-                              ),
-                            ).paddingOnly(left: 5),
-                            Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                        () {
-                                      if (_diaryUserSearchBloc.list[index].createdAt != null) {
-                                        try {
-                                          DateTime createdAt = DateTime.parse(_diaryUserSearchBloc
-                                              .list[index].createdAt
-                                              .toString());
+                                      _diaryUserSearchBloc.list[index].nickname
+                                          .validate()
+                                          .toString(),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12),
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: Text(
+                                    _diaryUserSearchBloc.list[index].status
+                                        .toString(),
+                                    style: TextStyle(
+                                        color: _diaryUserSearchBloc
+                                                    .list[index].status
+                                                    .toString() ==
+                                                "PUBLIC"
+                                            ? Colors.green
+                                            : Colors.red,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                ],
+                              ).paddingOnly(left: 5, bottom: 15, top: 5),
+                              SingleChildScrollView(
+                                child: SizedBox(
+                                  child: Text(
+                                      _diaryUserSearchBloc.list[index].happened.validate(),
+                                      style: const TextStyle(fontSize: 14.0),
+                                      maxLines: null),
+                                ),
+                              ).paddingOnly(left: 5),
+                              const SizedBox(height: 10,),
+                              Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                          () {
+                                        if (_diaryUserSearchBloc.list[index].createdAt != null) {
+                                          try {
+                                            DateTime createdAt = DateTime.parse(_diaryUserSearchBloc
+                                                .list[index].createdAt
+                                                .toString());
 
-                                          String formattedTime =
-                                          DateFormat('dd-MM-yyyy')
-                                              .format(createdAt);
-                                          return formattedTime;
-                                        } catch (e) {
+                                            String formattedTime =
+                                            DateFormat('dd-MM-yyyy')
+                                                .format(createdAt);
+                                            return formattedTime;
+                                          } catch (e) {
+                                            return '';
+                                          }
+                                        } else {
                                           return '';
                                         }
-                                      } else {
-                                        return '';
-                                      }
-                                    }())),
-                            const Divider(
-                              height: 1,
-                              color: Colors.grey,
-                            ),
-                          ],
+                                      }())).paddingRight(5),
+
+                            ],
+                          ),
                         ),
                       ).paddingBottom(5),
                       separatorBuilder: (context, index) => Container(),
