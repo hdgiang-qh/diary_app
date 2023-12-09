@@ -1,4 +1,4 @@
-import 'dart:async';
+
 
 import 'package:bloc/bloc.dart';
 import 'package:diary/src/core/api.dart';
@@ -14,14 +14,18 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
   PodcastBloc() : super(PodcastInitial()) ;
   List<PodcastModel> podcast = [];
   PodcastModel? model;
-  bool loaded = false;
-  bool playing = false;
-
+  int? id;
+  String? epoint;
 
   void getListPodcast() async {
     emit(PodcastLoading());
     try{
-      var res = await Api.getAsync(endPoint: "${ApiPath.podcast}/all");
+      if (id == null) {
+        epoint = "${ApiPath.listSound}/all";
+      } else {
+        epoint = "${ApiPath.listMoodSound}?moodSound=$id";
+      }
+      var res = await Api.getAsync(endPoint: epoint.toString());
       if(res['status'] == "SUCCESS"){
         if((res['data'] as List).isNotEmpty){
           for(var json in res['data']){
@@ -47,7 +51,7 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
   void getPodcastId({int? id}) async {
     emit(PodcastLoading());
     try{
-      var res = await Api.getAsync(endPoint: "${ApiPath.podcast}/$id");
+      var res = await Api.getAsync(endPoint: "${ApiPath.listSound}/$id");
       if(res['status'] == "SUCCESS"){
         model = PodcastModel.fromJson(res['data']);
         emit(PodcastSuccessV2(model!));

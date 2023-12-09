@@ -127,6 +127,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
         ),
       ),
       calendarStyle: const CalendarStyle(
+        selectedDecoration: BoxDecoration(
+          color: Colors.blue,
+        ),
           todayTextStyle: TextStyle(
               fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold)),
     );

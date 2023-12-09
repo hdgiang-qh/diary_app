@@ -12,5 +12,7 @@ class ApiPath{
   static const comment = "/comments";
   static const search = "/account/search";
   static const chat ='/bot/chat';
-  static const podcast = '/sound';
+  static const listSound = '/sound';
+  static const musicMood = '/sound/mood-sound-all';
+  static const listMoodSound = '/sound/mood-sound';
 }

@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		WLirGFAP1YFa4zEd0ikVVgwkxdY=
+		Y6oDWgK8L4N4dIPIpjQaaYU+vwo=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -54,15 +54,15 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		N/v1iHuCiFb+hFjAfrvG3xLnRX0=
+		VK9ELfaQ8VMhA3mZnAmvM/seSaY=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
 		<data>
-		sSYNStELFYtWT5kOUUp9/bZHWTI=
+		C1NKXJrFilHzyP9ITrwa7+2d1D8=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.json</key>
 		<data>
-		LtYbsASEPPVDtnxbadj0rpt6s/g=
+		EwDU622WO6cOiG2FxpkU78AwVp4=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/FontManifest.json</key>
 		<data>
@@ -72,9 +72,9 @@
 		<data>
 		5FalRJhOPzLmX2D1XN5kyJ6Xu5A=
 		</data>
-		<key>Frameworks/App.framework/flutter_assets/assets/audio/MienDatHua.mp3</key>
+		<key>Frameworks/App.framework/flutter_assets/assets/images/AI-bot-1.jpg</key>
 		<data>
-		0XXDHE9UEIulmRR74L8FQxKn3E4=
+		ZFtsi8g1V8EVkuZYfylMonKRmLA=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/assets/images/chatgpt_logo.png</key>
 		<data>
@@ -106,7 +106,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		91F5dRuMhX+G/D6B5IISblIk0wI=
+		bFutbsJDNSoAIMOIZVRMxXCA0zg=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -301,7 +301,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			w8B4hlHa35bFYBzQaSo/hdyqAEXsZuIY753VBzfZNzE=
+			Owf4PXd/i/T2u8Lt4TiaWS39AfWEbSWK+h1uuTdsYpk=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -315,21 +315,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			PkoeuDSzFivVgxWkOtqxHR01MRaJyF8MyIApNxeeLeg=
+			ESTn0o4wbUMtjZuJworGg2yW32uZSGBWFvye53ICHLk=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			zto/2CzAxZBpXOfPDcrArxWymmvsfpreO0XWnBAakNg=
+			O5xAm56f/fstHor/XdgKWY8izR7+AkewQi1sQ2tpdOw=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			LfCM5YNy1eCWAgIZdSMg4D2+D2yi41oEJQT0tAA3Azk=
+			BRaH3ejIGxTS26R1DhjAWeNT0BuQVSQnG8k88BTc8TQ=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/FontManifest.json</key>
@@ -346,11 +346,11 @@
 			ZKTdsTIAptBR9NrB2JhxboFtxKtO5fDy4YMBevn5G/o=
 			</data>
 		</dict>
-		<key>Frameworks/App.framework/flutter_assets/assets/audio/MienDatHua.mp3</key>
+		<key>Frameworks/App.framework/flutter_assets/assets/images/AI-bot-1.jpg</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			jNrpjx7Q870Cwphq87U9LNhAv6cK4kUUkvvVwCKXJqQ=
+			ma8YMLXUIMBFM11sT7PTuq5SR+4GB/bxrl0uDffZYMc=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/assets/images/chatgpt_logo.png</key>
@@ -406,7 +406,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			qAI94AkfrPcQPJwzD8GbIofVR4ZiEumwWB5PU5M94zM=
+			RDzXy09IrmwsVn4oCedrg7J3DwkkuogcU6LJxqbiYJ0=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>

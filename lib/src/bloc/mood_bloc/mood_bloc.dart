@@ -14,7 +14,7 @@ class MoodBloc extends Bloc<MoodEvent, MoodState> {
   MoodBloc() : super(MoodInitial()) ;
   List<MoodModel> mood= [];
   MoodModel? moodModel;
-
+  List<MoodMusic> moodMusics = [];
 
   void getMood() async{
     emit(MoodLoading());
@@ -26,6 +26,32 @@ class MoodBloc extends Bloc<MoodEvent, MoodState> {
             mood.add(MoodModel.fromJson(json));
           }
           emit(MoodSuccess(mood));
+        }
+        else{
+          emit(MoodFailure(error :'Data Empty'));
+        }
+      } else {
+        emit(MoodFailure(error : res['description']));
+      }
+    }
+    on DioException catch(e){
+      emit(MoodFailure(error : e.error.toString()));
+    }
+    catch(e){
+      emit(MoodFailure(error: e.toString()));
+    }
+  }
+
+  void getMoodMusic() async{
+    emit(MoodLoading());
+    try{
+      var res = await Api.getAsync(endPoint: ApiPath.musicMood);
+      if(res['status'] == "SUCCESS"){
+        if((res['data'] as List).isNotEmpty){
+          for(var json in res['data']){
+            moodMusics.add(MoodMusic.fromJson(json));
+          }
+          emit(MoodMusicSuccess(moodMusics));
         }
         else{
           emit(MoodFailure(error :'Data Empty'));
