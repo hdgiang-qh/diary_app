@@ -20,7 +20,6 @@ class _PodCastScreenState extends State<PodCastScreen>
   int? _value;
   int? ind;
 
-
   @override
   void initState() {
     super.initState();
@@ -42,17 +41,19 @@ class _PodCastScreenState extends State<PodCastScreen>
                     _moodBloc.moodMusics.length,
                     (int index) {
                       return ChoiceChip(
-                        labelStyle: const TextStyle(fontSize: 10),
+                        selectedColor: Colors.cyan,
+                        labelStyle: const TextStyle(
+                          fontSize: 10,
+                        ),
                         label: Text(
                             _moodBloc.moodMusics[index].moodSound.validate()),
                         selected: _value == index,
                         onSelected: (bool selected) {
                           setState(() {
                             _value = selected ? index : null;
-                            if(_value == index){
+                            if (_value == index) {
                               ind = _value! + 1;
-                            }
-                            else if(_value == null){
+                            } else if (_value == null) {
                               ind = null;
                             }
                             _bloc.id = ind;
@@ -75,46 +76,53 @@ class _PodCastScreenState extends State<PodCastScreen>
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
-              : Column(
-                  children: [
-                    ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: _bloc.podcast.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: ListTile(
-                            leading: Image(
-                              height: 30,
-                              width: 50,
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                  '${_bloc.podcast[index].poster}'),
-                            ),
-                            title: Text(_bloc.podcast[index].title.validate()),
-                            subtitle:
-                                Text(_bloc.podcast[index].author.validate()),
-                          ),
-                        ).onTap(() {
-                          PlayPodCastScreen(
-                            id: _bloc.podcast[index].id.validate(),
-                            track: _bloc.podcast[index].track
-                                .validate()
-                                .toString(),
-                            image: _bloc.podcast[index].poster
-                                .validate()
-                                .toString(),
-                            title: _bloc.podcast[index].title.validate(),
-                            author: _bloc.podcast[index].author.validate(),
-                          ).launch(context);
-                        });
-                      },
-                      separatorBuilder: (context, index) {
-                        return const Divider(thickness: 2);
-                      },
+              : GridView.builder(
+                primary: false,
+                gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 1.4,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5),
+                shrinkWrap: true,
+                itemCount: _bloc.podcast.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    color: Colors.cyan,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(
+                                '${_bloc.podcast[index].poster}'),
+                            fit: BoxFit.cover),
+                      ),
+                      child: ListTile(
+                        title: Text(
+                          _bloc.podcast[index].title.validate(),
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                            _bloc.podcast[index].author.validate(),
+                            style: const TextStyle(color: Colors.white)),
+                      ),
                     ),
-                  ],
-                );
+                  ).onTap(() {
+                    PlayPodCastScreen(
+                      id: _bloc.podcast[index].id.validate(),
+                      track: _bloc.podcast[index].track
+                          .validate()
+                          .toString(),
+                      image: _bloc.podcast[index].poster
+                          .validate()
+                          .toString(),
+                      title: _bloc.podcast[index].title.validate(),
+                      author: _bloc.podcast[index].author.validate(),
+                    ).launch(context);
+                  });
+                },
+              );
         });
   }
 

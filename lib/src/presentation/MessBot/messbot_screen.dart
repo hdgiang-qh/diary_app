@@ -66,7 +66,14 @@ class MessBotScreenState extends State<MessBotScreen> {
         automaticallyImplyLeading: false,
         title: const Text('Chat Bot'),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.refresh))
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  _messages.clear();
+                  list.clear();
+                });
+              },
+              icon: const Icon(Icons.refresh))
         ],
       ),
       body: SafeArea(
