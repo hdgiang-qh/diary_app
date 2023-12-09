@@ -1,6 +1,7 @@
 import 'package:diary/src/bloc/podcast_bloc/podcast_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -20,7 +21,9 @@ class PlayPodCastScreen extends StatefulWidget {
   State<PlayPodCastScreen> createState() => _PlayPodCastScreenState();
 }
 
-class _PlayPodCastScreenState extends State<PlayPodCastScreen> {
+class _PlayPodCastScreenState extends State<PlayPodCastScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
   late final PodcastBloc _bloc;
   late AudioPlayer audioPlayer;
   String thumbnailImgUrl =
@@ -56,11 +59,16 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen> {
     _bloc = PodcastBloc();
     _bloc.getPodcastId(id: widget.id);
     super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 10),
+    )..repeat();
   }
 
   @override
   void dispose() {
     player.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -71,22 +79,43 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen> {
         title: const Text("Music Player"),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Spacer(
-            flex: 1,
+          const SizedBox(
+            height: 10,
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(200),
-            child: Image.network(
-              "${widget.image}",
-              height: 350,
-              width: 350,
-              fit: BoxFit.cover,
+          Text(
+            "${widget.title}",
+            style: const TextStyle(fontSize: 30),
+          ).paddingLeft(10),
+          Text(
+            "${widget.author}",
+            style: GoogleFonts.lato(
+              textStyle: const TextStyle(
+                  fontSize: 12, fontStyle: FontStyle.italic, letterSpacing: .5),
             ),
-          ).paddingBottom(10),
-          Column(
-            children: [Text("${widget.title}"), Text("${widget.author}")],
-          ).paddingBottom(40),
+          ).paddingLeft(10),
+          const SizedBox(
+            height: 30,
+          ),
+          Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(200),
+              child: RotationTransition(
+                turns: _controller,
+                child: Container(
+                  width: 350,
+                  height: 350,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage('${widget.image}'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ).paddingBottom(10),
+          ).paddingBottom(30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: StreamBuilder(

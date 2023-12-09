@@ -87,7 +87,7 @@ class _PodCastScreenState extends State<PodCastScreen>
                             leading: Image(
                               height: 30,
                               width: 50,
-                              fit: BoxFit.contain,
+                              fit: BoxFit.cover,
                               image: NetworkImage(
                                   '${_bloc.podcast[index].poster}'),
                             ),
