@@ -322,13 +322,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
                           builder: (context) => const AddDiaryScreen()));
                 },
                 icon: const Icon(Icons.add)),
-            IconButton(
-                onPressed: () {
-                  _bloc.time = null;
-                  _bloc.listDU.clear();
-                  _bloc.getListDU();
-                },
-                icon: const Icon(Icons.refresh))
           ],
         ),
         body: Container(

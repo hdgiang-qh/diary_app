@@ -1,6 +1,7 @@
 import 'package:diary/src/bloc/add_diary_bloc/add_diary_bloc.dart';
 import 'package:diary/src/bloc/mood_bloc/mood_bloc.dart';
 import 'package:diary/src/models/mood_model.dart';
+import 'package:diary/src/presentation/Diary/diary_screen.dart';
 import 'package:diary/styles/color_styles.dart';
 import 'package:diary/styles/text_style.dart';
 import 'package:flutter/cupertino.dart';
@@ -120,15 +121,18 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
     final width = MediaQuery.of(context).size.width;
     happened = _bloc.happened;
     mood = _bloc.mood;
+    _getRequests() async {}
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorAppStyle.purple8a,
         automaticallyImplyLeading: false,
         leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.of(context)
+              .push(
+                MaterialPageRoute(builder: (_) => const DiaryScreen()),
+              )
+              .then((val) => val ? _getRequests() : null),
           icon: const Icon(Icons.arrow_back_ios),
         ),
         title: const Text("Tạo nhật ký"),
@@ -167,12 +171,13 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                   height: height * 0.2,
                   width: width,
                   child: TextField(
-                    style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
                     controller: happened,
                     maxLines: null,
                     expands: true,
                     decoration: const InputDecoration(
-                      fillColor: Colors.orangeAccent,
+                        fillColor: Colors.orangeAccent,
                         filled: true,
                         // border: OutlineInputBorder(),
                         hintText: "Bạn đang cảm thấy thế nào?"),

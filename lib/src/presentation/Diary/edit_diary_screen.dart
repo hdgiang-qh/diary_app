@@ -73,7 +73,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
+                  children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
