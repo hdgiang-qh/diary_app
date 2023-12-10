@@ -61,7 +61,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
             firstDate: DateTime(2018),
             lastDate: DateTime(2025));
         setState(() {
-         // _bloc.time = picker;
+          // _bloc.time = picker;
           _bloc.listDU.clear();
           _bloc.getListDU();
         });
@@ -79,7 +79,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
       firstDay: _firstDay,
       lastDay: _lastDay,
       calendarFormat: format,
-      onFormatChanged: (CalendarFormat _format){
+      onFormatChanged: (CalendarFormat _format) {
         setState(() {
           format = _format;
         });
@@ -128,10 +128,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
         ),
       ),
       calendarStyle: const CalendarStyle(
-        selectedDecoration: BoxDecoration(
-          color: Colors.blue,
-        ),
-
+          selectedDecoration: BoxDecoration(
+            color: Colors.blue,
+          ),
           todayTextStyle: TextStyle(
               fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold)),
     );
@@ -153,10 +152,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) => Card(
                         child: Container(
-                          decoration:  BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.orangeAccent,
-                              borderRadius: BorderRadius.circular(10)
-                          ),
+                              borderRadius: BorderRadius.circular(10)),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -200,9 +198,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                   child: Text(() {
                                     if (_bloc.listDU[index].createdAt != null) {
                                       try {
-                                        DateTime createdAt = DateTime.parse(_bloc
-                                            .listDU[index].createdAt
-                                            .toString());
+                                        DateTime createdAt = DateTime.parse(
+                                            _bloc.listDU[index].createdAt
+                                                .toString());
 
                                         String formattedTime =
                                             DateFormat('dd-MM-yyyy')
@@ -220,20 +218,23 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                 color: Colors.grey,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   SizedBox(
                                     height: 30,
                                     child: ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.push(
+                                        onPressed: () async {
+                                          await Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       EditDiaryScreen(
-                                                        id: _bloc.listDU[index].id
+                                                        id: _bloc
+                                                            .listDU[index].id
                                                             .validate(),
                                                       )));
+                                          refreshPage();
                                         },
                                         child: const Text(
                                           "Chỉnh sửa",
@@ -251,11 +252,13 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                 builder: (context) {
                                                   return CupertinoAlertDialog(
                                                     title: const Icon(
-                                                      CupertinoIcons.info_circle,
+                                                      CupertinoIcons
+                                                          .info_circle,
                                                     ),
                                                     content: const Text(
                                                       'Bạn có muốn xoá nhật ký này?',
-                                                      textAlign: TextAlign.center,
+                                                      textAlign:
+                                                          TextAlign.center,
                                                     ),
                                                     actions: [
                                                       CupertinoDialogAction(
@@ -270,11 +273,15 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                       CupertinoDialogAction(
                                                         isDefaultAction: true,
                                                         onPressed: () {
-                                                          _bloc.deletedDiary(_bloc
-                                                              .listDU[index].id
-                                                              .validate());
-                                                          Navigator.pop(context);
-                                                          toastDeleteComplete("");
+                                                          _bloc.deletedDiary(
+                                                              _bloc
+                                                                  .listDU[index]
+                                                                  .id
+                                                                  .validate());
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          toastDeleteComplete(
+                                                              "");
                                                           _bloc.getListDU();
                                                         },
                                                         child: Text("Apply",
@@ -306,6 +313,11 @@ class _DiaryScreenState extends State<DiaryScreen> {
     );
   }
 
+  void refreshPage() {
+    _bloc.listDU.clear();
+    _bloc.getListDU();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -315,11 +327,12 @@ class _DiaryScreenState extends State<DiaryScreen> {
           title: const Text("Nhật ký của bạn"),
           actions: [
             IconButton(
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  await Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const AddDiaryScreen()));
+                  refreshPage();
                 },
                 icon: const Icon(Icons.add)),
           ],
@@ -342,7 +355,13 @@ class _DiaryScreenState extends State<DiaryScreen> {
           child: SafeArea(
             child: SingleChildScrollView(
               child: Column(
-                children: [const SizedBox(height: 10,),buildDateV2(), buildListDiary()],
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  buildDateV2(),
+                  buildListDiary()
+                ],
               ),
             ).paddingSymmetric(horizontal: 5),
           ),

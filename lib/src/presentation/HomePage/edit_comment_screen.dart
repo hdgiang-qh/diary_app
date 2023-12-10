@@ -1,4 +1,5 @@
 import 'package:diary/src/bloc/editComment_bloc/edit_comment_bloc.dart';
+import 'package:diary/styles/color_styles.dart';
 import 'package:diary/styles/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class _EditCommentState extends State<EditComment> {
     _bloc = EditCommentBloc(widget.id);
     _bloc.getComment(widget.id);
   }
+
   void toastDeleteComplete(String messenger) => Fluttertoast.showToast(
       msg: "Delete Success",
       toastLength: Toast.LENGTH_SHORT,
@@ -60,8 +62,7 @@ class _EditCommentState extends State<EditComment> {
                   controller: editCmt,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)
-                    ),
+                        borderRadius: BorderRadius.circular(10)),
                   ),
                 ),
               ],
@@ -103,40 +104,64 @@ class _EditCommentState extends State<EditComment> {
                             onPressed: () {
                               _bloc.deleteComment();
                               toastDeleteComplete("");
-                              Navigator.pop(context);
+                              Navigator.of(context).pop();
                             },
                             child:
-                            Text("Đồng ý", style: StyleApp.textStyle401()),
+                                Text("Đồng ý", style: StyleApp.textStyle401()),
                           ),
                         ],
                       );
                     });
               });
-
             },
             child: const Text("Xoá")),
         ElevatedButton(
             onPressed: () {
               _bloc.editComment(_bloc.model!.diaryId);
               toastEditComplete("");
-              Navigator.pop(context);
+              Navigator.of(context).pop();
             },
             child: const Text('Apply')),
       ],
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: ColorAppStyle.purple8a,
         title: const Text("Chỉnh sửa bình luận"),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
       ),
-      body: SafeArea(
-        child: Column(
-          children: [buildCommentDiary(), buildBtnSave()],
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                ColorAppStyle.purple6f,
+                ColorAppStyle.purple8a,
+                ColorAppStyle.blue75
+              ],
+            ),
+            image: DecorationImage(
+                image: AssetImage("assets/images/shape.png"),
+                fit: BoxFit.cover)),
+        child: SafeArea(
+          child: Column(
+            children: [
+              buildCommentDiary().paddingSymmetric(vertical: 10),
+              buildBtnSave()
+            ],
+          ),
         ),
       ),
     );

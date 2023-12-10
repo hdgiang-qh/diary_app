@@ -1,4 +1,6 @@
 import 'package:diary/src/bloc/detail_diary/detail_diary_bloc.dart';
+import 'package:diary/src/dash_board.dart';
+import 'package:diary/src/presentation/Diary/diary_screen.dart';
 import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +32,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
     String status = _detailDiaryBloc.model!.status.validate().toString();
     return DropdownButton<String>(
       hint: Text(status),
-      value: dropdownValue,
+      value: status,
       style: const TextStyle(color: primaryColor),
       onChanged: (String? value) {
         setState(() {
@@ -67,10 +69,9 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                 _detailDiaryBloc.model!.happened.validate().toString();
             return Card(
               child: Container(
-                decoration:  BoxDecoration(
+                decoration: BoxDecoration(
                     color: Colors.orangeAccent,
-                    borderRadius: BorderRadius.circular(10)
-                ),
+                    borderRadius: BorderRadius.circular(10)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -107,12 +108,14 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                             width: width * 0.3,
                             child: ElevatedButton(
                                 onPressed: () {
-                                  if (_detailDiaryBloc.status.text.isNotEmpty &&
-                                      _detailDiaryBloc.happen.text.isNotEmpty) {
+                                  if (happened.text.isNotEmpty) {
                                     _detailDiaryBloc.updateDiary(
                                         _detailDiaryBloc.model!.id.validate());
+                                    happened.clear();
                                     toastEditComplete("");
-                                    Navigator.pop(context);
+                                  }
+                                  else{
+                                    toastEditFailure("");
                                   }
                                 },
                                 child: const Text("Save"))),
@@ -136,6 +139,16 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
       backgroundColor: Colors.blueAccent,
       textColor: Colors.white);
 
+  void toastEditFailure(String messenger) => Fluttertoast.showToast(
+      msg: "Update Failure",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blueAccent,
+      textColor: Colors.white);
+
+  _getRequests() async {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,7 +157,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),

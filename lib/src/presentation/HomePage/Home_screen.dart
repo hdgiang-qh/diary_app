@@ -2,7 +2,6 @@ import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/src/bloc/getAlldiary_bloc/get_all_diary_bloc.dart';
 import 'package:diary/src/presentation/HomePage/Search/Search_screen.dart';
 import 'package:diary/src/presentation/HomePage/comment_screen.dart';
-import 'package:diary/src/presentation/HomePage/separator_widget.dart';
 import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -30,6 +29,10 @@ class _HomeScreenState extends State<HomeScreen> {
     _bloc.getAllDiary();
     _inforBloc = InforBloc();
     _inforBloc.getInforUser();
+  }
+  void refreshPage(){
+    _bloc.getAllDiaries.clear();
+    _bloc.getAllDiary();
   }
 
   Widget buildListDiary() {
@@ -165,8 +168,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       size: 18,
                                     ),
                                     TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
+                                      onPressed: () async {
+                                      await Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) => CommentScreen(
@@ -176,6 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       idUser: _inforBloc.ifUser!.id
                                                           .validate(),
                                                     )));
+                                      refreshPage();
                                       },
                                       child: const Row(
                                         children: [
@@ -224,41 +228,45 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      body: SafeArea(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                ColorAppStyle.purple6f,
-                ColorAppStyle.purple8a,
-                ColorAppStyle.blue75
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              ColorAppStyle.purple6f,
+              ColorAppStyle.purple8a,
+              ColorAppStyle.blue75
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 16, left: 5, right: 5, bottom: 10),
+                  child: CupertinoSearchTextField(
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 0.5, color: Colors.grey),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(15))),
+                    enabled: true,
+                    placeholder: 'Search',
+                    onTap: () async {
+                     await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SearchScreen()));
+                     refreshPage();
+                    },
+                  ),
+                ),
+                buildListDiary(),
               ],
             ),
-          ),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 16, left: 5, right: 5, bottom: 10),
-                child: CupertinoSearchTextField(
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 0.5, color: Colors.grey),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(15))),
-                  enabled: true,
-                  placeholder: 'Search',
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SearchScreen()));
-                  },
-                ),
-              ),
-              buildListDiary(),
-            ],
           ),
         ),
       ),

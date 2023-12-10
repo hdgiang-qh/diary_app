@@ -35,10 +35,9 @@ class _SearchScreenState extends State<SearchScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Card(
                 child: Container(
-                  decoration:  BoxDecoration(
-                    color: Colors.orangeAccent,
-                    borderRadius: BorderRadius.circular(10)
-                  ),
+                  decoration: BoxDecoration(
+                      color: Colors.orangeAccent,
+                      borderRadius: BorderRadius.circular(10)),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -57,8 +56,8 @@ class _SearchScreenState extends State<SearchScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                         ViewSearchScreen( createBy: _bloc.inforUser!.id)));
+                                      builder: (context) => ViewSearchScreen(
+                                          createBy: _bloc.inforUser!.id)));
                             },
                           ),
                           const SizedBox(width: 8),
@@ -84,12 +83,19 @@ class _SearchScreenState extends State<SearchScreen> {
     findByPhone = _bloc.findByPhone;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: ColorAppStyle.purple8a,
         title: const Text('Find by Phone'),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
       ),
       body: Container(
         constraints: const BoxConstraints.expand(),
-        decoration:  const BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -105,7 +111,9 @@ class _SearchScreenState extends State<SearchScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               SizedBox(
                 height: 70,
                 child: TextField(

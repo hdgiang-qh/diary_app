@@ -139,8 +139,8 @@ class _CommentScreenState extends State<CommentScreen> {
                                               icon: const Icon(
                                                 Icons.edit_square,
                                               ),
-                                              onPressed: () {
-                                                Navigator.push(
+                                              onPressed: () async {
+                                               await Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
@@ -150,6 +150,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                                                   .id
                                                                   .validate(),
                                                             )));
+                                               refreshPage();
                                               },
                                             ),
                                           )
@@ -178,20 +179,25 @@ class _CommentScreenState extends State<CommentScreen> {
         });
   }
 
+  void refreshPage(){
+    _bloc.list.clear();
+    _bloc.getListComment(widget.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.purpleAccent,
         title: const Text("Bình luận bài viết"),
-        actions: [
-          IconButton(
-              onPressed: () {
-                _bloc.list.clear();
-                _bloc.getListComment(widget.id);
-              },
-              icon: const Icon(Icons.refresh))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         _bloc.list.clear();
+        //         _bloc.getListComment(widget.id);
+        //       },
+        //       icon: const Icon(Icons.refresh))
+        // ],
       ),
       body: Container(
         constraints: const BoxConstraints.expand(),
