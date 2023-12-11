@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:diary/src/core/api.dart';
 import 'package:diary/src/core/apiPath.dart';
 import 'package:diary/src/models/user_model.dart';
 import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
 part 'infor_event.dart';
@@ -13,7 +16,6 @@ class InforBloc extends Bloc<InforEvent, InforState> {
   List<InforUser> inforUsers = [];
   List<InforUserRole> inforUserRoles = [];
   InforUser? ifUser, ifUserv2;
-  String? avatar;
 
   InforBloc() : super(InforInitial());
 
@@ -52,11 +54,15 @@ class InforBloc extends Bloc<InforEvent, InforState> {
     }
   }
 
-  void updateAvatar() async {
+  void updateAvatar(String avatar) async {
     emit(InforLoading());
     try {
+      File file = File(avatar);
+      print(file.path);
       Map<String, dynamic> data = {
-        'avatar': avatar,
+        'avatar': await MultipartFile.fromFile(
+          file.path,
+        ),
       };
       final res = await Api.putAsync(
         endPoint: ApiPath.changeAvatar,

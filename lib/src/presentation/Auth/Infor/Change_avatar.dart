@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/styles/color_styles.dart';
@@ -17,11 +19,13 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
   late final InforBloc _bloc;
   XFile? image;
 
+
   @override
   void initState() {
     super.initState();
     _bloc = InforBloc();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,8 +91,7 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
                 Expanded(
                   child: Column(
                     children: [
-                      Expanded(
-                          flex: 2,child: Image.file(File(image!.path))),
+                      Expanded(flex: 2, child: Image.file(File(image!.path))),
                       Flexible(
                         flex: 3,
                         child: Row(
@@ -104,8 +107,9 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
                               icon: const Icon(Icons.close),
                             ),
                             ElevatedButton.icon(
-                              onPressed: () {
+                              onPressed: () async {
                                 setState(() {
+                                  _bloc.updateAvatar(image!.path);
                                 });
                               },
                               label: const Text('Save Image'),
