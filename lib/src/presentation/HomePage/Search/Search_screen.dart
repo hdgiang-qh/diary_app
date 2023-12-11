@@ -51,7 +51,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         children: <Widget>[
                           const SizedBox(width: 8),
                           TextButton(
-                            child: const Text('VIEW'),
+                            child: const Text('Xem thông tin'),
                             onPressed: () {
                               Navigator.push(
                                   context,

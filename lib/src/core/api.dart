@@ -1,10 +1,6 @@
 import 'package:diary/src/core/service/auth_service.dart';
-import 'package:diary/src/core/service/provider_token.dart';
-import 'package:diary/src/core/share_pref/app_key.dart';
-import 'package:diary/src/core/share_pref/share_pref.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:provider/provider.dart';
+
 import 'const.dart';
 
 final dio = Dio()

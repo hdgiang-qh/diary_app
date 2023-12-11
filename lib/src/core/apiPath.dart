@@ -11,6 +11,7 @@ class ApiPath{
   static const changePass = "/account/update-pass";
   static const comment = "/comments";
   static const search = "/account/search";
+  static const changeAvatar = "/account/avatar";
   static const chat ='/bot/chat';
   static const listSound = '/sound';
   static const musicMood = '/sound/mood-sound-all';

@@ -1,4 +1,5 @@
 import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
+import 'package:diary/src/presentation/Auth/Infor/Change_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -17,6 +18,9 @@ class _UserScreenState extends State<UserScreen> {
   void initState() {
     super.initState();
     _bloc = InforBloc();
+    _bloc.getInforUser();
+  }
+  void refreshPage(){
     _bloc.getInforUser();
   }
 
@@ -40,12 +44,36 @@ class _UserScreenState extends State<UserScreen> {
                       Container(
                           height: 80,
                           width: 80,
-                          decoration:  BoxDecoration(
+                          decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                  image: NetworkImage(
-                                      state.ifUser.avatar.validate().toString()))),
-                          child: Container()),
+                                  image: NetworkImage(state.ifUser.avatar
+                                      .validate()
+                                      .toString()),
+                                  fit: BoxFit.cover)),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                                height: 30,
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: IconButton(
+                                  icon: const Icon(
+                                    Icons.image_outlined,
+                                    size: 14,
+                                  ),
+                                  onPressed: () async {
+                                    await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ChangeAvatarScreen()));
+                                    refreshPage();
+                                  },
+                                )),
+                          )),
                       const SizedBox(
                         width: 20,
                       ),

@@ -109,7 +109,8 @@ class _CommentScreenState extends State<CommentScreen> {
                                                 image: NetworkImage(_bloc
                                                     .list[index].avatar
                                                     .validate()
-                                                    .toString())),
+                                                    .toString()),
+                                                fit: BoxFit.cover),
                                           ),
                                           child: Container(),
                                         ).paddingRight(5),
@@ -140,7 +141,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                                 Icons.edit_square,
                                               ),
                                               onPressed: () async {
-                                               await Navigator.push(
+                                                await Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
@@ -150,7 +151,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                                                   .id
                                                                   .validate(),
                                                             )));
-                                               refreshPage();
+                                                refreshPage();
                                               },
                                             ),
                                           )
@@ -179,7 +180,7 @@ class _CommentScreenState extends State<CommentScreen> {
         });
   }
 
-  void refreshPage(){
+  void refreshPage() {
     _bloc.list.clear();
     _bloc.getListComment(widget.id);
   }
@@ -217,7 +218,8 @@ class _CommentScreenState extends State<CommentScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SingleChildScrollView(child: buildCommentDiary()).paddingBottom(5),
+              SingleChildScrollView(child: buildCommentDiary())
+                  .paddingBottom(5),
               buildTextComposer()
             ],
           ),

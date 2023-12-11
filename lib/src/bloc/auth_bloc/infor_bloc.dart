@@ -13,6 +13,7 @@ class InforBloc extends Bloc<InforEvent, InforState> {
   List<InforUser> inforUsers = [];
   List<InforUserRole> inforUserRoles = [];
   InforUser? ifUser, ifUserv2;
+  String? avatar;
 
   InforBloc() : super(InforInitial());
 
@@ -48,6 +49,33 @@ class InforBloc extends Bloc<InforEvent, InforState> {
       emit(InforFailure(error: e.error.toString()));
     } catch (e) {
       emit(InforFailure(error: e.toString()));
+    }
+  }
+
+  void updateAvatar() async {
+    emit(InforLoading());
+    try {
+      Map<String, dynamic> data = {
+        'avatar': avatar,
+      };
+      final res = await Api.putAsync(
+        endPoint: ApiPath.changeAvatar,
+        req: data,
+      );
+      if (res['status'] == "SUCCESS") {
+        return ;
+      } else {
+        // Xử lý lỗi
+        print('Fail: ${res.statusCode}');
+        print(res.data);
+        return;
+      }
+    } on DioException catch (e) {
+      // Xử lý lỗi Dio
+      print('Lỗi Dio: ${e.error}');
+    } catch (e) {
+      // Xử lý lỗi khác
+      print('Lỗi: $e');
     }
   }
 }

@@ -59,7 +59,6 @@ class _LoginPageState extends State<LoginPage> {
     final token = await authService.login(username, password);
 
     if (token != null) {
-      // DialogItem.showLoading(context: context);
       Provider.of<AuthProvider>(context, listen: false).setToken(token);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const DashBoard()));
