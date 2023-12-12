@@ -12,7 +12,7 @@ part 'mood_state.dart';
 
 class MoodBloc extends Bloc<MoodEvent, MoodState> {
   MoodBloc() : super(MoodInitial()) ;
-  List<MoodModel> mood= [];
+  List<MoodModel> moods= [];
   MoodModel? moodModel;
   List<MoodMusic> moodMusics = [];
 
@@ -23,9 +23,9 @@ class MoodBloc extends Bloc<MoodEvent, MoodState> {
       if(res['status'] == "SUCCESS"){
         if((res['data'] as List).isNotEmpty){
           for(var json in res['data']){
-            mood.add(MoodModel.fromJson(json));
+            moods.add(MoodModel.fromJson(json));
           }
-          emit(MoodSuccess(mood));
+          emit(MoodSuccess());
         }
         else{
           emit(MoodFailure(error :'Data Empty'));

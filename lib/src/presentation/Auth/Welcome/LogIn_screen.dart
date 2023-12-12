@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   final AuthService authService = AuthService();
   final BoolBloc changeState = BoolBloc();
-  bool _remember = false;
+  bool _remember = true;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   _loadSavedData() async {

@@ -30,7 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _inforBloc = InforBloc();
     _inforBloc.getInforUser();
   }
-  void refreshPage(){
+
+  void refreshPage() {
     _bloc.getAllDiaries.clear();
     _bloc.getAllDiary();
   }
@@ -51,10 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) => Card(
                         child: Container(
-                         decoration: BoxDecoration(
-                           color: Colors.orangeAccent,
-                           borderRadius: BorderRadius.circular(10)
-                         ),
+                          decoration: BoxDecoration(
+                              color: Colors.orangeAccent,
+                              borderRadius: BorderRadius.circular(10)),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             image: NetworkImage(_bloc
                                                 .reversedList[index].avatar
                                                 .validate()
-                                                .toString())),
+                                                .toString()),fit: BoxFit.cover),
                                       ),
                                       child: Container(),
                                     ),
@@ -83,7 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Expanded(
                                     flex: 9,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           _bloc.reversedList[index].nickname
@@ -92,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          "đang cảm thấy : ${_bloc.reversedList[index].mood.validate()}",
+                                          "đang cảm thấy : ${_bloc.reversedList[index].mood.validate()}, tại ${_bloc.reversedList[index].place.validate()}",
                                           style: GoogleFonts.lato(
                                             textStyle: const TextStyle(
                                                 fontSize: 12,
@@ -100,6 +101,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 letterSpacing: .5),
                                           ),
                                         ),
+                                        Text(
+                                          'vào ${_bloc.reversedList[index].other.validate()}',
+                                          style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                                fontSize: 12,
+                                                fontStyle: FontStyle.italic,
+                                                letterSpacing: .5),
+                                          ),
+                                        )
                                       ],
                                     ),
                                   )
@@ -108,7 +118,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               SingleChildScrollView(
                                 child: SizedBox(
                                   child: Text(
-                                      _bloc.reversedList[index].happened.validate(),
+                                      _bloc.reversedList[index].happened
+                                          .validate(),
                                       style: const TextStyle(fontSize: 15.0),
                                       maxLines: null),
                                 ),
@@ -121,13 +132,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                       if (_bloc.reversedList[index].createdAt !=
                                           null) {
                                         try {
-                                          DateTime createdAt = DateTime.parse(_bloc
-                                              .reversedList[index].createdAt
-                                              .toString());
+                                          DateTime createdAt = DateTime.parse(
+                                              _bloc
+                                                  .reversedList[index].createdAt
+                                                  .toString());
                                           // String formattedTime =
                                           //     DateFormat('dd-MM-yyyy').format(createdAt);
                                           DateTime now = DateTime.now();
-                                          Duration dif = createdAt.difference(now);
+                                          Duration dif =
+                                              createdAt.difference(now);
                                           int days = dif.inDays.abs();
                                           int hour = dif.inHours.abs();
                                           int minute = dif.inMinutes.abs();
@@ -169,23 +182,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     TextButton(
                                       onPressed: () async {
-                                      await Navigator.push(
+                                        await Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => CommentScreen(
+                                                builder: (context) =>
+                                                    CommentScreen(
                                                       id: _bloc
-                                                          .reversedList[index].id
+                                                          .reversedList[index]
+                                                          .id
                                                           .validate(),
-                                                      idUser: _inforBloc.ifUser!.id
+                                                      idUser: _inforBloc
+                                                          .ifUser!.id
                                                           .validate(),
                                                     )));
-                                      refreshPage();
+                                        refreshPage();
                                       },
                                       child: const Row(
                                         children: [
                                           Text(
                                             "Bình luận",
-                                            style: TextStyle(color: Colors.blue),
+                                            style:
+                                                TextStyle(color: Colors.blue),
                                           ),
                                         ],
                                       ),
@@ -256,11 +273,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     enabled: true,
                     placeholder: 'Search',
                     onTap: () async {
-                     await Navigator.push(
+                      await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const SearchScreen()));
-                     refreshPage();
+                      refreshPage();
                     },
                   ),
                 ),

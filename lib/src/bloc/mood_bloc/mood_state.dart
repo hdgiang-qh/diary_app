@@ -6,8 +6,7 @@ abstract class MoodState {}
 class MoodInitial extends MoodState {}
 class MoodLoading extends MoodState{}
 class MoodSuccess extends MoodState{
-  final List<MoodModel> listMood;
-  MoodSuccess(this.listMood);
+  MoodSuccess();
 }
 class MoodMusicSuccess extends MoodState{
   final List<MoodMusic> listMMusic;

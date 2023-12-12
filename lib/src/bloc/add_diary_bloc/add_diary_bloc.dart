@@ -13,18 +13,29 @@ part 'add_diary_state.dart';
 
 class AddDiaryBloc extends Bloc<AddDiaryEvent, AddDiaryState> {
   TextEditingController happened = TextEditingController();
-  TextEditingController mood = TextEditingController();
+  TextEditingController place = TextEditingController();
+  TextEditingController moodPast = TextEditingController();
+  TextEditingController thinkPast = TextEditingController();
+  TextEditingController time = TextEditingController();
   String? dropdownValue;
-  int? moodId;
+  int?  moodId;
   AddDiaryBloc() : super(AddDiaryInitial());
 
   void createDiary() async {
     emit(AddDiaryLoading());
     try {
       Map<String, dynamic> data = {
+        "change": "string",
         'happened': happened.text,
         'moodId': moodId,
+        "other": time.text,
+        "place": place.text,
         'status': dropdownValue,
+        "thinkingFelt": moodPast.text,
+        "thinkingMoment": thinkPast.text,
+        "thinkingNow": "string",
+        "time": "2023-12-12T07:44:16.125",
+        "title": "string"
       };
       final res = await Api.postAsync(
         endPoint: ApiPath.curdDiary,

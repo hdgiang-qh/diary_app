@@ -1,6 +1,4 @@
 import 'package:diary/src/bloc/detail_diary/detail_diary_bloc.dart';
-import 'package:diary/src/dash_board.dart';
-import 'package:diary/src/presentation/Diary/diary_screen.dart';
 import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,21 +71,22 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                     color: Colors.orangeAccent,
                     borderRadius: BorderRadius.circular(10)),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                            "Mood Feel : ${_detailDiaryBloc.model!.mood.validate()}"),
+                            "Cảm xúc : ${_detailDiaryBloc.model!.mood.validate()}"),
                         Row(
                           children: [
-                            const Text("Status Mode : "),
+                            const Text("Chế độ nhật ký : "),
                             buildDrop(),
                           ],
                         )
                       ],
                     ).paddingSymmetric(horizontal: 10),
+                    const Text("Chỉnh sửa câu chuyện :").paddingLeft(10),
                     SizedBox(
                       height: height * 0.2,
                       width: width,
@@ -112,6 +111,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                                     _detailDiaryBloc.updateDiary(
                                         _detailDiaryBloc.model!.id.validate());
                                     happened.clear();
+                                    Navigator.of(context).pop();
                                     toastEditComplete("");
                                   }
                                   else{
