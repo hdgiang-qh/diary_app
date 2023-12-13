@@ -14,6 +14,7 @@ part 'diaryuser_state.dart';
 
 class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
   DiaryUserBloc() : super(DiaryUserInitial());
+  List<DiaryUserModel> list = [];
   List<DiaryUserModel> listDU = [];
   DateTime? time;
   String? dateTime;
@@ -34,9 +35,10 @@ class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
       if (res['status'] == "SUCCESS") {
         if ((res['data'] as List).isNotEmpty) {
           for (var json in res['data']) {
-            listDU.add(DiaryUserModel.fromJson(json));
+            list.add(DiaryUserModel.fromJson(json));
+            listDU = list.reversed.toList();
           }
-          emit(DiaryUserSuccess(listDU));
+          emit(DiaryUserSuccess(list));
         } else {
           emit(DiaryUserFailure(error: 'Data Empty'));
         }

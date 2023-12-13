@@ -1,7 +1,10 @@
 import 'package:diary/src/bloc/detail_diary/detail_diary_bloc.dart';
 import 'package:diary/styles/color_styles.dart';
+import 'package:diary/styles/text_style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class EditDiaryScreen extends StatefulWidget {
@@ -16,7 +19,12 @@ class EditDiaryScreen extends StatefulWidget {
 class _EditDiaryScreenState extends State<EditDiaryScreen> {
   late final DetailDiaryBloc _detailDiaryBloc;
   TextEditingController happened = TextEditingController();
-  String? dropdownValue;
+  TextEditingController place = TextEditingController();
+  TextEditingController moodPast = TextEditingController();
+  TextEditingController thinkPast = TextEditingController();
+  TextEditingController time = TextEditingController();
+  TextEditingController date = TextEditingController();
+  String? dropdownValue, dropdownLevel;
 
   @override
   void initState() {
@@ -25,12 +33,40 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
     _detailDiaryBloc.getDetailDiary(widget.id);
   }
 
+  Widget buildLevel() {
+    // _detailDiaryBloc.dropdownLevel = dropdownLevel;
+    final List<String> list = <String>[
+      'Nhẹ nhàng',
+      'Rất ít',
+      'Vừa phải',
+      'Khá nhiều',
+      'Rất nhiều'
+    ];
+    return DropdownButton<String>(
+      hint: const Text("Level"),
+      underline: Container(),
+      value: dropdownLevel,
+      style: const TextStyle(color: primaryColor),
+      onChanged: (String? value) {
+        setState(() {
+          dropdownLevel = value!;
+        });
+      },
+      items: list.map<DropdownMenuItem<String>>((String stt) {
+        return DropdownMenuItem<String>(
+          value: stt,
+          child: Text(stt),
+        );
+      }).toList(),
+    );
+  }
+
   Widget buildDrop() {
     List<String> list = <String>['PUBLIC', 'PRIVATE'];
-    String status = _detailDiaryBloc.model!.status.validate().toString();
     return DropdownButton<String>(
-      hint: Text(status),
-      value: status,
+      underline: Container(),
+      hint: const Text('Mode'),
+      value: dropdownValue,
       style: const TextStyle(color: primaryColor),
       onChanged: (String? value) {
         setState(() {
@@ -48,6 +84,11 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
 
   Widget buildIdDiary() {
     _detailDiaryBloc.happen = happened;
+    _detailDiaryBloc.moodPast = moodPast;
+    _detailDiaryBloc.place = place;
+    _detailDiaryBloc.date = date;
+    _detailDiaryBloc.time = time;
+    _detailDiaryBloc.thinkPast = thinkPast;
     _detailDiaryBloc.status.text = dropdownValue.toString();
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
@@ -65,65 +106,291 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
           } else if (state is DetailSuccessV2) {
             happened.text =
                 _detailDiaryBloc.model!.happened.validate().toString();
-            return Card(
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.orangeAccent,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            place.text = _detailDiaryBloc.model!.place.validate();
+            moodPast.text = _detailDiaryBloc.model!.thinkingFelt.validate();
+            thinkPast.text = _detailDiaryBloc.model!.thinkingMoment.validate();
+            date.text = _detailDiaryBloc.model!.date.validate();
+            time.text = _detailDiaryBloc.model!.time.validate();
+            //dropdownLevel = _detailDiaryBloc.model!.level.validate();
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Text(
+                        "Cảm xúc : ${_detailDiaryBloc.model!.mood.validate()}"),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                            "Cảm xúc : ${_detailDiaryBloc.model!.mood.validate()}"),
-                        Row(
-                          children: [
-                            const Text("Chế độ nhật ký : "),
-                            buildDrop(),
-                          ],
-                        )
+                        const Text("Chế độ nhật ký : "),
+                        Container(
+                            height: 30,
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15))),
+                            child: buildDrop().paddingSymmetric(horizontal: 4)),
                       ],
-                    ).paddingSymmetric(horizontal: 10),
-                    const Text("Chỉnh sửa câu chuyện :").paddingLeft(10),
-                    SizedBox(
-                      height: height * 0.2,
-                      width: width,
-                      child: TextField(
-                        controller: happened,
-                        maxLines: null,
-                        expands: true,
-                        decoration: const InputDecoration(
-                            filled: true,
-                            // border: OutlineInputBorder(),
-                            hintText: "How are you feeling now?"),
-                      ),
-                    ).paddingSymmetric(horizontal: 0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        SizedBox(
-                            width: width * 0.3,
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  if (happened.text.isNotEmpty) {
-                                    _detailDiaryBloc.updateDiary(
-                                        _detailDiaryBloc.model!.id.validate());
-                                    happened.clear();
-                                    Navigator.of(context).pop();
-                                    toastEditComplete("");
-                                  }
-                                  else{
-                                    toastEditFailure("");
-                                  }
-                                },
-                                child: const Text("Save"))),
-                      ],
-                    ).paddingSymmetric(vertical: 10)
+                    )
+                  ],
+                ).paddingSymmetric(horizontal: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Text("Mức độ ảnh hương tới tâm trạng bạn: ")
+                        .paddingLeft(10),
+                    Container(
+                        height: 30,
+                        margin: const EdgeInsets.symmetric(vertical: 5),
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15))),
+                        child: buildLevel().paddingSymmetric(horizontal: 4)),
                   ],
                 ),
-              ),
+                const Text('Chỉnh sửa câu chuyện mà bạn gặp phải là gì?')
+                    .paddingSymmetric(horizontal: 10, vertical: 10),
+                SizedBox(
+                  height: height * 0.2,
+                  width: width,
+                  child: TextField(
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                    controller: happened,
+                    maxLines: null,
+                    expands: true,
+                    decoration: const InputDecoration(
+                        fillColor: Colors.orangeAccent,
+                        filled: true,
+                        // border: OutlineInputBorder(),
+                        hintText: "Nhập lời bạn muốn nói..."),
+                  ),
+                ).paddingSymmetric(horizontal: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Địa điểm nơi bạn bắt đầu câu chuyện đó :'),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                        height: 50,
+                        decoration: const BoxDecoration(color: Colors.red),
+                        child: TextField(
+                          style: const TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w500),
+                          controller: place,
+                          maxLines: null,
+                          expands: true,
+                          decoration: const InputDecoration(
+                              fillColor: Colors.orangeAccent,
+                              filled: true,
+                              // border: OutlineInputBorder(),
+                              hintText:
+                                  "Trường học, Ở nhà, Cơ quan,... nơi nào đó"),
+                        ))
+                  ],
+                ).paddingSymmetric(horizontal: 10, vertical: 5),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Cảm xúc,suy nghĩ của bạn lúc đó:'),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                        height: 50,
+                        decoration: const BoxDecoration(color: Colors.red),
+                        child: TextField(
+                          style: const TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w500),
+                          controller: moodPast,
+                          maxLines: null,
+                          expands: true,
+                          decoration: const InputDecoration(
+                              fillColor: Colors.orangeAccent,
+                              filled: true,
+                              // border: OutlineInputBorder(),
+                              hintText: "Vui, Buồn, Rối,... hoặc gì đó"),
+                        ))
+                  ],
+                ).paddingSymmetric(horizontal: 10, vertical: 5),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Thời gian bạn gặp phải chuyện đó: '),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                        height: 50,
+                        decoration: const BoxDecoration(color: Colors.blue),
+                        child: Row(
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: TextField(
+                                enabled: false,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                                controller: date,
+                                maxLines: null,
+                                expands: true,
+                                decoration: const InputDecoration(
+                                    fillColor: Colors.orangeAccent,
+                                    filled: true,
+                                    // border: OutlineInputBorder(),
+                                    hintText: "Ngày...,Tháng..."),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                late final formatter = DateFormat('dd-MM');
+                                DateTime? picker = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2000),
+                                    lastDate: DateTime(2025));
+                                if (picker != null) {
+                                  setState(() {
+                                    date.clear();
+                                  });
+                                }
+                                setState(() {
+                                  date.text = formatter.format(picker!);
+                                });
+                              },
+                              icon: const Icon(Icons.calendar_month_outlined),
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: TextField(
+                                enabled: false,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                                controller: time,
+                                maxLines: null,
+                                expands: false,
+                                decoration: const InputDecoration(
+                                    fillColor: Colors.orangeAccent,
+                                    filled: true,
+                                    hintText: "Giờ..."),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                TimeOfDay timeOfDay = TimeOfDay.now();
+                                final TimeOfDay? picked = await showTimePicker(
+                                  context: context,
+                                  initialTime: timeOfDay,
+                                );
+                                if (picked != null) {
+                                  setState(() {
+                                    time.text =
+                                        "${picked.hour}:${picked.minute}";
+                                  });
+                                } else {
+                                  time.text = "";
+                                }
+                              },
+                              icon: const Icon(Icons.calendar_month_outlined),
+                            ),
+                          ],
+                        ))
+                  ],
+                ).paddingSymmetric(horizontal: 10, vertical: 5),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Cách giải quyết sau khi suy nghĩ lại:'),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                        height: 120,
+                        decoration: const BoxDecoration(color: Colors.red),
+                        child: TextField(
+                          style: const TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w500),
+                          controller: thinkPast,
+                          maxLines: null,
+                          expands: true,
+                          decoration: const InputDecoration(
+                              fillColor: Colors.orangeAccent,
+                              filled: true,
+                              // border: OutlineInputBorder(),
+                              hintText: "Hãy viết ngắn gọn..."),
+                        ))
+                  ],
+                ).paddingSymmetric(horizontal: 10, vertical: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                        width: width * 0.3,
+                        child: ElevatedButton(
+                            onPressed: () async {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                showCupertinoDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return CupertinoAlertDialog(
+                                        title: const Icon(
+                                          CupertinoIcons.info_circle,
+                                        ),
+                                        content: const Text(
+                                          'Bạn có thay đổi nhật ký này?',
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        actions: [
+                                          CupertinoDialogAction(
+                                            isDefaultAction: true,
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                            child: Text("Cancel",
+                                                style: StyleApp.textStyle401()),
+                                          ),
+                                          CupertinoDialogAction(
+                                            isDefaultAction: true,
+                                            onPressed: () {
+                                              if (happened.text.isNotEmpty &&
+                                                  place.text.isNotEmpty &&
+                                                  thinkPast.text.isNotEmpty &&
+                                                  moodPast.text.isNotEmpty &&
+                                                  date.text.isNotEmpty &&
+                                                  time.text.isNotEmpty &&
+                                                  dropdownLevel
+                                                      .toString()
+                                                      .isNotEmpty &&
+                                                  dropdownValue
+                                                      .toString()
+                                                      .isNotEmpty) {
+                                                _detailDiaryBloc.updateDiary(
+                                                    _detailDiaryBloc.model!.id
+                                                        .validate());
+                                                Navigator.of(context).pop();
+                                                Navigator.of(context).pop();
+                                                toastEditComplete("");
+                                              } else {
+                                                toastEditFailure("");
+                                              }
+                                            },
+                                            child: Text("Apply",
+                                                style: StyleApp.textStyle402()),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              });
+                            },
+                            child: const Text("Save"))),
+                  ],
+                ).paddingSymmetric(vertical: 10)
+              ],
             );
           } else {
             return Container();
@@ -132,7 +399,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
   }
 
   void toastEditComplete(String messenger) => Fluttertoast.showToast(
-      msg: "Update Success",
+      msg: "Cập nhật thành công",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,
@@ -140,14 +407,12 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
       textColor: Colors.white);
 
   void toastEditFailure(String messenger) => Fluttertoast.showToast(
-      msg: "Update Failure",
+      msg: "Hãy ghi đầy đủ các giá trị",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.blueAccent,
       textColor: Colors.white);
-
-  _getRequests() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -178,14 +443,23 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
             image: DecorationImage(
                 image: AssetImage("assets/images/shape.png"),
                 fit: BoxFit.cover)),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              buildIdDiary(),
-            ],
+        child: SafeArea(
+          child: Card(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.deepPurple,
+                  borderRadius: BorderRadius.circular(10)),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    buildIdDiary(),
+                  ],
+                ),
+              ).paddingOnly(top: 5),
+            ),
           ),
-        ).paddingOnly(top: 5),
+        ),
       ),
     );
   }

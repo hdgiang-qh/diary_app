@@ -5,6 +5,7 @@ import 'package:diary/styles/color_styles.dart';
 import 'package:diary/styles/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -134,14 +135,8 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
         place.text.isNotEmpty &&
         date.text.isNotEmpty) {
       _bloc.createDiary();
-      happened.clear();
-      dropdownValue = '';
-      thinkPast.clear();
-      date.clear();
-      time.clear();
-      moodPast.clear();
-      place.clear();
       toastPostComplete("");
+      Navigator.of(context).pop();
       Navigator.of(context).pop();
     } else {
       toastError("");
@@ -188,7 +183,6 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                 fit: BoxFit.cover)),
         child: SafeArea(
           child: Card(
-            // margin: EdgeInsets.only(bottom: 10),
             child: Container(
               decoration: BoxDecoration(
                   color: Colors.deepPurple,
@@ -211,28 +205,12 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                                     BorderRadius.all(Radius.circular(15))),
                             child: buildDrop().paddingSymmetric(horizontal: 4)),
                       ],
-                    ).paddingBottom(5),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Text("Mức độ ảnh hưởng vấn đề đến bạn : ")
-                            .paddingLeft(10),
-                        Container(
-                            height: 30,
-                            margin: const EdgeInsets.symmetric(vertical: 5),
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
-                            child:
-                                buildLevel().paddingSymmetric(horizontal: 4)),
-                      ],
                     ),
                     Row(
                       children: [
                         const Align(
                             alignment: Alignment.centerLeft,
-                            child: Text('Cảm xúc hiện tại của bạn : ')),
+                            child: Text('Bạn đã trải qua tâm trạng gì: ')),
                         Container(
                           height: 30,
                           padding: const EdgeInsets.only(left: 5),
@@ -245,7 +223,23 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                         ),
                       ],
                     ).paddingSymmetric(horizontal: 10, vertical: 10),
-                    const Text('Câu chuyện mà bạn gặp phải là gì?')
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Text("Mức độ ảnh hương tới tâm trạng bạn: ")
+                            .paddingLeft(10),
+                        Container(
+                            height: 30,
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15))),
+                            child:
+                                buildLevel().paddingSymmetric(horizontal: 4)),
+                      ],
+                    ),
+                    const Text('Bạn đã gặp phải chuyện gì vậy?')
                         .paddingSymmetric(horizontal: 10, vertical: 10),
                     SizedBox(
                       height: height * 0.2,
@@ -259,14 +253,16 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                         decoration: const InputDecoration(
                             fillColor: Colors.orangeAccent,
                             filled: true,
+                            hintStyle: TextStyle(fontSize: 14),
                             // border: OutlineInputBorder(),
-                            hintText: "Nhập lời bạn muốn nói..."),
+                            hintText:
+                                "Hãy ghi vào đây,\nnhững gì xảy ra khiến tâm trạng bạn thay đổi nhé!"),
                       ),
                     ).paddingSymmetric(horizontal: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Địa điểm nơi bạn bắt đầu câu chuyện đó :'),
+                        const Text('Bạn đã ở đâu vào lúc đó?'),
                         const SizedBox(
                           height: 10,
                         ),
@@ -283,16 +279,17 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                               decoration: const InputDecoration(
                                   fillColor: Colors.orangeAccent,
                                   filled: true,
-                                  // border: OutlineInputBorder(),
+                                  hintStyle: TextStyle(fontSize: 14),
                                   hintText:
-                                      "Trường học, Ở nhà, Cơ quan,... nơi nào đó"),
+                                      "Trường học, Ở nhà, Cơ quan,...hoặc nơi nào đó"),
                             ))
                       ],
                     ).paddingSymmetric(horizontal: 10, vertical: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Cảm xúc của bạn lúc đó:'),
+                        const Text(
+                            'Cảm xúc, suy nghĩ của bạn lúc đó như thế nào?'),
                         const SizedBox(
                           height: 10,
                         ),
@@ -309,20 +306,106 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                               decoration: const InputDecoration(
                                   fillColor: Colors.orangeAccent,
                                   filled: true,
-                                  // border: OutlineInputBorder(),
+                                  hintStyle: TextStyle(fontSize: 14),
                                   hintText: "Vui, Buồn, Rối,... hoặc gì đó"),
                             ))
                       ],
                     ).paddingSymmetric(horizontal: 10, vertical: 10),
+                    const Text('Thời gian bạn gặp phải chuyện đó: ')
+                        .paddingSymmetric(horizontal: 10),
+                    Container(
+                        height: 50,
+                        decoration: const BoxDecoration(color: Colors.blue),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: TextField(
+                                enabled: false,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                                controller: date,
+                                maxLines: null,
+                                expands: true,
+                                decoration: const InputDecoration(
+                                    fillColor: Colors.orangeAccent,
+                                    filled: true,
+                                    hintText: "Ngày...,tháng...",
+                                    hintStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14)),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                late final formatter = DateFormat('dd-MM');
+                                DateTime? picker = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2000),
+                                    lastDate: DateTime(2025));
+                                if (picker != null) {
+                                  setState(() {
+                                    date.clear();
+                                  });
+                                }
+                                setState(() {
+                                  date.text = "${formatter.format(picker!)}";
+                                });
+                              },
+                              icon: const Icon(Icons.calendar_month_outlined),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: TextField(
+                                enabled: false,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                                controller: time,
+                                maxLines: null,
+                                expands: true,
+                                decoration: const InputDecoration(
+                                    fillColor: Colors.orangeAccent,
+                                    filled: true,
+                                    hintText: "Giờ...",
+                                    hintStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14)),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                TimeOfDay timeOfDay = TimeOfDay.now();
+                                final TimeOfDay? picked = await showTimePicker(
+                                  context: context,
+                                  initialTime: timeOfDay,
+                                );
+                                if (picked != null) {
+                                  setState(() {
+                                    time.text =
+                                        "${picked?.hour}:${picked?.minute}";
+                                  });
+                                } else {
+                                  time.text = "";
+                                }
+                              },
+                              icon: const Icon(Icons.calendar_month_outlined),
+                            )
+                          ],
+                        )).paddingSymmetric(horizontal: 10, vertical: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Lúc đó bạn có suy nghĩ gì:'),
+                        const Text(
+                            'Hãy dành chút thời gian để suy nghĩ về chuyện vừa qua, nếu gặp lại tình huống đó hãy suy nghĩ xem cách giải quyết tốt nhất cho bạn nhé(Hãy ghi xuống bên dưới nhé):'),
                         const SizedBox(
                           height: 10,
                         ),
                         Container(
-                            height: 50,
+                            height: 120,
                             decoration: const BoxDecoration(color: Colors.red),
                             child: TextField(
                               style: const TextStyle(
@@ -334,108 +417,27 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                               decoration: const InputDecoration(
                                   fillColor: Colors.orangeAccent,
                                   filled: true,
-                                  // border: OutlineInputBorder(),
-                                  hintText: "Hãy viết ngắn gọn..."),
+                                  hintStyle: TextStyle(fontSize: 14),
+                                  hintText: "Hãy viết ngắn gọn vào đây..."),
                             ))
                       ],
                     ).paddingSymmetric(horizontal: 10, vertical: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('Thời gian bạn gặp phải chuyện đó: '),
-                        const SizedBox(
-                          height: 10,
+                    Center(
+                      child: Text(
+                        'Chúng mình sẽ luôn lắng nghe những tâm tư của bạn <3<3',
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                              fontSize: 12,
+                              fontStyle: FontStyle.italic,
+                              letterSpacing: .5),
                         ),
-                        Container(
-                            height: 50,
-                            decoration: const BoxDecoration(color: Colors.red),
-                            child: Row(
-                              children: [
-                                Flexible(
-                                  flex: 1,
-                                  child: TextField(
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500),
-                                    controller: date,
-                                    maxLines: null,
-                                    expands: true,
-                                    decoration: InputDecoration(
-                                        suffixIcon: IconButton(
-                                          onPressed: () async {
-                                            late final formatter =
-                                                DateFormat('dd-MM');
-                                            DateTime? picker =
-                                                await showDatePicker(
-                                                    context: context,
-                                                    initialDate: DateTime.now(),
-                                                    firstDate: DateTime(2000),
-                                                    lastDate: DateTime(2025));
-                                            if (picker != null) {
-                                              setState(() {
-                                                date.clear();
-                                              });
-                                            }
-                                            setState(() {
-                                              date.text =
-                                                  "ngày ${formatter.format(picker!)}";
-                                            });
-                                          },
-                                          icon: const Icon(
-                                              Icons.calendar_month_outlined),
-                                        ),
-                                        fillColor: Colors.orangeAccent,
-                                        filled: true,
-                                        // border: OutlineInputBorder(),
-                                        hintText: "Ngày...,giờ..."),
-                                  ),
-                                ),
-                                Flexible(
-                                  flex: 1,
-                                  child: TextField(
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500),
-                                    controller: time,
-                                    maxLines: null,
-                                    expands: true,
-                                    decoration: InputDecoration(
-                                        suffixIcon: IconButton(
-                                          onPressed: () async {
-                                            TimeOfDay timeOfDay =
-                                                TimeOfDay.now();
-                                            final TimeOfDay? picked =
-                                                await showTimePicker(
-                                              context: context,
-                                              initialTime: timeOfDay,
-                                            );
-                                            if (picked != null) {
-                                              setState(() {
-                                                time.text =
-                                                    "${picked?.hour}:${picked?.minute}";
-                                              });
-                                            } else {
-                                              time.text = "";
-                                            }
-                                          },
-                                          icon: const Icon(
-                                              Icons.calendar_month_outlined),
-                                        ),
-                                        fillColor: Colors.orangeAccent,
-                                        filled: true,
-                                        // border: OutlineInputBorder(),
-                                        hintText: "Ngày...,giờ..."),
-                                  ),
-                                ),
-                              ],
-                            ))
-                      ],
-                    ).paddingSymmetric(horizontal: 10, vertical: 10),
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         SizedBox(
-                            width: width * 0.3,
+                            width: width * 0.35,
                             child: ElevatedButton(
                                 onPressed: () {
                                   WidgetsBinding.instance
@@ -473,7 +475,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                                         });
                                   });
                                 },
-                                child: const Text("Save"))),
+                                child: const Text("Lưu Nhật Ký"))),
                       ],
                     ).paddingOnly(top: 10, bottom: 5)
                   ],

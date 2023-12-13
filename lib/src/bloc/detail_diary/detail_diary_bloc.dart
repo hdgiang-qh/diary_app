@@ -15,6 +15,12 @@ class DetailDiaryBloc extends Bloc<DetailDiaryEvent, DetailDiaryState> {
   DetailDiaryBloc(this.id) : super(DetailDiaryInitial());
   TextEditingController happen = TextEditingController();
   TextEditingController status = TextEditingController();
+  TextEditingController place = TextEditingController();
+  TextEditingController moodPast = TextEditingController();
+  TextEditingController thinkPast = TextEditingController();
+  TextEditingController time = TextEditingController();
+  TextEditingController date = TextEditingController();
+  String? dropdownLevel;
   int id;
 
   void getDetailDiary(id) async {
@@ -38,8 +44,14 @@ class DetailDiaryBloc extends Bloc<DetailDiaryEvent, DetailDiaryState> {
     emit(DetailLoading());
     try {
       Map<String, dynamic> data = {
-        'happened': happen.text,
-        'status': status.text,
+        "date": date.text,
+        "happened": happen.text,
+        "place": place.text,
+        "status": status.text,
+        "thinkingFelt": moodPast.text,
+        "thinkingMoment": thinkPast.text,
+        "time": time.text,
+        "level":dropdownLevel
       };
       final res = await Api.putAsync(
         endPoint: "${ApiPath.curdDiary}/$id",

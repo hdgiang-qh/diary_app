@@ -72,9 +72,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
 
   Widget buildDateV2() {
     return TableCalendar(
-      // firstDay: DateTime.utc(2010, 10, 20),
-      // lastDay: DateTime.utc(2040, 10, 20),
-      // focusedDay: DateTime.now(),
       focusedDay: _focusedDay,
       firstDay: _firstDay,
       lastDay: _lastDay,
@@ -95,7 +92,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
           _selectedDay = selectedDay;
           _focusedDay = focusedDay;
           _bloc.time = selectedDay;
-          _bloc.listDU.clear();
+          _bloc.list.clear();
           _bloc.getListDU();
         });
       },
@@ -201,11 +198,21 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                         DateTime createdAt = DateTime.parse(
                                             _bloc.listDU[index].createdAt
                                                 .toString());
-
-                                        String formattedTime =
-                                            DateFormat('dd-MM-yyyy')
-                                                .format(createdAt);
-                                        return formattedTime;
+                                        DateTime now = DateTime.now();
+                                        Duration dif =
+                                            createdAt.difference(now);
+                                        int days = dif.inDays.abs();
+                                        int hour = dif.inHours.abs();
+                                        int minute = dif.inMinutes.abs();
+                                        String showTime;
+                                        days > 0
+                                            ? showTime = "$days ngày trước"
+                                            : (hour > 0
+                                                ? showTime =
+                                                    "${hour % 24} giờ trước"
+                                                : showTime =
+                                                    "$minute phút trước");
+                                        return showTime;
                                       } catch (e) {
                                         return '';
                                       }
@@ -314,7 +321,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
   }
 
   void refreshPage() {
-    _bloc.listDU.clear();
+    _bloc.list.clear();
     _bloc.getListDU();
   }
 
@@ -335,6 +342,13 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   refreshPage();
                 },
                 icon: const Icon(Icons.add)),
+            IconButton(
+                onPressed: () {
+                  _bloc.time = null;
+                  _bloc.list.clear();
+                  _bloc.getListDU();
+                },
+                icon: const Icon(Icons.refresh)),
           ],
         ),
         body: Container(
