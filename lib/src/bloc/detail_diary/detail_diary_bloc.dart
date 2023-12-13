@@ -18,8 +18,8 @@ class DetailDiaryBloc extends Bloc<DetailDiaryEvent, DetailDiaryState> {
   TextEditingController place = TextEditingController();
   TextEditingController moodPast = TextEditingController();
   TextEditingController thinkPast = TextEditingController();
-  TextEditingController time = TextEditingController();
-  TextEditingController date = TextEditingController();
+  // TextEditingController time = TextEditingController();
+  // TextEditingController date = TextEditingController();
   String? dropdownLevel;
   int id;
 
@@ -44,13 +44,13 @@ class DetailDiaryBloc extends Bloc<DetailDiaryEvent, DetailDiaryState> {
     emit(DetailLoading());
     try {
       Map<String, dynamic> data = {
-        "date": date.text,
+       // "date": date.text,
         "happened": happen.text,
         "place": place.text,
         "status": status.text,
         "thinkingFelt": moodPast.text,
         "thinkingMoment": thinkPast.text,
-        "time": time.text,
+       // "time": time.text,
         "level":dropdownLevel
       };
       final res = await Api.putAsync(

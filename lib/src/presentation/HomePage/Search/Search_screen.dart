@@ -42,9 +42,17 @@ class _SearchScreenState extends State<SearchScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ListTile(
-                        leading: const Icon(Icons.album),
+                        leading: Image(
+                          image: NetworkImage(state.inforUser.avatar.validate()),
+                        ),
                         title: Text(state.inforUser.nickName.validate()),
-                        subtitle: Text(state.inforUser.date.validate()),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Ngày sinh: ${state.inforUser.date.validate()}"),
+                            Text("Tuổi: ${state.inforUser.age.validate().toString()}")
+                          ],
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,

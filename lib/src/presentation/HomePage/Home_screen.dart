@@ -36,8 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _bloc.getAllDiary();
   }
 
-
   Widget buildListDiary() {
+    final width = MediaQuery.of(context).size.width;
     return BlocBuilder<GetAllDiaryBloc, GetAllDiaryState>(
       bloc: _bloc,
       builder: (context, state) {
@@ -120,12 +120,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               SingleChildScrollView(
                                 child: SizedBox(
                                   child: Text(
-                                      _bloc.reversedList[index].happened
-                                          .validate(),
+                                      "Sự việc : ${_bloc.reversedList[index].happened.validate()}",
                                       style: const TextStyle(fontSize: 15.0),
                                       maxLines: null),
                                 ),
                               ).paddingSymmetric(horizontal: 10),
+                              Divider(endIndent: width * 0.6).paddingSymmetric(horizontal: 10),
+                              Text('Sau khi suy nghĩ : ${_bloc.reversedList[index].thinkingMoment.validate()}')
+                                  .paddingSymmetric(horizontal: 10),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -221,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ],
                                       ),
                                     ),
-                                   ],
+                                  ],
                                 ),
                               ),
                             ],
@@ -281,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       top: 16, left: 5, right: 5, bottom: 10),
                   child: CupertinoSearchTextField(
                     decoration: BoxDecoration(
-                      color: Colors.white70,
+                        color: Colors.white70,
                         border: Border.all(width: 0.5, color: Colors.white),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(15))),

@@ -3,6 +3,7 @@ import 'package:diary/src/bloc/search_userDiary/diary_user_search_bloc.dart';
 import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -43,20 +44,21 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                      height: 80,
+                      height: 100,
                       width: double.infinity,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
                               image: NetworkImage(
-                                  "https://static.antoree.com/avatar.png"))),
+                                  state.ifUser1.avatar.validate()))),
                       child: Container()),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("Name : ${state.ifUser1.nickName.validate()}"),
-                      Text("Phone : ${state.ifUser1.phone.validate()}"),
-                      Text("Age : ${state.ifUser1.age.validate().toString()}"),
+                      Text(
+                          "Tên người dùng : ${state.ifUser1.nickName.validate()}"),
+                      Text("Số điện thoại : ${state.ifUser1.phone.validate()}"),
+                      Text("Tuổi : ${state.ifUser1.age.validate().toString()}"),
                       Text("Email : ${state.ifUser1.email.validate()}")
                     ],
                   )
@@ -74,6 +76,7 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
   }
 
   Widget buildList() {
+    final width = MediaQuery.of(context).size.width;
     return BlocBuilder<DiaryUserSearchBloc, DiaryUserSearchState>(
         bloc: _diaryUserSearchBloc,
         builder: (context, state) {
@@ -86,79 +89,135 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                   : ListView.separated(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => Card(
-                        child: Container(
-                          decoration:  BoxDecoration(
-                              color: Colors.orangeAccent,
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                      itemBuilder: (context, index) =>
+                          Card(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.orangeAccent,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(
-                                    flex: 3,
-                                    child: Text(
-                                      _diaryUserSearchBloc.list[index].nickname
-                                          .validate()
-                                          .toString(),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 12),
-                                    ),
+                                  Column(
+                                    //crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            flex: 3,
+                                            child: Text(
+                                              _diaryUserSearchBloc.list[index].nickname
+                                                  .validate()
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 12),
+                                            ),
+                                          ),
+                                          Expanded(
+                                              child: Text(
+                                                _diaryUserSearchBloc.list[index].status.toString(),
+                                                style: TextStyle(
+                                                    color: _diaryUserSearchBloc.list[index].status
+                                                        .toString() ==
+                                                        "PUBLIC"
+                                                        ? Colors.green
+                                                        : Colors.red,
+                                                    fontWeight: FontWeight.bold),
+                                              )),
+                                        ],
+                                      ).paddingOnly(left: 5, bottom: 5, top: 5),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            "đang cảm thấy : ${_diaryUserSearchBloc.list[index].mood.validate()},  mức độ : ${_diaryUserSearchBloc.list[index].level.validate()}",
+                                            style: GoogleFonts.lato(
+                                              textStyle: const TextStyle(
+                                                  fontSize: 12,
+                                                  fontStyle: FontStyle.italic,
+                                                  letterSpacing: .5),
+                                            ),
+                                          ),
+                                          Text(
+                                            'vào ${_diaryUserSearchBloc.list[index].date.validate().toString()}, ${_diaryUserSearchBloc.list[index].time.validate().toString()}',
+                                            style: GoogleFonts.lato(
+                                              textStyle: const TextStyle(
+                                                  fontSize: 12,
+                                                  fontStyle: FontStyle.italic,
+                                                  letterSpacing: .5),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                  Expanded(
+                                  SingleChildScrollView(
+                                    child: SizedBox(
                                       child: Text(
-                                    _diaryUserSearchBloc.list[index].status
-                                        .toString(),
-                                    style: TextStyle(
-                                        color: _diaryUserSearchBloc
-                                                    .list[index].status
-                                                    .toString() ==
-                                                "PUBLIC"
-                                            ? Colors.green
-                                            : Colors.red,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                                ],
-                              ).paddingOnly(left: 5, bottom: 15, top: 5),
-                              SingleChildScrollView(
-                                child: SizedBox(
-                                  child: Text(
-                                      _diaryUserSearchBloc.list[index].happened.validate(),
-                                      style: const TextStyle(fontSize: 14.0),
-                                      maxLines: null),
-                                ),
-                              ).paddingOnly(left: 5),
-                              const SizedBox(height: 10,),
-                              Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                          () {
-                                        if (_diaryUserSearchBloc.list[index].createdAt != null) {
-                                          try {
-                                            DateTime createdAt = DateTime.parse(_diaryUserSearchBloc
-                                                .list[index].createdAt
-                                                .toString());
-
-                                            String formattedTime =
-                                            DateFormat('dd-MM-yyyy')
-                                                .format(createdAt);
-                                            return formattedTime;
-                                          } catch (e) {
+                                          "Sự việc: ${_diaryUserSearchBloc.list[index].happened.validate()}",
+                                          style: const TextStyle(fontSize: 14.0),
+                                          maxLines: null),
+                                    ),
+                                  ).paddingSymmetric(horizontal: 10),
+                                  Divider(endIndent: width * 0.6)
+                                      .paddingSymmetric(horizontal: 10),
+                                  Text('Sau khi suy nghĩ : ${_diaryUserSearchBloc.list[index].thinkingMoment.validate()}')
+                                      .paddingSymmetric(horizontal: 10),
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'tại ${_diaryUserSearchBloc.list[index].place.validate()}',
+                                          style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                                fontSize: 12,
+                                                fontStyle: FontStyle.italic,
+                                                letterSpacing: .5),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(() {
+                                          if (_diaryUserSearchBloc.list[index].createdAt !=
+                                              null) {
+                                            try {
+                                              DateTime createdAt = DateTime.parse(
+                                                  _diaryUserSearchBloc.list[index].createdAt
+                                                      .toString());
+                                              DateTime now = DateTime.now();
+                                              Duration dif =
+                                              createdAt.difference(now);
+                                              int days = dif.inDays.abs();
+                                              int hour = dif.inHours.abs();
+                                              int minute = dif.inMinutes.abs();
+                                              String showTime;
+                                              days > 0
+                                                  ? showTime = "$days ngày trước"
+                                                  : (hour > 0
+                                                  ? showTime =
+                                              "${hour % 24} giờ trước"
+                                                  : showTime =
+                                              "$minute phút trước");
+                                              return showTime;
+                                            } catch (e) {
+                                              return '';
+                                            }
+                                          } else {
                                             return '';
                                           }
-                                        } else {
-                                          return '';
-                                        }
-                                      }())).paddingRight(5),
-
-                            ],
-                          ),
-                        ),
-                      ).paddingBottom(5),
+                                        }())
+                                      ]).paddingSymmetric(horizontal: 10),
+                                  const Divider(
+                                    height: 1,
+                                    color: Colors.grey,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ).paddingBottom(5),
                       separatorBuilder: (context, index) => Container(),
                       itemCount: _diaryUserSearchBloc.list.length,
                       shrinkWrap: true,
@@ -189,12 +248,16 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                 image: AssetImage("assets/images/shape.png"),
                 fit: BoxFit.cover)),
         child: SafeArea(
-          child: Column(
-            children: [
-              buildInforSearch(),
-              const SizedBox(height: 10,),
-              buildList()
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                buildInforSearch(),
+                const SizedBox(
+                  height: 10,
+                ),
+                buildList()
+              ],
+            ),
           ),
         ),
       ),

@@ -11,7 +11,8 @@ part 'diary_user_search_event.dart';
 part 'diary_user_search_state.dart';
 
 class DiaryUserSearchBloc extends Bloc<DiaryUserSearchEvent, DiaryUserSearchState> {
-  final List<DiaryUserModel> list = [];
+  List<DiaryUserModel> listSearch = [];
+  List<DiaryUserModel> list = [];
   DiaryUserSearchBloc() : super(DiaryUserSearchInitial());
 
   void getListSearch({int? id}) async {
@@ -22,9 +23,10 @@ class DiaryUserSearchBloc extends Bloc<DiaryUserSearchEvent, DiaryUserSearchStat
       if (res['status'] == "SUCCESS") {
         if ((res['data'] as List).isNotEmpty) {
           for (var json in res['data']) {
-            list.add(DiaryUserModel.fromJson(json));
+            listSearch.add(DiaryUserModel.fromJson(json));
+            list = listSearch.reversed.toList();
           }
-          emit(DiaryUserSearchSuccess(list));
+          emit(DiaryUserSearchSuccess(listSearch));
         } else {
           emit(DiaryUserSearchFailure(error: ""));
         }

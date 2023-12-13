@@ -28,10 +28,10 @@ class MyApp extends StatelessWidget {
         '/dashboard/diaryuser' : (context) => const DiaryScreen()
       },
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
-        useMaterial3: true,
-      ),
+      // theme: ThemeData(
+      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
+      //   useMaterial3: true,
+      // ),
       debugShowCheckedModeBanner: false,
       home:  const SplashScreen(),
       color: Colors.cyan,

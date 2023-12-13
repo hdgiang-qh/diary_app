@@ -80,10 +80,10 @@ class _UserScreenState extends State<UserScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Name : ${state.ifUser.nickName.validate()}"),
-                          Text("Phone : ${state.ifUser.phone.validate()}"),
+                          Text("Tên người dùng : ${state.ifUser.nickName.validate()}"),
+                          Text("Số điện thoại : ${state.ifUser.phone.validate()}"),
                           Text(
-                              "Age : ${state.ifUser.age.validate().toString()}"),
+                              "Tuổi : ${state.ifUser.age.validate().toString()}"),
                           Text("Email : ${state.ifUser.email.validate()}")
                         ],
                       )

@@ -35,6 +35,7 @@ class ColorAppStyle {
   static const Color blue75 = Color(0xff758eb7);
 
 
+
   static List<Color> colorList = [
     black1A, black2C,green1D,blue0B,blueMid,redFB,yellowFE,yellowFF
   ];

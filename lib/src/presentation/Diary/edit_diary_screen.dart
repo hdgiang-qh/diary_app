@@ -4,6 +4,7 @@ import 'package:diary/styles/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -24,6 +25,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
   TextEditingController thinkPast = TextEditingController();
   TextEditingController time = TextEditingController();
   TextEditingController date = TextEditingController();
+  String? newDate;
   String? dropdownValue, dropdownLevel;
 
   @override
@@ -86,10 +88,11 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
     _detailDiaryBloc.happen = happened;
     _detailDiaryBloc.moodPast = moodPast;
     _detailDiaryBloc.place = place;
-    _detailDiaryBloc.date = date;
-    _detailDiaryBloc.time = time;
+    // _detailDiaryBloc.date = date;
+    // _detailDiaryBloc.time = time;
     _detailDiaryBloc.thinkPast = thinkPast;
     _detailDiaryBloc.status.text = dropdownValue.toString();
+    _detailDiaryBloc.dropdownLevel = dropdownLevel;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return BlocBuilder<DetailDiaryBloc, DetailDiaryState>(
@@ -109,8 +112,8 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
             place.text = _detailDiaryBloc.model!.place.validate();
             moodPast.text = _detailDiaryBloc.model!.thinkingFelt.validate();
             thinkPast.text = _detailDiaryBloc.model!.thinkingMoment.validate();
-            date.text = _detailDiaryBloc.model!.date.validate();
-            time.text = _detailDiaryBloc.model!.time.validate();
+            // date.text = _detailDiaryBloc.model!.date.validate();
+            // time.text = _detailDiaryBloc.model!.time.validate();
             //dropdownLevel = _detailDiaryBloc.model!.level.validate();
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -220,92 +223,6 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Thời gian bạn gặp phải chuyện đó: '),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                        height: 50,
-                        decoration: const BoxDecoration(color: Colors.blue),
-                        child: Row(
-                          children: [
-                            Flexible(
-                              flex: 1,
-                              child: TextField(
-                                enabled: false,
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500),
-                                controller: date,
-                                maxLines: null,
-                                expands: true,
-                                decoration: const InputDecoration(
-                                    fillColor: Colors.orangeAccent,
-                                    filled: true,
-                                    // border: OutlineInputBorder(),
-                                    hintText: "Ngày...,Tháng..."),
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () async {
-                                late final formatter = DateFormat('dd-MM');
-                                DateTime? picker = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2025));
-                                if (picker != null) {
-                                  setState(() {
-                                    date.clear();
-                                  });
-                                }
-                                setState(() {
-                                  date.text = formatter.format(picker!);
-                                });
-                              },
-                              icon: const Icon(Icons.calendar_month_outlined),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: TextField(
-                                enabled: false,
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500),
-                                controller: time,
-                                maxLines: null,
-                                expands: false,
-                                decoration: const InputDecoration(
-                                    fillColor: Colors.orangeAccent,
-                                    filled: true,
-                                    hintText: "Giờ..."),
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () async {
-                                TimeOfDay timeOfDay = TimeOfDay.now();
-                                final TimeOfDay? picked = await showTimePicker(
-                                  context: context,
-                                  initialTime: timeOfDay,
-                                );
-                                if (picked != null) {
-                                  setState(() {
-                                    time.text =
-                                        "${picked.hour}:${picked.minute}";
-                                  });
-                                } else {
-                                  time.text = "";
-                                }
-                              },
-                              icon: const Icon(Icons.calendar_month_outlined),
-                            ),
-                          ],
-                        ))
-                  ],
-                ).paddingSymmetric(horizontal: 10, vertical: 5),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
                     const Text('Cách giải quyết sau khi suy nghĩ lại:'),
                     const SizedBox(
                       height: 10,
@@ -327,11 +244,20 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                         ))
                   ],
                 ).paddingSymmetric(horizontal: 10, vertical: 5),
+                Text(
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                              fontSize: 13,
+                              fontStyle: FontStyle.italic,
+                              letterSpacing: .5),
+                        ),
+                        "ngày ${_detailDiaryBloc.model!.date.validate()}, lúc ${_detailDiaryBloc.model!.time.validate()} ")
+                    .paddingSymmetric(horizontal: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     SizedBox(
-                        width: width * 0.3,
+                        width: width * 0.35,
                         child: ElevatedButton(
                             onPressed: () async {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -361,8 +287,6 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                                                   place.text.isNotEmpty &&
                                                   thinkPast.text.isNotEmpty &&
                                                   moodPast.text.isNotEmpty &&
-                                                  date.text.isNotEmpty &&
-                                                  time.text.isNotEmpty &&
                                                   dropdownLevel
                                                       .toString()
                                                       .isNotEmpty &&
@@ -387,7 +311,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                                     });
                               });
                             },
-                            child: const Text("Save"))),
+                            child: const Text("Lưu thay đổi"))),
                   ],
                 ).paddingSymmetric(vertical: 10)
               ],
@@ -444,18 +368,14 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                 image: AssetImage("assets/images/shape.png"),
                 fit: BoxFit.cover)),
         child: SafeArea(
-          child: Card(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.deepPurple,
-                  borderRadius: BorderRadius.circular(10)),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    buildIdDiary(),
-                  ],
-                ),
+          child: SingleChildScrollView(
+            child: Card(
+              color: Colors.purple,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  buildIdDiary(),
+                ],
               ).paddingOnly(top: 5),
             ),
           ),
