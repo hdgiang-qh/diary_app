@@ -4,22 +4,22 @@
 class DiaryUserModel {
 /*
 {
-  "id": 18,
+  "id": 12,
   "title": "string",
-  "mood": "tức giận",
-  "happened": "Bây giờ em biết vì sao gặp nhau biển xô sóng trào.Ngồi nghe chiều im gió lặng giữa muôn vàn hoa.Đi về đâu cũng là thế, buồn kia còn trong dáng ngồi.Thiên đường xưa khép lại……. từ muôn năm rồi",
-  "thinkingMoment": "string",
-  "time": "2023-11-08T09:29:00.778",
-  "place": "string",
-  "thinkingNow": "yêu đời",
-  "thinkingFelt": "string",
-  "change": "string",
-  "other": "string",
+  "mood": "Vui vẻ",
+  "happened": "1 phút lỡ lời cả đời lỡ duyên",
+  "thinkingMoment": "oaaoiio",
+  "time": null,
+  "date": null,
+  "place": "uauuaua",
+  "level": null,
+  "thinkingFelt": "oaoaoaoa",
+  "other": "ngày 11-12, lúc 10h",
   "status": "PUBLIC",
-  "createdBy": "22",
-  "createdAt": "2023-11-08T16:31:52.184",
-  "nickname": "Kamen Rider",
-  "avatar": "string"
+  "createdBy": "5",
+  "createdAt": "2023-12-12T17:10:23.123356",
+  "nickname": "string",
+  "avatar": "https://i.imgur.com/F5qIESn.png"
 }
 */
 
@@ -29,10 +29,10 @@ class DiaryUserModel {
   String? happened;
   String? thinkingMoment;
   String? time;
+  String? date;
   String? place;
-  String? thinkingNow;
+  String? level;
   String? thinkingFelt;
-  String? change;
   String? other;
   String? status;
   String? createdBy;
@@ -47,10 +47,10 @@ class DiaryUserModel {
     this.happened,
     this.thinkingMoment,
     this.time,
+    this.date,
     this.place,
-    this.thinkingNow,
+    this.level,
     this.thinkingFelt,
-    this.change,
     this.other,
     this.status,
     this.createdBy,
@@ -65,10 +65,10 @@ class DiaryUserModel {
     happened = json['happened']?.toString();
     thinkingMoment = json['thinkingMoment']?.toString();
     time = json['time']?.toString();
+    date = json['date']?.toString();
     place = json['place']?.toString();
-    thinkingNow = json['thinkingNow']?.toString();
+    level = json['level']?.toString();
     thinkingFelt = json['thinkingFelt']?.toString();
-    change = json['change']?.toString();
     other = json['other']?.toString();
     status = json['status']?.toString();
     createdBy = json['createdBy']?.toString();
@@ -84,10 +84,10 @@ class DiaryUserModel {
     data['happened'] = happened;
     data['thinkingMoment'] = thinkingMoment;
     data['time'] = time;
+    data['date'] = date;
     data['place'] = place;
-    data['thinkingNow'] = thinkingNow;
+    data['level'] = level;
     data['thinkingFelt'] = thinkingFelt;
-    data['change'] = change;
     data['other'] = other;
     data['status'] = status;
     data['createdBy'] = createdBy;

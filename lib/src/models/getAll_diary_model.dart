@@ -4,22 +4,22 @@
 class GetAllDiaryPublicModel {
 /*
 {
-  "id": 17,
+  "id": 12,
   "title": "string",
-  "mood": "hạnh phúc",
-  "happened": "string",
-  "thinkingMoment": "string",
-  "time": "2023-11-08T09:18:10.149",
-  "place": "string",
-  "thinkingNow": "string",
-  "thinkingFelt": "string",
-  "change": "string",
-  "other": "string",
+  "mood": "Vui vẻ",
+  "happened": "1 phút lỡ lời cả đời lỡ duyên",
+  "thinkingMoment": "oaaoiio",
+  "time": null,
+  "date": null,
+  "place": "uauuaua",
+  "level": null,
+  "thinkingFelt": "oaoaoaoa",
+  "other": "ngày 11-12, lúc 10h",
   "status": "PUBLIC",
-  "createdBy": "1",
-  "createdAt": "2023-11-08T16:18:38.502",
-  "nickname": "mohamed Salah",
-  "avatar": "string"
+  "createdBy": "5",
+  "createdAt": "2023-12-12T17:10:23.123356",
+  "nickname": "string",
+  "avatar": "https://i.imgur.com/F5qIESn.png"
 }
 */
 
@@ -29,10 +29,10 @@ class GetAllDiaryPublicModel {
   String? happened;
   String? thinkingMoment;
   String? time;
+  String? date;
   String? place;
-  String? thinkingNow;
+  String? level;
   String? thinkingFelt;
-  String? change;
   String? other;
   String? status;
   String? createdBy;
@@ -47,10 +47,10 @@ class GetAllDiaryPublicModel {
     this.happened,
     this.thinkingMoment,
     this.time,
+    this.date,
     this.place,
-    this.thinkingNow,
+    this.level,
     this.thinkingFelt,
-    this.change,
     this.other,
     this.status,
     this.createdBy,
@@ -65,10 +65,10 @@ class GetAllDiaryPublicModel {
     happened = json['happened']?.toString();
     thinkingMoment = json['thinkingMoment']?.toString();
     time = json['time']?.toString();
+    date = json['date']?.toString();
     place = json['place']?.toString();
-    thinkingNow = json['thinkingNow']?.toString();
+    level = json['level']?.toString();
     thinkingFelt = json['thinkingFelt']?.toString();
-    change = json['change']?.toString();
     other = json['other']?.toString();
     status = json['status']?.toString();
     createdBy = json['createdBy']?.toString();
@@ -84,10 +84,10 @@ class GetAllDiaryPublicModel {
     data['happened'] = happened;
     data['thinkingMoment'] = thinkingMoment;
     data['time'] = time;
+    data['date'] = date;
     data['place'] = place;
-    data['thinkingNow'] = thinkingNow;
+    data['level'] = level;
     data['thinkingFelt'] = thinkingFelt;
-    data['change'] = change;
     data['other'] = other;
     data['status'] = status;
     data['createdBy'] = createdBy;

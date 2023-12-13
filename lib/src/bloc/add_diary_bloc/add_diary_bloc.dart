@@ -17,24 +17,26 @@ class AddDiaryBloc extends Bloc<AddDiaryEvent, AddDiaryState> {
   TextEditingController moodPast = TextEditingController();
   TextEditingController thinkPast = TextEditingController();
   TextEditingController time = TextEditingController();
-  String? dropdownValue;
+  TextEditingController date = TextEditingController();
+  TextEditingController level = TextEditingController();
+  String? dropdownValue,dropdownLevel;
   int?  moodId;
   AddDiaryBloc() : super(AddDiaryInitial());
 
   void createDiary() async {
     emit(AddDiaryLoading());
     try {
-      Map<String, dynamic> data = {
-        "change": "string",
-        'happened': happened.text,
-        'moodId': moodId,
-        "other": time.text,
+      Map<String, dynamic> data ={
+        "date": date.text,
+        "happened": happened.text,
+        "level": dropdownLevel,
+        "moodId": moodId,
+        "other": "string",
         "place": place.text,
-        'status': dropdownValue,
+        "status": dropdownValue,
         "thinkingFelt": moodPast.text,
         "thinkingMoment": thinkPast.text,
-        "thinkingNow": "string",
-        "time": "2023-12-12T07:44:16.125",
+        "time": time.text,
         "title": "string"
       };
       final res = await Api.postAsync(

@@ -36,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _bloc.getAllDiary();
   }
 
+
   Widget buildListDiary() {
     return BlocBuilder<GetAllDiaryBloc, GetAllDiaryState>(
       bloc: _bloc,
@@ -72,7 +73,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             image: NetworkImage(_bloc
                                                 .reversedList[index].avatar
                                                 .validate()
-                                                .toString()),fit: BoxFit.cover),
+                                                .toString()),
+                                            fit: BoxFit.cover),
                                       ),
                                       child: Container(),
                                     ),
@@ -93,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          "đang cảm thấy : ${_bloc.reversedList[index].mood.validate()}, tại ${_bloc.reversedList[index].place.validate()}",
+                                          "đang cảm thấy : ${_bloc.reversedList[index].mood.validate()},  mức độ : ${_bloc.reversedList[index].level.validate()}",
                                           style: GoogleFonts.lato(
                                             textStyle: const TextStyle(
                                                 fontSize: 12,
@@ -102,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                         Text(
-                                          'vào ${_bloc.reversedList[index].other.validate()}',
+                                          'vào ${_bloc.reversedList[index].date.validate().toString()}, ${_bloc.reversedList[index].time.validate().toString()}',
                                           style: GoogleFonts.lato(
                                             textStyle: const TextStyle(
                                                 fontSize: 12,
@@ -127,6 +129,18 @@ class _HomeScreenState extends State<HomeScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
+                                  Text(
+                                    'tại ${_bloc.reversedList[index].place.validate()}',
+                                    style: GoogleFonts.lato(
+                                      textStyle: const TextStyle(
+                                          fontSize: 12,
+                                          fontStyle: FontStyle.italic,
+                                          letterSpacing: .5),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
                                   Text(
                                     () {
                                       if (_bloc.reversedList[index].createdAt !=
@@ -207,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ],
                                       ),
                                     ),
-                                  ],
+                                   ],
                                 ),
                               ),
                             ],
@@ -267,11 +281,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       top: 16, left: 5, right: 5, bottom: 10),
                   child: CupertinoSearchTextField(
                     decoration: BoxDecoration(
-                        border: Border.all(width: 0.5, color: Colors.grey),
+                      color: Colors.white70,
+                        border: Border.all(width: 0.5, color: Colors.white),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(15))),
                     enabled: true,
                     placeholder: 'Search',
+                    placeholderStyle: const TextStyle(color: Colors.black),
                     onTap: () async {
                       await Navigator.push(
                           context,
