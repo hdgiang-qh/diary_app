@@ -27,9 +27,12 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen>
   late AnimationController _controller;
   late final PodcastBloc _bloc;
   late AudioPlayer audioPlayer;
+  double sliderValue = 5;
+  bool showSlider = false;
   String thumbnailImgUrl =
       "https://ecdn.game4v.com/g4v-content/uploads/2022/10/09093327/Kimetsu-1-game4v-1665282804-5.png";
   var player = AudioPlayer();
+  double volume = 5.0;
   bool loaded = false;
   bool playing = false;
 
@@ -54,6 +57,22 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen>
     await player.pause();
   }
 
+  void increaseVolume() async {
+    setState(() {
+      playing = true;
+      volume += 5;
+      player.setVolume(volume);
+    });
+  }
+
+  void decreaseVolume() async {
+    setState(() {
+      playing = true;
+      volume -= 5;
+      player.setVolume(volume);
+    });
+  }
+
   @override
   void initState() {
     loadMusic();
@@ -64,6 +83,7 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen>
       vsync: this,
       duration: const Duration(seconds: 15),
     )..repeat();
+    player.setVolume(volume);
   }
 
   @override
@@ -185,7 +205,7 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen>
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 const SizedBox(
-                  width: 10,
+                  width: 30,
                 ),
                 IconButton(
                     onPressed: loaded
@@ -238,9 +258,43 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen>
                       Icons.fast_forward_rounded,
                       color: Colors.red,
                     )),
-                const SizedBox(
-                  width: 10,
+                SizedBox(
+                  width: 30,
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        showSlider = !showSlider;
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.volume_up_outlined,
+                      color: Colors.red,
+                    ),
+                  ),
                 ),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (showSlider)
+                  Slider(
+                    activeColor: Colors.red,
+                    inactiveColor: Colors.blue,
+                    thumbColor: Colors.red,
+                    value: sliderValue,
+                    onChanged: (value) {
+                      setState(() {
+                        sliderValue = value;
+                        player.setVolume(value);
+                      });
+                    },
+                    label: '$sliderValue',
+                    // Hiển thị giá trị trên Slider
+                    min: 0,
+                    max: 100,
+                    divisions: 100,
+                  ),
               ],
             ),
             const Spacer(
