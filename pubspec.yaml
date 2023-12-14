@@ -54,6 +54,7 @@ dependencies:
   table_calendar: ^3.0.9
   audioplayers: ^5.2.1
   just_audio: ^0.9.36
+  motion_toast: ^2.7.10
   image_picker: ^1.0.4
   audio_video_progress_bar: ^2.0.1
 dev_dependencies:

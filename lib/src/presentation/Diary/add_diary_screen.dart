@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:motion_toast/motion_toast.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class AddDiaryScreen extends StatefulWidget {
@@ -35,21 +36,49 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
     _bloc = AddDiaryBloc();
   }
 
-  void toastPostComplete(String messenger) => Fluttertoast.showToast(
-      msg: "Tạo nhật ký thành công",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.blueAccent,
-      textColor: Colors.white);
 
-  void toastError(String messenger) => Fluttertoast.showToast(
-      msg: "Hãy điền đầy đủ thông tin",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.blueAccent,
-      textColor: Colors.white);
+  void MotionToastSuccess() {
+    MotionToast(
+      icon: Icons.check_circle,
+      primaryColor: Colors.green[600]!,
+      secondaryColor: Colors.greenAccent,
+      backgroundType: BackgroundType.solid,
+      title: const Text(
+        'Đăng tải thành công',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: Container(),
+      position: MotionToastPosition.top,
+      layoutOrientation: ToastOrientation.rtl,
+      animationDuration: const Duration(seconds: 2),
+      animationType: AnimationType.fromRight,
+      width: 300,
+      height: 50,
+    ).show(context);
+  }
+
+  void MotionToastError() {
+    MotionToast(
+      icon: Icons.error_outline,
+      primaryColor: Colors.red[400]!,
+      secondaryColor: Colors.grey,
+      backgroundType: BackgroundType.solid,
+      title: const Text(
+        'Đăng tải không thành công',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: const Text('Hãy điền đầy đủ thông tin'),
+      position: MotionToastPosition.top,
+      animationType: AnimationType.fromRight,
+      animationDuration: const Duration(seconds: 2),
+      width: 300,
+      height: 50,
+    ).show(context);
+  }
 
   Widget buildDrop() {
     _bloc.dropdownValue = dropdownValue;
@@ -135,12 +164,12 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
         place.text.isNotEmpty &&
         date.text.isNotEmpty) {
       _bloc.createDiary();
-      toastPostComplete("");
       Navigator.of(context).pop();
       Navigator.of(context).pop();
+      MotionToastSuccess();
     } else {
-      toastError("");
       Navigator.of(context).pop();
+      MotionToastError();
     }
   }
 
@@ -169,7 +198,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
       body: Container(
         constraints: const BoxConstraints.expand(),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(0),
+            borderRadius: BorderRadius.circular(0),
             gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -206,8 +235,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                           margin: const EdgeInsets.symmetric(vertical: 5),
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              border:
-                                  Border.all(width: 1, color: Colors.grey),
+                              border: Border.all(width: 1, color: Colors.grey),
                               borderRadius: BorderRadius.circular(15)),
                           child: buildDrop().paddingSymmetric(horizontal: 4)),
                     ],
@@ -239,11 +267,9 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                           margin: const EdgeInsets.symmetric(vertical: 5),
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              border:
-                                  Border.all(width: 1, color: Colors.grey),
+                              border: Border.all(width: 1, color: Colors.grey),
                               borderRadius: BorderRadius.circular(15)),
-                          child:
-                              buildLevel().paddingSymmetric(horizontal: 4)),
+                          child: buildLevel().paddingSymmetric(horizontal: 4)),
                     ],
                   ),
                   const Text('Bạn đã gặp phải chuyện gì vậy?')
@@ -389,8 +415,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                               );
                               if (picked != null) {
                                 setState(() {
-                                  time.text =
-                                      "${picked.hour}:${picked.minute}";
+                                  time.text = "${picked.hour}:${picked.minute}";
                                 });
                               } else {
                                 time.text = "";
@@ -442,59 +467,55 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                       SizedBox(
                           width: width * 0.35,
                           child: ElevatedButton.icon(
-                              onPressed: () {
-                                WidgetsBinding.instance
-                                    .addPostFrameCallback((_) {
-                                  showCupertinoDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return CupertinoAlertDialog(
-                                          title: const Icon(
-                                              CupertinoIcons.info_circle),
-                                          content: const Text(
-                                            'Xác nhận tạo nội dung Diary?',
-                                            textAlign: TextAlign.center,
+                            onPressed: () {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                showCupertinoDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return CupertinoAlertDialog(
+                                        title: const Icon(
+                                            CupertinoIcons.info_circle),
+                                        content: const Text(
+                                          'Xác nhận tạo nội dung Diary?',
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        actions: [
+                                          CupertinoDialogAction(
+                                            isDefaultAction: true,
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: Text("Huỷ",
+                                                style: StyleApp.textStyle402()),
                                           ),
-                                          actions: [
-                                            CupertinoDialogAction(
-                                              isDefaultAction: true,
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                              child: Text("Huỷ",
-                                                  style: StyleApp
-                                                      .textStyle402()),
-                                            ),
-                                            CupertinoDialogAction(
-                                              isDefaultAction: true,
-                                              onPressed: () async {
-                                                save();
-                                              },
-                                              child: Text("Đồng ý",
-                                                  style: StyleApp
-                                                      .textStyle401()),
-                                            ),
-                                          ],
-                                        );
-                                      });
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorAppStyle.app8,
-                                side: const BorderSide(
-                                    width: 2, color: Colors.white),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
+                                          CupertinoDialogAction(
+                                            isDefaultAction: true,
+                                            onPressed: () async {
+                                              save();
+                                            },
+                                            child: Text("Đồng ý",
+                                                style: StyleApp.textStyle401()),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorAppStyle.app8,
+                              side: const BorderSide(
+                                  width: 2, color: Colors.white),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
                               ),
-                              icon: const Icon(
-                                Icons.save,
-                                size: 14,
-                              ),
-                              label: const Text('Lưu Nhật Ký',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold)),
-                             )),
+                            ),
+                            icon: const Icon(
+                              Icons.save,
+                              size: 14,
+                            ),
+                            label: const Text('Lưu Nhật Ký',
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold)),
+                          )),
                     ],
                   ).paddingOnly(top: 10, bottom: 5)
                 ],

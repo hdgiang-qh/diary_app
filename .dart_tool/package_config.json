@@ -410,6 +410,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "motion_toast",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/motion_toast-2.7.10",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "nb_utils",
       "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/nb_utils-6.0.7",
       "packageUri": "lib/",
@@ -710,7 +716,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-12-14T06:32:16.324164Z",
+  "generated": "2023-12-14T16:48:43.942251Z",
   "generator": "pub",
   "generatorVersion": "3.1.3"
 }

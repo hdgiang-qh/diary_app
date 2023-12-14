@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:motion_toast/motion_toast.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class EditDiaryScreen extends StatefulWidget {
@@ -36,7 +37,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
   }
 
   Widget buildLevel() {
-    // _detailDiaryBloc.dropdownLevel = dropdownLevel;
+    String level = _detailDiaryBloc.model!.level.validate().toString();
     final List<String> list = <String>[
       'Nhẹ nhàng',
       'Rất ít',
@@ -45,7 +46,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
       'Rất nhiều'
     ];
     return DropdownButton<String>(
-      hint: const Text("Level"),
+      hint: Text(level),
       underline: Container(),
       value: dropdownLevel,
       style: const TextStyle(color: primaryColor),
@@ -65,9 +66,10 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
 
   Widget buildDrop() {
     List<String> list = <String>['PUBLIC', 'PRIVATE'];
+    String status = _detailDiaryBloc.model!.status.validate().toString();
     return DropdownButton<String>(
       underline: Container(),
-      hint: const Text('Mode'),
+      hint: Text(status),
       value: dropdownValue,
       style: const TextStyle(color: primaryColor),
       onChanged: (String? value) {
@@ -254,7 +256,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                   children: [
                     SizedBox(
                         width: width * 0.35,
-                        child: ElevatedButton(
+                        child: ElevatedButton.icon(
                             onPressed: () async {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
                                 showCupertinoDialog(
@@ -294,9 +296,10 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                                                         .validate());
                                                 Navigator.of(context).pop();
                                                 Navigator.of(context).pop();
-                                                toastEditComplete("");
+                                                ToastUpdateSuccess();
                                               } else {
-                                                toastEditFailure("");
+                                                Navigator.of(context).pop();
+                                                ToastUpdateError();
                                               }
                                             },
                                             child: Text("Apply",
@@ -307,7 +310,22 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                                     });
                               });
                             },
-                            child: const Text("Lưu thay đổi"))),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorAppStyle.app8,
+                            side: const BorderSide(
+                                width: 2, color: Colors.white),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          icon: const Icon(
+                            Icons.save,
+                            size: 14,
+                          ),
+                          label: const Text('Lưu Thay Đổi',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold)),)),
                   ],
                 ).paddingSymmetric(vertical: 10)
               ],
@@ -318,21 +336,49 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
         });
   }
 
-  void toastEditComplete(String messenger) => Fluttertoast.showToast(
-      msg: "Cập nhật thành công",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.blueAccent,
-      textColor: Colors.white);
+  void ToastUpdateSuccess() {
+    MotionToast(
+      icon: Icons.check_circle,
+      primaryColor: Colors.green[600]!,
+      secondaryColor: Colors.greenAccent,
+      backgroundType: BackgroundType.solid,
+      title: const Text(
+        'Đăng tải thành công',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: Container(),
+      position: MotionToastPosition.top,
+      layoutOrientation: ToastOrientation.rtl,
+      animationDuration: const Duration(seconds: 2),
+      animationType: AnimationType.fromRight,
+      width: 300,
+      height: 50,
+    ).show(context);
+  }
 
-  void toastEditFailure(String messenger) => Fluttertoast.showToast(
-      msg: "Hãy ghi đầy đủ các giá trị",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.blueAccent,
-      textColor: Colors.white);
+  void ToastUpdateError() {
+    MotionToast(
+      icon: Icons.error_outline,
+      primaryColor: Colors.red[400]!,
+      secondaryColor: Colors.grey,
+      backgroundType: BackgroundType.solid,
+      title: const Text(
+        'Chỉnh sửa không thành công',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: const Text('Hãy kiểm tra lại thông tin'),
+      position: MotionToastPosition.top,
+      animationType: AnimationType.fromRight,
+      animationDuration: const Duration(seconds: 2),
+      width: 300,
+      height: 50,
+    ).show(context);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -346,7 +392,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),
-        title: const Text("Edit Diary"),
+        title: const Text("Chỉnh sửa nhật ký"),
       ),
       body: Container(
         constraints: const BoxConstraints.expand(),

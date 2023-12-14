@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:motion_toast/motion_toast.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -53,25 +54,29 @@ class _DiaryScreenState extends State<DiaryScreen> {
       backgroundColor: Colors.blueAccent,
       textColor: Colors.white);
 
-  Widget buildDate() {
-    return ElevatedButton(
-      onPressed: () async {
-        DateTime? picker = await showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2018),
-            lastDate: DateTime(2025));
-        setState(() {
-          // _bloc.time = picker;
-          _bloc.listDU.clear();
-          _bloc.getListDU();
-        });
-      },
-      child: const Text("Chọn ngày"),
-    );
+  void ToastDeleteSuccess() {
+    MotionToast(
+      icon: Icons.check_circle,
+      primaryColor: Colors.blue[600]!,
+      secondaryColor: Colors.lightBlueAccent,
+      backgroundType: BackgroundType.solid,
+      title: const Text(
+        'Xoá thành công',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      description: Container(),
+      position: MotionToastPosition.top,
+      // layoutOrientation: ToastOrientation.rtl,
+      animationDuration: const Duration(seconds: 1),
+      width: 300,
+      height: 50,
+    ).show(context);
   }
 
-  Widget buildDateV2() {
+
+  Widget buildDate() {
     return TableCalendar(
       focusedDay: _focusedDay,
       firstDay: _firstDay,
@@ -92,8 +97,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
         setState(() {
           _selectedDay = selectedDay;
           _focusedDay = focusedDay;
+          _bloc.listDU.clear();
           _bloc.time = selectedDay;
-          _bloc.list.clear();
           _bloc.getListDU();
         });
       },
@@ -367,8 +372,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                           .validate());
                                                       Navigator.of(context)
                                                           .pop();
-                                                      toastDeleteComplete("");
-                                                      _bloc.getListDU();
+                                                      ToastDeleteSuccess();
                                                     },
                                                     child: Text("Apply",
                                                         style: StyleApp
@@ -448,7 +452,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  buildDateV2(),
+                  buildDate(),
                   buildListDiary()
                 ],
               ),

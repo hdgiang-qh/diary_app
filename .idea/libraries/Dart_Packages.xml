@@ -478,6 +478,13 @@
             </list>
           </value>
         </entry>
+        <entry key="motion_toast">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/motion_toast-2.7.10/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="nb_utils">
           <value>
             <list>
@@ -893,6 +900,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/material_color_utilities-0.5.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/meta-1.9.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/mime-1.0.4/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/motion_toast-2.7.10/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/nb_utils-6.0.7/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/nested-1.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/nm-0.5.0/lib" />

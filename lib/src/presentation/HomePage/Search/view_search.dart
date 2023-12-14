@@ -246,7 +246,7 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorAppStyle.app5,
-        title: const Text('Trang Cas Nhan'),
+        title: const Text('Trang Cá Nhân'),
       ),
       body: Container(
         constraints: const BoxConstraints.expand(),

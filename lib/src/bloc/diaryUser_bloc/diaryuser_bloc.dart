@@ -33,6 +33,7 @@ class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
       var res = await Api.getAsync(
           endPoint: epoint.toString());
       if (res['status'] == "SUCCESS") {
+        list.clear();
         if ((res['data'] as List).isNotEmpty) {
           for (var json in res['data']) {
             list.add(DiaryUserModel.fromJson(json));
@@ -57,7 +58,7 @@ class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
     try {
       var res = await Api.deleteAsync(endPoint: "${ApiPath.curdDiary}/$id");
       if (res['status'] == "SUCCESS") {
-        listDU.clear();
+        list.clear();
         getListDU();
         emit(DeleteDiarySuccess());
       } else {
