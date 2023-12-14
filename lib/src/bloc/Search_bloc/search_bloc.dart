@@ -28,7 +28,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         emit(SearchFailure(error: ''));
       }
     } on DioException catch (e) {
-      emit(SearchFailure(error: e.error.toString()));
+      emit(SearchFailure(error: 'Lỗi nhập dữ liệu'));
     } catch (e) {
       emit(SearchFailure( error: e.toString()));
     }

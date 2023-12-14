@@ -82,7 +82,7 @@ class _InformationState extends State<Information> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorAppStyle.purple8a,
+        backgroundColor: ColorAppStyle.button,
         automaticallyImplyLeading: false,
         title: const Text('Thông tin tài khoản'),
       ),
@@ -93,9 +93,9 @@ class _InformationState extends State<Information> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                ColorAppStyle.purple6f,
-                ColorAppStyle.purple8a,
-                ColorAppStyle.blue75
+                ColorAppStyle.app5,
+                ColorAppStyle.app6,
+                ColorAppStyle.app2
               ],
             ),
             image: DecorationImage(

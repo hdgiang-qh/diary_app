@@ -156,7 +156,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
     place = _bloc.place;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorAppStyle.purple8a,
+        backgroundColor: ColorAppStyle.button,
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
@@ -174,9 +174,9 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                ColorAppStyle.purple6f,
-                ColorAppStyle.purple8a,
-                ColorAppStyle.blue75
+                ColorAppStyle.app5,
+                ColorAppStyle.app6,
+                ColorAppStyle.app2
               ],
             ),
             image: const DecorationImage(
@@ -185,7 +185,14 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
         child: SafeArea(
           child: SingleChildScrollView(
             child: Card(
-              color: Colors.purple,
+              color: ColorAppStyle.app5,
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(
+                  width: 2,
+                  color: Colors.greenAccent,
+                ),
+                borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -246,12 +253,12 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                     width: width,
                     child: TextField(
                       style: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                          color: Colors.white, fontWeight: FontWeight.w500),
                       controller: happened,
                       maxLines: null,
                       expands: true,
                       decoration: const InputDecoration(
-                          fillColor: Colors.orangeAccent,
+                          fillColor: ColorAppStyle.button,
                           filled: true,
                           hintStyle: TextStyle(fontSize: 14),
                           // border: OutlineInputBorder(),
@@ -266,9 +273,8 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Container(
+                      SizedBox(
                           height: 50,
-                          decoration: const BoxDecoration(color: Colors.red),
                           child: TextField(
                             style: const TextStyle(
                                 color: Colors.white,
@@ -277,7 +283,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                             maxLines: null,
                             expands: true,
                             decoration: const InputDecoration(
-                                fillColor: Colors.orangeAccent,
+                                fillColor: ColorAppStyle.button,
                                 filled: true,
                                 hintStyle: TextStyle(fontSize: 14),
                                 hintText:
@@ -293,9 +299,8 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Container(
+                      SizedBox(
                           height: 50,
-                          decoration: const BoxDecoration(color: Colors.red),
                           child: TextField(
                             style: const TextStyle(
                                 color: Colors.white,
@@ -304,7 +309,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                             maxLines: null,
                             expands: true,
                             decoration: const InputDecoration(
-                                fillColor: Colors.orangeAccent,
+                                fillColor: ColorAppStyle.button,
                                 filled: true,
                                 hintStyle: TextStyle(fontSize: 14),
                                 hintText: "Vui, Buồn, Rối,... hoặc gì đó"),
@@ -313,9 +318,8 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                   ).paddingSymmetric(horizontal: 10, vertical: 10),
                   const Text('Thời gian bạn gặp phải chuyện đó: ')
                       .paddingSymmetric(horizontal: 10),
-                  Container(
+                  SizedBox(
                       height: 50,
-                      decoration: const BoxDecoration(color: Colors.blue),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -330,7 +334,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                               maxLines: null,
                               expands: true,
                               decoration: const InputDecoration(
-                                  fillColor: Colors.orangeAccent,
+                                  fillColor: ColorAppStyle.button,
                                   filled: true,
                                   hintText: "Ngày...,tháng...",
                                   hintStyle: TextStyle(
@@ -368,7 +372,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                               maxLines: null,
                               expands: true,
                               decoration: const InputDecoration(
-                                  fillColor: Colors.orangeAccent,
+                                  fillColor: ColorAppStyle.button,
                                   filled: true,
                                   hintText: "Giờ...",
                                   hintStyle: TextStyle(
@@ -386,7 +390,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                               if (picked != null) {
                                 setState(() {
                                   time.text =
-                                      "${picked?.hour}:${picked?.minute}";
+                                      "${picked.hour}:${picked.minute}";
                                 });
                               } else {
                                 time.text = "";
@@ -404,9 +408,8 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Container(
+                      SizedBox(
                           height: 120,
-                          decoration: const BoxDecoration(color: Colors.red),
                           child: TextField(
                             style: const TextStyle(
                                 color: Colors.white,
@@ -415,7 +418,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                             maxLines: null,
                             expands: true,
                             decoration: const InputDecoration(
-                                fillColor: Colors.orangeAccent,
+                                fillColor: ColorAppStyle.button,
                                 filled: true,
                                 hintStyle: TextStyle(fontSize: 14),
                                 hintText: "Hãy viết ngắn gọn vào đây..."),
@@ -438,7 +441,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                     children: [
                       SizedBox(
                           width: width * 0.35,
-                          child: ElevatedButton(
+                          child: ElevatedButton.icon(
                               onPressed: () {
                                 WidgetsBinding.instance
                                     .addPostFrameCallback((_) {
@@ -475,7 +478,23 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                                       });
                                 });
                               },
-                              child: const Text("Lưu Nhật Ký"))),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorAppStyle.app8,
+                                side: const BorderSide(
+                                    width: 2, color: Colors.white),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              icon: const Icon(
+                                Icons.save,
+                                size: 14,
+                              ),
+                              label: const Text('Lưu Nhật Ký',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold)),
+                             )),
                     ],
                   ).paddingOnly(top: 10, bottom: 5)
                 ],

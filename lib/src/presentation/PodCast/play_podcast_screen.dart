@@ -97,7 +97,7 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorAppStyle.black7D,
+        backgroundColor: ColorAppStyle.button,
         title: const Text("Music Player"),
       ),
       body: Container(
@@ -106,9 +106,9 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              ColorAppStyle.purple6f,
-              ColorAppStyle.purple8a,
-              ColorAppStyle.blue75
+              ColorAppStyle.app5,
+              ColorAppStyle.app6,
+              ColorAppStyle.app2
             ],
           ),
         ),
@@ -182,7 +182,7 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen>
                                 buffered: bufferedDuration,
                                 timeLabelPadding: -1,
                                 timeLabelTextStyle: const TextStyle(
-                                    fontSize: 14, color: Colors.white),
+                                    fontSize: 14, color: Colors.black),
                                 progressBarColor: Colors.red,
                                 baseBarColor: Colors.grey[200],
                                 bufferedBarColor: Colors.grey[350],

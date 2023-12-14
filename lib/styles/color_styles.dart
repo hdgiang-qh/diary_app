@@ -33,8 +33,15 @@ class ColorAppStyle {
   static const Color purple6f = Color(0xff6f5f90);
   static const Color purple8a = Color(0xff8a5082);
   static const Color blue75 = Color(0xff758eb7);
-
-
+  static const Color app1 = Color(0xffe27d60);
+  static const Color app2 = Color(0xff00CED1);
+  static const Color app3 = Color(0xffe8a87c);
+  static const Color app4 = Color(0xffc38d9e);
+  static const Color app5 = Color(0xff659dbd);
+  static const Color app6 = Color(0xfffbeec1);
+  static const Color app7 = Color(0xff8d8741);
+  static const Color app8 = Color(0xff8ee4af);
+  static const Color button = Color(0xff41b3a3);
 
   static List<Color> colorList = [
     black1A, black2C,green1D,blue0B,blueMid,redFB,yellowFE,yellowFF

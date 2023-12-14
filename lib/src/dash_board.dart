@@ -82,7 +82,7 @@ class _DashBoardState extends State<DashBoard>
               children: pages,
             ),
             bottomNavigationBar: BottomNavigationBar(
-              backgroundColor: ColorAppStyle.blue75,
+              backgroundColor: ColorAppStyle.button,
               onTap: _blocNav.onItemTapped,
               currentIndex: _blocNav.selectedIndex,
               type: BottomNavigationBarType.fixed,

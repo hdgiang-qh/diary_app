@@ -128,7 +128,7 @@ class _PodCastScreenState extends State<PodCastScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorAppStyle.purple8a,
+        backgroundColor: ColorAppStyle.button,
         automaticallyImplyLeading: false,
         title: const Text('PodCast'),
       ),
@@ -139,9 +139,9 @@ class _PodCastScreenState extends State<PodCastScreen>
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                ColorAppStyle.purple6f,
-                ColorAppStyle.purple8a,
-                ColorAppStyle.blue75
+                ColorAppStyle.app5,
+                ColorAppStyle.app6,
+                ColorAppStyle.app2
               ],
             ),
             image: DecorationImage(

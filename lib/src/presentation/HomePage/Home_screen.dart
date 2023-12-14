@@ -47,193 +47,195 @@ class _HomeScreenState extends State<HomeScreen> {
                 ? const Center(
                     child: Text("Dữ liệu trống"),
                   )
-                : SingleChildScrollView(
-                    child: ListView.separated(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => Card(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.orangeAccent,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                : ListView.separated(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => Card(
+                      color: ColorAppStyle.app5,
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                          width: 2,
+                          color: Colors.greenAccent,
+                        ),
+                        borderRadius:
+                            BorderRadius.circular(20.0), //<-- SEE HERE
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Container(
-                                      height: 40,
-                                      width: 40,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            image: NetworkImage(_bloc
-                                                .reversedList[index].avatar
-                                                .validate()
-                                                .toString()),
-                                            fit: BoxFit.cover),
-                                      ),
-                                      child: Container(),
-                                    ),
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: NetworkImage(_bloc
+                                            .reversedList[index].avatar
+                                            .validate()
+                                            .toString()),
+                                        fit: BoxFit.cover),
                                   ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    flex: 9,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          _bloc.reversedList[index].nickname
-                                              .validate(),
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "đang cảm thấy : ${_bloc.reversedList[index].mood.validate()},  mức độ : ${_bloc.reversedList[index].level.validate()}",
-                                          style: GoogleFonts.lato(
-                                            textStyle: const TextStyle(
-                                                fontSize: 12,
-                                                fontStyle: FontStyle.italic,
-                                                letterSpacing: .5),
-                                          ),
-                                        ),
-                                        Text(
-                                          'vào ${_bloc.reversedList[index].date.validate().toString()}, ${_bloc.reversedList[index].time.validate().toString()}',
-                                          style: GoogleFonts.lato(
-                                            textStyle: const TextStyle(
-                                                fontSize: 12,
-                                                fontStyle: FontStyle.italic,
-                                                letterSpacing: .5),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ).paddingOnly(top: 5, left: 10, bottom: 5),
-                              SingleChildScrollView(
-                                child: SizedBox(
-                                  child: Text(
-                                      "Sự việc : ${_bloc.reversedList[index].happened.validate()}",
-                                      style: const TextStyle(fontSize: 15.0),
-                                      maxLines: null),
+                                  child: Container(),
                                 ),
-                              ).paddingSymmetric(horizontal: 10),
-                              Divider(endIndent: width * 0.6).paddingSymmetric(horizontal: 10),
-                              Text('Sau khi suy nghĩ : ${_bloc.reversedList[index].thinkingMoment.validate()}')
-                                  .paddingSymmetric(horizontal: 10),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'tại ${_bloc.reversedList[index].place.validate()}',
-                                    style: GoogleFonts.lato(
-                                      textStyle: const TextStyle(
-                                          fontSize: 12,
-                                          fontStyle: FontStyle.italic,
-                                          letterSpacing: .5),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    () {
-                                      if (_bloc.reversedList[index].createdAt !=
-                                          null) {
-                                        try {
-                                          DateTime createdAt = DateTime.parse(
-                                              _bloc
-                                                  .reversedList[index].createdAt
-                                                  .toString());
-                                          // String formattedTime =
-                                          //     DateFormat('dd-MM-yyyy').format(createdAt);
-                                          DateTime now = DateTime.now();
-                                          Duration dif =
-                                              createdAt.difference(now);
-                                          int days = dif.inDays.abs();
-                                          int hour = dif.inHours.abs();
-                                          int minute = dif.inMinutes.abs();
-                                          String showTime;
-                                          days > 0
-                                              ? showTime = "$days ngày trước"
-                                              : (hour > 0
-                                                  ? showTime =
-                                                      "${hour % 24} giờ trước"
-                                                  : showTime =
-                                                      "$minute phút trước");
-                                          return showTime;
-                                        } catch (e) {
-                                          return '';
-                                        }
-                                      } else {
-                                        return '';
-                                      }
-                                    }(),
-                                    style: const TextStyle(fontSize: 12),
-                                  ),
-                                ],
-                              ).paddingOnly(right: 10, bottom: 3, top: 3),
-                              const Divider(
-                                height: 1,
-                                color: Colors.grey,
-                                thickness: 1,
-                                indent: 8,
-                                endIndent: 8,
                               ),
-                              SizedBox(
-                                height: 40,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                flex: 9,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Icon(
-                                      Icons.comment,
-                                      size: 18,
+                                    Text(
+                                      _bloc.reversedList[index].nickname
+                                          .validate(),
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    TextButton(
-                                      onPressed: () async {
-                                        await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CommentScreen(
-                                                      id: _bloc
-                                                          .reversedList[index]
-                                                          .id
-                                                          .validate(),
-                                                      idUser: _inforBloc
-                                                          .ifUser!.id
-                                                          .validate(),
-                                                    )));
-                                        refreshPage();
-                                      },
-                                      child: const Row(
-                                        children: [
-                                          Text(
-                                            "Bình luận",
-                                            style:
-                                                TextStyle(color: Colors.blue),
-                                          ),
-                                        ],
+                                    Text(
+                                      "đang cảm thấy : ${_bloc.reversedList[index].mood.validate()},  mức độ : ${_bloc.reversedList[index].level.validate()}",
+                                      style: GoogleFonts.lato(
+                                        textStyle: const TextStyle(
+                                            fontSize: 12,
+                                            fontStyle: FontStyle.italic,
+                                            letterSpacing: .5),
                                       ),
                                     ),
+                                    Text(
+                                      'vào ${_bloc.reversedList[index].date.validate().toString()}, ${_bloc.reversedList[index].time.validate().toString()}',
+                                      style: GoogleFonts.lato(
+                                        textStyle: const TextStyle(
+                                            fontSize: 12,
+                                            fontStyle: FontStyle.italic,
+                                            letterSpacing: .5),
+                                      ),
+                                    )
                                   ],
                                 ),
+                              )
+                            ],
+                          ).paddingOnly(top: 5, left: 10, bottom: 10),
+                          SingleChildScrollView(
+                            child: SizedBox(
+                              child: Text(
+                                  "Sự việc : ${_bloc.reversedList[index].happened.validate()}",
+                                  style: const TextStyle(
+                                      fontSize: 15, color: Colors.white),
+                                  maxLines: null),
+                            ),
+                          ).paddingSymmetric(horizontal: 10),
+                          Divider(
+                            endIndent: width * 0.6,
+                            color: Colors.white,
+                          ).paddingSymmetric(horizontal: 10),
+                          Text(
+                            'Sau khi suy nghĩ : ${_bloc.reversedList[index].thinkingMoment.validate()}',
+                            style: TextStyle(color: Colors.white),
+                          ).paddingSymmetric(horizontal: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                'tại ${_bloc.reversedList[index].place.validate()}',
+                                style: GoogleFonts.lato(
+                                  textStyle: const TextStyle(
+                                      fontSize: 12,
+                                      fontStyle: FontStyle.italic,
+                                      letterSpacing: .5),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                () {
+                                  if (_bloc.reversedList[index].createdAt !=
+                                      null) {
+                                    try {
+                                      DateTime createdAt = DateTime.parse(_bloc
+                                          .reversedList[index].createdAt
+                                          .toString());
+                                      // String formattedTime =
+                                      //     DateFormat('dd-MM-yyyy').format(createdAt);
+                                      DateTime now = DateTime.now();
+                                      Duration dif = createdAt.difference(now);
+                                      int days = dif.inDays.abs();
+                                      int hour = dif.inHours.abs();
+                                      int minute = dif.inMinutes.abs();
+                                      String showTime;
+                                      days > 0
+                                          ? showTime = "$days ngày trước"
+                                          : (hour > 0
+                                              ? showTime =
+                                                  "${hour % 24} giờ trước"
+                                              : showTime =
+                                                  "$minute phút trước");
+                                      return showTime;
+                                    } catch (e) {
+                                      return '';
+                                    }
+                                  } else {
+                                    return '';
+                                  }
+                                }(),
+                                style: const TextStyle(fontSize: 12),
                               ),
                             ],
+                          ).paddingOnly(right: 10, bottom: 3, top: 3),
+                          const Divider(
+                            height: 1,
+                            color: Colors.white,
+                            thickness: 1,
+                            indent: 8,
+                            endIndent: 8,
                           ),
-                        ),
+                          Center(
+                            child: SizedBox(
+                              height: 30,
+                              child: ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: ColorAppStyle.app8,
+                                  side: const BorderSide(
+                                      width: 2, color: Colors.white),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                ),
+                                icon: const Icon(
+                                  Icons.comment_bank_outlined,
+                                  size: 16,
+                                ),
+                                label: const Text('Bình Luận',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                                onPressed: () async {
+                                  await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CommentScreen(
+                                                id: _bloc.reversedList[index].id
+                                                    .validate(),
+                                                idUser: _inforBloc.ifUser!.id
+                                                    .validate(),
+                                              )));
+                                  refreshPage();
+                                },
+                              ),
+                            ).paddingSymmetric(vertical: 5),
+                          ),
+                        ],
                       ),
-                      separatorBuilder: (context, index) => Container(),
-                      itemCount: _bloc.reversedList.length,
-                      shrinkWrap: true,
-                    ),
+                    ).paddingBottom(5),
+                    separatorBuilder: (context, index) => Container(),
+                    itemCount: _bloc.reversedList.length,
+                    shrinkWrap: true,
                   ));
       },
     );
@@ -243,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorAppStyle.purple8a,
+        backgroundColor: ColorAppStyle.button,
         automaticallyImplyLeading: false,
         title: const Text(
           "Nhật Ký Thường Ngày",
@@ -268,9 +270,9 @@ class _HomeScreenState extends State<HomeScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              ColorAppStyle.purple6f,
-              ColorAppStyle.purple8a,
-              ColorAppStyle.blue75
+              ColorAppStyle.app5,
+              ColorAppStyle.app6,
+              ColorAppStyle.app2
             ],
           ),
         ),

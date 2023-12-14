@@ -37,7 +37,7 @@ class _CommentScreenState extends State<CommentScreen> {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
         decoration: BoxDecoration(
-          border: Border.all(width: 1, color: Colors.grey),
+          border: Border.all(width: 1, color: Colors.white),
           borderRadius: const BorderRadius.all(Radius.circular(12)),
         ),
         child: Row(
@@ -82,13 +82,15 @@ class _CommentScreenState extends State<CommentScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.grey),
-                            borderRadius: const BorderRadius.only(
-                                bottomLeft: Radius.circular(12),
-                                bottomRight: Radius.circular(12),
-                                topRight: Radius.circular(12)),
+                        return Card(
+                          color: ColorAppStyle.app8,
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              width: 2,
+                              color: Colors.greenAccent,
+                            ),
+                            borderRadius:
+                            BorderRadius.circular(20.0), //<-- SEE HERE
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,10 +170,10 @@ class _CommentScreenState extends State<CommentScreen> {
                                       style: const TextStyle(fontSize: 15.0),
                                       maxLines: null),
                                 ),
-                              ),
+                              ).paddingBottom(5),
                             ],
                           ).paddingLeft(10),
-                        ).paddingSymmetric(horizontal: 10, vertical: 5);
+                        ).paddingSymmetric( vertical: 5);
                       },
                       separatorBuilder: (context, index) => Container(),
                       itemCount: _bloc.list.length,
@@ -189,16 +191,8 @@ class _CommentScreenState extends State<CommentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.purpleAccent,
+        backgroundColor: ColorAppStyle.button,
         title: const Text("Bình luận bài viết"),
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {
-        //         _bloc.list.clear();
-        //         _bloc.getListComment(widget.id);
-        //       },
-        //       icon: const Icon(Icons.refresh))
-        // ],
       ),
       body: Container(
         constraints: const BoxConstraints.expand(),
@@ -207,9 +201,9 @@ class _CommentScreenState extends State<CommentScreen> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                ColorAppStyle.purple6f,
-                ColorAppStyle.purple8a,
-                ColorAppStyle.blue75
+                ColorAppStyle.app5,
+                ColorAppStyle.app6,
+                ColorAppStyle.app2
               ],
             ),
             image: DecorationImage(

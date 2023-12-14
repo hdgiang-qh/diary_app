@@ -64,7 +64,7 @@ class MessBotScreenState extends State<MessBotScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorAppStyle.purple8a,
+        backgroundColor: ColorAppStyle.button,
         automaticallyImplyLeading: false,
         title: const Text('Chat Bot'),
         actions: [
@@ -85,9 +85,9 @@ class MessBotScreenState extends State<MessBotScreen> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                ColorAppStyle.purple6f,
-                ColorAppStyle.purple8a,
-                ColorAppStyle.blue75
+                ColorAppStyle.app5,
+                ColorAppStyle.app6,
+                ColorAppStyle.app2
               ],
             ),
             image: DecorationImage(
@@ -141,18 +141,18 @@ class MessBotScreenState extends State<MessBotScreen> {
     return IconTheme(
       data: IconThemeData(color: Theme.of(context).primaryColor),
       child: Container(
-        color: ColorAppStyle.purple8a,
+        color: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           children: <Widget>[
             Flexible(
               child: TextField(
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
                 controller: _textController,
                 onSubmitted: _handleSubmitted,
                 decoration: const InputDecoration.collapsed(
                   hintText: 'Send a message',
-                  hintStyle: TextStyle(color: Colors.white),
+                  hintStyle: TextStyle(color: Colors.black),
                 ),
               ),
             ),

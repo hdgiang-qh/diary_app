@@ -3,6 +3,7 @@ import 'package:diary/src/dash_board.dart';
 import 'package:diary/src/core/service/auth_service.dart';
 import 'package:diary/src/presentation/widget/dia_log_item.dart';
 import 'package:diary/src/presentation/widget/text_field.dart';
+import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -147,47 +148,39 @@ class _LoginPageState extends State<LoginPage> {
                   isPass: true,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Expanded(
-                        flex: 2,
-                        child: Row(
-                          children: [
-                            BlocBuilder<BoolBloc, bool>(
-                                bloc: changeState,
-                                builder: (context, state) {
-                                  return Checkbox(
-                                      value: state,
-                                      onChanged: (value) async {
-                                        changeState.changeValue(value!);
-                                         value = _remember;
-                                        AuthService.setRememberMe(_remember);
-                                      });
-                                }),
-                            Text(TextApp.remember,
-                                style: StyleApp.textStyle400()),
-                          ],
-                        )),
-                    Expanded(
-                      child: GestureDetector(
-                        child: const Text(""),
-                        onTap: () {
-                          if (kDebugMode) {
-                            print("hello now");
-                          }
-                        },
-                      ),
+                    Row(
+                      children: [
+                        BlocBuilder<BoolBloc, bool>(
+                            bloc: changeState,
+                            builder: (context, state) {
+                              return Checkbox(
+                                  value: state,
+                                  activeColor: ColorAppStyle.button,
+                                  checkColor: Colors.white,
+                                  onChanged: (value) async {
+                                    changeState.changeValue(value!);
+                                     value = _remember;
+                                    AuthService.setRememberMe(_remember);
+                                  });
+                            }),
+                        Text(TextApp.remember,
+                            style: StyleApp.textStyle400()),
+                      ],
                     ),
                   ],
                 ),
                 SizedBox(
                   width: 300,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorAppStyle.button
+                    ),
                     onPressed: () async {
                       _toLogin();
                     },
-                    child: const Text('Đăng nhập'),
+                    child: const Text('Đăng nhập',),
                   ),
                 ),
                 Row(

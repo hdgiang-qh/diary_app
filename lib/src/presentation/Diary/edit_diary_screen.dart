@@ -165,7 +165,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                     maxLines: null,
                     expands: true,
                     decoration: const InputDecoration(
-                        fillColor: Colors.orangeAccent,
+                        fillColor: ColorAppStyle.button,
                         filled: true,
                         // border: OutlineInputBorder(),
                         hintText: "Nhập lời bạn muốn nói..."),
@@ -178,9 +178,8 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Container(
+                    SizedBox(
                         height: 50,
-                        decoration: const BoxDecoration(color: Colors.red),
                         child: TextField(
                           style: const TextStyle(
                               color: Colors.white, fontWeight: FontWeight.w500),
@@ -188,7 +187,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                           maxLines: null,
                           expands: true,
                           decoration: const InputDecoration(
-                              fillColor: Colors.orangeAccent,
+                              fillColor: ColorAppStyle.button,
                               filled: true,
                               // border: OutlineInputBorder(),
                               hintText:
@@ -203,9 +202,8 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Container(
+                    SizedBox(
                         height: 50,
-                        decoration: const BoxDecoration(color: Colors.red),
                         child: TextField(
                           style: const TextStyle(
                               color: Colors.white, fontWeight: FontWeight.w500),
@@ -213,9 +211,8 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                           maxLines: null,
                           expands: true,
                           decoration: const InputDecoration(
-                              fillColor: Colors.orangeAccent,
+                              fillColor: ColorAppStyle.button,
                               filled: true,
-                              // border: OutlineInputBorder(),
                               hintText: "Vui, Buồn, Rối,... hoặc gì đó"),
                         ))
                   ],
@@ -227,9 +224,8 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Container(
+                    SizedBox(
                         height: 120,
-                        decoration: const BoxDecoration(color: Colors.red),
                         child: TextField(
                           style: const TextStyle(
                               color: Colors.white, fontWeight: FontWeight.w500),
@@ -237,7 +233,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                           maxLines: null,
                           expands: true,
                           decoration: const InputDecoration(
-                              fillColor: Colors.orangeAccent,
+                              fillColor: ColorAppStyle.button,
                               filled: true,
                               // border: OutlineInputBorder(),
                               hintText: "Hãy viết ngắn gọn..."),
@@ -342,7 +338,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorAppStyle.purple8a,
+        backgroundColor: ColorAppStyle.button,
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
@@ -359,9 +355,9 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                ColorAppStyle.purple6f,
-                ColorAppStyle.purple8a,
-                ColorAppStyle.blue75
+                ColorAppStyle.app5,
+                ColorAppStyle.app6,
+                ColorAppStyle.app2
               ],
             ),
             image: DecorationImage(
@@ -370,7 +366,14 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
         child: SafeArea(
           child: SingleChildScrollView(
             child: Card(
-              color: Colors.purple,
+              color: ColorAppStyle.app5,
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(
+                  width: 2,
+                  color: Colors.greenAccent,
+                ),
+                borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [

@@ -81,7 +81,7 @@ class _EditCommentState extends State<EditComment> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        ElevatedButton(
+        ElevatedButton.icon(
             onPressed: () {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 showCupertinoDialog(
@@ -105,6 +105,7 @@ class _EditCommentState extends State<EditComment> {
                               _bloc.deleteComment();
                               toastDeleteComplete("");
                               Navigator.of(context).pop();
+                              Navigator.of(context).pop();
                             },
                             child:
                                 Text("Đồng ý", style: StyleApp.textStyle401()),
@@ -114,14 +115,43 @@ class _EditCommentState extends State<EditComment> {
                     });
               });
             },
-            child: const Text("Xoá")),
-        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: ColorAppStyle.app8,
+            side: const BorderSide(
+                width: 2, color: Colors.white),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+          icon: const Icon(
+            Icons.delete_forever,
+            size: 14,
+          ),
+          label: const Text('Xoá bình luận',
+              style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold)),),
+        ElevatedButton.icon(
             onPressed: () {
               _bloc.editComment(_bloc.model!.diaryId);
               toastEditComplete("");
-              Navigator.of(context).pop();
             },
-            child: const Text('Apply')),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: ColorAppStyle.app8,
+            side: const BorderSide(
+                width: 2, color: Colors.white),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+          icon: const Icon(
+            Icons.save,
+            size: 14,
+          ),
+          label: const Text('Lưu chỉnh sửa',
+              style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold)),),
       ],
     );
   }
@@ -131,7 +161,7 @@ class _EditCommentState extends State<EditComment> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: ColorAppStyle.purple8a,
+        backgroundColor: ColorAppStyle.button,
         title: const Text("Chỉnh sửa bình luận"),
         leading: IconButton(
           onPressed: () {
@@ -147,9 +177,9 @@ class _EditCommentState extends State<EditComment> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                ColorAppStyle.purple6f,
-                ColorAppStyle.purple8a,
-                ColorAppStyle.blue75
+                ColorAppStyle.app5,
+                ColorAppStyle.app6,
+                ColorAppStyle.app2
               ],
             ),
             image: DecorationImage(

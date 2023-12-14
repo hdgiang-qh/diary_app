@@ -355,14 +355,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop(false);
+                                  Navigator.of(context).pop();
                                 },
-                                style: const ButtonStyle(),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: ColorAppStyle.button
+                                ),
                                 child: const Text(
                                   'Đăng nhập',
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: primaryColor, fontSize: 18),
+                                  style: TextStyle(fontSize: 18),
                                 ),
                               ),
                             ],

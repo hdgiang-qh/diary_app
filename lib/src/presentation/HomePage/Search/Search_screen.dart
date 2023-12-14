@@ -34,45 +34,56 @@ class _SearchScreenState extends State<SearchScreen> {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Card(
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.orangeAccent,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        leading: Image(
-                          image: NetworkImage(state.inforUser.avatar.validate()),
-                        ),
-                        title: Text(state.inforUser.nickName.validate()),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Ngày sinh: ${state.inforUser.date.validate()}"),
-                            Text("Tuổi: ${state.inforUser.age.validate().toString()}")
-                          ],
-                        ),
+                color: ColorAppStyle.app5,
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                    width: 2,
+                    color: Colors.greenAccent,
+                  ),
+                  borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ListTile(
+                      leading: Image(
+                        image: NetworkImage(state.inforUser.avatar.validate()),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          const SizedBox(width: 8),
-                          TextButton(
-                            child: const Text('Xem thông tin'),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ViewSearchScreen(
-                                          createBy: _bloc.inforUser!.id)));
-                            },
-                          ),
-                          const SizedBox(width: 8),
+                      title: Text(state.inforUser.nickName.validate()),
+                      subtitleTextStyle: const TextStyle(fontSize: 12,fontWeight: FontWeight.w700),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Ngày sinh: ${state.inforUser.date.validate()}"),
+                          Text(
+                              "Tuổi: ${state.inforUser.age.validate().toString()}")
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        const SizedBox(width: 8),
+                        TextButton(
+                          child: const Text(
+                            'Xem thông tin',
+                            style: TextStyle(color: ColorAppStyle.redFF),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ViewSearchScreen(
+                                        createBy: _bloc.inforUser!.id)));
+                          },
+                        ),
+                        const SizedBox(width: 8),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             );
@@ -92,7 +103,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: ColorAppStyle.purple8a,
+        backgroundColor: ColorAppStyle.button,
         title: const Text('Find by Phone'),
         leading: IconButton(
           onPressed: () {
@@ -108,9 +119,9 @@ class _SearchScreenState extends State<SearchScreen> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                ColorAppStyle.purple6f,
-                ColorAppStyle.purple8a,
-                ColorAppStyle.blue75
+                ColorAppStyle.app5,
+                ColorAppStyle.app6,
+                ColorAppStyle.app2
               ],
             ),
             image: DecorationImage(
@@ -133,7 +144,6 @@ class _SearchScreenState extends State<SearchScreen> {
                     suffixIcon: IconButton(
                         onPressed: () {
                           _bloc.getSearch();
-                          findByPhone.clear();
                         },
                         icon: const Icon(Icons.search)),
                     hintText: "Search",
