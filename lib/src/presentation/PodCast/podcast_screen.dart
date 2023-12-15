@@ -151,6 +151,7 @@ class _PodCastScreenState extends State<PodCastScreen>
           child: SingleChildScrollView(
             child: Column(
               children: [
+                const SizedBox(height: 10,),
                 buildMoodMusic(),
                 buildListPod(),
               ],

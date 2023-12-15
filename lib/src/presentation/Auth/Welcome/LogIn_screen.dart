@@ -1,10 +1,7 @@
-import 'package:diary/src/core/validator.dart';
-import 'package:diary/src/dash_board.dart';
 import 'package:diary/src/core/service/auth_service.dart';
-import 'package:diary/src/presentation/widget/dia_log_item.dart';
+import 'package:diary/src/dash_board.dart';
 import 'package:diary/src/presentation/widget/text_field.dart';
 import 'package:diary/styles/color_styles.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';

@@ -24,9 +24,6 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
   TextEditingController place = TextEditingController();
   TextEditingController moodPast = TextEditingController();
   TextEditingController thinkPast = TextEditingController();
-  TextEditingController time = TextEditingController();
-  TextEditingController date = TextEditingController();
-  String? newDate;
   String? dropdownValue, dropdownLevel;
 
   @override
@@ -90,10 +87,8 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
     _detailDiaryBloc.happen = happened;
     _detailDiaryBloc.moodPast = moodPast;
     _detailDiaryBloc.place = place;
-    // _detailDiaryBloc.date = date;
-    // _detailDiaryBloc.time = time;
     _detailDiaryBloc.thinkPast = thinkPast;
-    _detailDiaryBloc.status.text = dropdownValue.toString();
+    _detailDiaryBloc.dropdownStatus = dropdownValue;
     _detailDiaryBloc.dropdownLevel = dropdownLevel;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
@@ -114,9 +109,6 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
             place.text = _detailDiaryBloc.model!.place.validate();
             moodPast.text = _detailDiaryBloc.model!.thinkingFelt.validate();
             thinkPast.text = _detailDiaryBloc.model!.thinkingMoment.validate();
-            // date.text = _detailDiaryBloc.model!.date.validate();
-            // time.text = _detailDiaryBloc.model!.time.validate();
-            //dropdownLevel = _detailDiaryBloc.model!.level.validate();
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

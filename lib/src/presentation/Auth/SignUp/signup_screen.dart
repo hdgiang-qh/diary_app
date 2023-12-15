@@ -30,19 +30,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void toastComplete(String messenger) => Fluttertoast.showToast(
-      msg: "Register Success",
+      msg: "Đăng ký thành công",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: Colors.green,
       textColor: Colors.white);
 
   void toastError(String messenger) => Fluttertoast.showToast(
-      msg: "Please fill in all information",
+      msg: "Hãy nhập đầy đủ thông tin",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: Colors.red,
       textColor: Colors.white);
 
   @override
@@ -76,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: [
                     Container(
                       padding:
-                          const EdgeInsets.only(left: 35, top: 00, bottom: 20),
+                      const EdgeInsets.only(left: 35, top: 00, bottom: 20),
                       child: const Text(
                         TextApp.createAccount,
                         style: TextStyle(color: Colors.white, fontSize: 33),
@@ -91,7 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               child: Text(
                                 "Tên đăng nhập viết liền không dấu",
                                 style: TextStyle(fontSize: 10),
-                              )).paddingOnly(right: 5),
+                              )).paddingOnly(right: 5, bottom : 2),
                           TextField(
                             controller: nameUser,
                             style: const TextStyle(
@@ -124,7 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           TextField(
                             controller: passWord,
                             style:
-                                const TextStyle(color: Colors.white, height: 1),
+                            const TextStyle(color: Colors.white, height: 1),
                             obscureText: passwordVisible,
                             decoration: InputDecoration(
                                 suffixIcon: IconButton(
@@ -133,7 +133,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       : Icons.visibility_off),
                                   onPressed: () {
                                     setState(
-                                      () {
+                                          () {
                                         passwordVisible = !passwordVisible;
                                       },
                                     );
@@ -166,11 +166,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             keyboardType: TextInputType.phone,
                             controller: numberPhone,
                             style:
-                                const TextStyle(color: Colors.white, height: 1),
+                            const TextStyle(color: Colors.white, height: 1),
                             decoration: InputDecoration(
                                 errorText: ErrorPhone,
                                 prefixIcon:
-                                    const Icon(Icons.phone_android_outlined),
+                                const Icon(Icons.phone_android_outlined),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
@@ -195,7 +195,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           TextField(
                             controller: email,
                             style:
-                                const TextStyle(color: Colors.white, height: 1),
+                            const TextStyle(color: Colors.white, height: 1),
                             decoration: InputDecoration(
                                 prefixIcon: const Icon(Icons.alternate_email),
                                 enabledBorder: OutlineInputBorder(
@@ -223,7 +223,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           TextField(
                             controller: nickName,
                             style:
-                                const TextStyle(color: Colors.white, height: 1),
+                            const TextStyle(color: Colors.white, height: 1),
                             decoration: InputDecoration(
                                 prefixIcon: const Icon(Icons.person_3_outlined),
                                 enabledBorder: OutlineInputBorder(
@@ -251,12 +251,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           TextField(
                             controller: date,
                             style:
-                                const TextStyle(color: Colors.white, height: 1),
+                            const TextStyle(color: Colors.white, height: 1),
                             decoration: InputDecoration(
                                 prefixIcon: IconButton(
                                   onPressed: () async {
                                     late final formatter =
-                                        DateFormat('yyyy-MM-dd');
+                                    DateFormat('yyyy-MM-dd');
                                     DateTime? picker = await showDatePicker(
                                         context: context,
                                         initialDate: DateTime.now(),
@@ -267,7 +267,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     });
                                   },
                                   icon:
-                                      const Icon(Icons.calendar_month_outlined),
+                                  const Icon(Icons.calendar_month_outlined),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -325,24 +325,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       } else if (passWord.text.length < 6 &&
                                           numberPhone.text.length == 10) {
                                         ErrorPass =
-                                            "Mật khẩu phải dài hơn 6 kí tự";
+                                        "Mật khẩu phải dài hơn 6 kí tự";
                                         ErrorPhone = null;
                                       } else if (passWord.text.length > 5 &&
                                           numberPhone.text.length != 10) {
                                         ErrorPass = null;
                                         ErrorPhone =
-                                            "Số điện thoại phải đúng định dạng";
+                                        "Số điện thoại phải đúng định dạng";
                                       } else if (passWord.text.length < 6 &&
                                           numberPhone.text.length != 10) {
                                         ErrorPass =
-                                            "Mật khẩu phải dài hơn 6 kí tự";
+                                        "Mật khẩu phải dài hơn 6 kí tự";
                                         ErrorPhone =
-                                            "Số điện thoại phải đúng định dạng";
+                                        "Số điện thoại phải đúng định dạng";
                                       }
                                       setState(() {});
                                     },
                                     icon: const Icon(
-                                      Icons.arrow_forward,
+                                      Icons.check,
                                     )),
                               )
                             ],
@@ -358,7 +358,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   Navigator.of(context).pop();
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: ColorAppStyle.button
+                                    backgroundColor: ColorAppStyle.button
                                 ),
                                 child: const Text(
                                   'Đăng nhập',
