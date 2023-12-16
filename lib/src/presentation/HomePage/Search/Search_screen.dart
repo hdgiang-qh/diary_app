@@ -104,7 +104,7 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: ColorAppStyle.button,
-        title: const Text('Find by Phone'),
+        title: const Text('Nhập số điện thoại'),
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop();

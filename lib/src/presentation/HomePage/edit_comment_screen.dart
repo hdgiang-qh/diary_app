@@ -81,7 +81,7 @@ class _EditCommentState extends State<EditComment> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        ElevatedButton.icon(
+        ElevatedButton(
             onPressed: () {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 showCupertinoDialog(
@@ -123,18 +123,15 @@ class _EditCommentState extends State<EditComment> {
               borderRadius: BorderRadius.circular(16),
             ),
           ),
-          icon: const Icon(
-            Icons.delete_forever,
-            size: 14,
-          ),
-          label: const Text('Xoá bình luận',
+          child: const Text('Xoá bình luận',
               style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold)),),
-        ElevatedButton.icon(
+        ElevatedButton(
             onPressed: () {
               _bloc.editComment(_bloc.model!.diaryId);
               toastEditComplete("");
+              Navigator.of(context).pop();
             },
           style: ElevatedButton.styleFrom(
             backgroundColor: ColorAppStyle.app8,
@@ -144,11 +141,7 @@ class _EditCommentState extends State<EditComment> {
               borderRadius: BorderRadius.circular(16),
             ),
           ),
-          icon: const Icon(
-            Icons.save,
-            size: 14,
-          ),
-          label: const Text('Lưu chỉnh sửa',
+          child: const Text('Lưu chỉnh sửa',
               style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold)),),

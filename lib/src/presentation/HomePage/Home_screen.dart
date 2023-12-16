@@ -255,18 +255,6 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text(
           "Nhật Ký Thường Ngày",
         ),
-        actions: [
-          GestureDetector(
-            child: const CircleAvatar(
-              child: Text("A"),
-            ).paddingRight(10),
-            onTap: () {
-              if (kDebugMode) {
-                print('hello');
-              }
-            },
-          )
-        ],
       ),
       body: Container(
         constraints: const BoxConstraints.expand(),

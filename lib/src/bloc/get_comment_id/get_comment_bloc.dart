@@ -22,8 +22,8 @@ class GetCommentBloc extends Bloc<GetCommentEvent, GetCommentState> {
           try {
             var res =
                 await Api.getAsync(endPoint: '${ApiPath.comment}/list/$id');
+            list.clear();
             if (res['status'] == "SUCCESS") {
-              list.clear();
               if ((res['data'] as List).isNotEmpty) {
                 for (var json in res['data']) {
                   list.add(CommentModel.fromJson(json));
