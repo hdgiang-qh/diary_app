@@ -1,5 +1,6 @@
 import 'package:diary/src/bloc/num_bloc.dart';
 import 'package:diary/src/presentation/Diary/add_diary_screen.dart';
+import 'package:diary/src/presentation/Diary/detail_diary_screen.dart';
 import 'package:diary/src/presentation/Diary/edit_diary_screen.dart';
 import 'package:diary/styles/color_styles.dart';
 import 'package:diary/styles/text_style.dart';
@@ -74,7 +75,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
       height: 50,
     ).show(context);
   }
-
 
   Widget buildDate() {
     return TableCalendar(
@@ -233,7 +233,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                     maxLines: null),
                               ),
                             ).paddingSymmetric(horizontal: 10),
-                            Divider(endIndent: width * 0.6)
+                            Divider(endIndent: width * 0.6,color: Colors.white,)
+                                .paddingSymmetric(horizontal: 10),
+                            Text('Cảm xúc lúc đó : ${_bloc.listDU[index].thinkingFelt.validate()}')
                                 .paddingSymmetric(horizontal: 10),
                             Text('Sau khi suy nghĩ : ${_bloc.listDU[index].thinkingMoment.validate()}')
                                 .paddingSymmetric(horizontal: 10),
@@ -309,7 +311,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold)),
                                     onPressed: () async {
-                                      await Navigator.push(
+                                    await Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
@@ -389,7 +391,12 @@ class _DiaryScreenState extends State<DiaryScreen> {
                             ).paddingSymmetric(vertical: 8)
                           ],
                         ),
-                      ).paddingBottom(5),
+                      ).paddingBottom(5).onTap(() async {
+                        await DetailDiaryScreen(
+                          id: _bloc.listDU[index].id.validate(),
+                        ).launch(context);
+                        refreshPage();
+                      }),
                       separatorBuilder: (context, index) => Container(),
                       itemCount: _bloc.listDU.length,
                       shrinkWrap: true,

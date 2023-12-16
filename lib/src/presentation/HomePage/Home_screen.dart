@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -135,8 +136,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: Colors.white,
                           ).paddingSymmetric(horizontal: 10),
                           Text(
+                            'Cảm xúc lúc đó : ${_bloc.reversedList[index].thinkingFelt.validate()}',
+                            style: const TextStyle(color: Colors.white),
+                          ).paddingSymmetric(horizontal: 10),
+                          Text(
                             'Sau khi suy nghĩ : ${_bloc.reversedList[index].thinkingMoment.validate()}',
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           ).paddingSymmetric(horizontal: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -161,16 +166,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                       DateTime createdAt = DateTime.parse(_bloc
                                           .reversedList[index].createdAt
                                           .toString());
-                                      // String formattedTime =
-                                      //     DateFormat('dd-MM-yyyy').format(createdAt);
+                                      String formattedTime =
+                                          DateFormat('dd-MM-yyyy').format(createdAt);
                                       DateTime now = DateTime.now();
                                       Duration dif = createdAt.difference(now);
                                       int days = dif.inDays.abs();
                                       int hour = dif.inHours.abs();
                                       int minute = dif.inMinutes.abs();
                                       String showTime;
-                                      days > 0
-                                          ? showTime = "$days ngày trước"
+                                      days > 1
+                                          ? showTime = formattedTime
                                           : (hour > 0
                                               ? showTime =
                                                   "${hour % 24} giờ trước"

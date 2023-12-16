@@ -20,7 +20,7 @@ class AddDiaryBloc extends Bloc<AddDiaryEvent, AddDiaryState> {
   TextEditingController date = TextEditingController();
   TextEditingController level = TextEditingController();
   String? dropdownValue,dropdownLevel;
-  int?  moodId;
+  int?  moodId,idDiary;
   AddDiaryBloc() : super(AddDiaryInitial());
 
   void createDiary() async {
@@ -33,7 +33,7 @@ class AddDiaryBloc extends Bloc<AddDiaryEvent, AddDiaryState> {
         "moodId": moodId,
         "other": "string",
         "place": place.text,
-        "status": dropdownValue,
+        "status": "PRIVATE",
         "thinkingFelt": moodPast.text,
         "thinkingMoment": thinkPast.text,
         "time": time.text,
@@ -44,6 +44,7 @@ class AddDiaryBloc extends Bloc<AddDiaryEvent, AddDiaryState> {
         req: data,
       );
       if (res['status'] == "SUCCESS") {
+        idDiary = res["data"]["id"];
         return;
       }
     } on DioException catch (e) {

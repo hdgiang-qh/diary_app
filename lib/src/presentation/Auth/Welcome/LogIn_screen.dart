@@ -25,12 +25,12 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   final AuthService authService = AuthService();
   final BoolBloc changeState = BoolBloc();
-  bool _remember = true;
+  bool _remember = false;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   _loadSavedData() async {
     _remember = await AuthService.getRememberMe();
-    if (_remember.toString() == true.toString()) {
+    if (_remember == true) {
       String? savedUsername = await AuthService.getUsername();
       String? savedPassword = await AuthService.getPassword();
       if (savedUsername != null && savedPassword != null) {
@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
         passwordController.text = savedPassword;
       }
     } else{
-      usernameController.text = '';
+      usernameController.text ='';
       passwordController.text ='';
     }
     setState(() {});

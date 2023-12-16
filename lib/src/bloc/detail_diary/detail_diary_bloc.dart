@@ -14,7 +14,6 @@ class DetailDiaryBloc extends Bloc<DetailDiaryEvent, DetailDiaryState> {
   DiaryUserModel? model;
   DetailDiaryBloc(this.id) : super(DetailDiaryInitial());
   TextEditingController happen = TextEditingController();
-  TextEditingController status = TextEditingController();
   TextEditingController place = TextEditingController();
   TextEditingController moodPast = TextEditingController();
   TextEditingController thinkPast = TextEditingController();
@@ -37,6 +36,38 @@ class DetailDiaryBloc extends Bloc<DetailDiaryEvent, DetailDiaryState> {
       emit(DetailFailure(e.toString()));
     }
   }
+  void setPublicDiary(id) async {
+    emit(DetailLoading());
+    try {
+      var res = await Api.getAsync(endPoint: '${ApiPath.curdDiary}/public/$id');
+      if (res['status'] == "SUCCESS") {
+        model = DiaryUserModel.fromJson(res["data"]);
+        emit(DetailSuccessV2(model!));
+      } else {
+        emit(DetailFailure(res['message']));
+      }
+    } on DioException catch (e) {
+      emit(DetailFailure(e.error.toString()));
+    } catch (e) {
+      emit(DetailFailure(e.toString()));
+    }
+  }
+  void setPrivateDiary(id) async {
+    emit(DetailLoading());
+    try {
+      var res = await Api.getAsync(endPoint: '${ApiPath.curdDiary}/private/$id');
+      if (res['status'] == "SUCCESS") {
+        model = DiaryUserModel.fromJson(res["data"]);
+        emit(DetailSuccessV2(model!));
+      } else {
+        emit(DetailFailure(res['message']));
+      }
+    } on DioException catch (e) {
+      emit(DetailFailure(e.error.toString()));
+    } catch (e) {
+      emit(DetailFailure(e.toString()));
+    }
+  }
 
   void updateDiary(id) async {
     emit(DetailLoading());
@@ -44,7 +75,6 @@ class DetailDiaryBloc extends Bloc<DetailDiaryEvent, DetailDiaryState> {
       Map<String, dynamic> data = {
         "happened": happen.text,
         "place": place.text,
-        "status": dropdownStatus,
         "thinkingFelt": moodPast.text,
         "thinkingMoment": thinkPast.text,
         "level":dropdownLevel

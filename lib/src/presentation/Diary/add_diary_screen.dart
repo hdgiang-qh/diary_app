@@ -1,10 +1,13 @@
 import 'package:diary/src/bloc/add_diary_bloc/add_diary_bloc.dart';
+import 'package:diary/src/bloc/detail_diary/detail_diary_bloc.dart';
 import 'package:diary/src/bloc/mood_bloc/mood_bloc.dart';
 import 'package:diary/src/models/mood_model.dart';
+import 'package:diary/src/presentation/Diary/detail_diary_screen.dart';
 import 'package:diary/styles/color_styles.dart';
 import 'package:diary/styles/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:motion_toast/motion_toast.dart';
@@ -20,6 +23,7 @@ class AddDiaryScreen extends StatefulWidget {
 class _AddDiaryScreenState extends State<AddDiaryScreen> {
   late final MoodBloc _moodBloc;
   late final AddDiaryBloc _bloc;
+  late final DetailDiaryBloc _detailDiaryBloc;
   TextEditingController happened = TextEditingController();
   TextEditingController place = TextEditingController();
   TextEditingController moodPast = TextEditingController();
@@ -30,12 +34,11 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
 
   @override
   void initState() {
-    super.initState();
     _moodBloc = MoodBloc();
     _moodBloc.getMood();
     _bloc = AddDiaryBloc();
+    super.initState();
   }
-
 
   void MotionToastSuccess() {
     MotionToast(
@@ -80,27 +83,27 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
     ).show(context);
   }
 
-  Widget buildDrop() {
-    _bloc.dropdownValue = dropdownValue;
-    final List<String> list = <String>['PUBLIC', 'PRIVATE'];
-    return DropdownButton<String>(
-      underline: Container(),
-      hint: const Text("Mode"),
-      value: dropdownValue,
-      style: const TextStyle(color: primaryColor),
-      onChanged: (String? value) {
-        setState(() {
-          dropdownValue = value!;
-        });
-      },
-      items: list.map<DropdownMenuItem<String>>((String stt) {
-        return DropdownMenuItem<String>(
-          value: stt,
-          child: Text(stt),
-        );
-      }).toList(),
-    );
-  }
+  // Widget buildDrop() {
+  //   _bloc.dropdownValue = dropdownValue;
+  //   final List<String> list = <String>['PUBLIC', 'PRIVATE'];
+  //   return DropdownButton<String>(
+  //     underline: Container(),
+  //     hint: const Text("Mode"),
+  //     value: dropdownValue,
+  //     style: const TextStyle(color: primaryColor),
+  //     onChanged: (String? value) {
+  //       setState(() {
+  //         dropdownValue = value!;
+  //       });
+  //     },
+  //     items: list.map<DropdownMenuItem<String>>((String stt) {
+  //       return DropdownMenuItem<String>(
+  //         value: stt,
+  //         child: Text(stt),
+  //       );
+  //     }).toList(),
+  //   );
+  // }
 
   Widget buildLevel() {
     _bloc.dropdownLevel = dropdownLevel;
@@ -154,6 +157,318 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
     );
   }
 
+  Widget buildMoodList() {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    return BlocBuilder<MoodBloc, MoodState>(
+      bloc: _moodBloc,
+      builder: (context, state) {
+        return state is MoodLoading
+            ? Center(child: const CircularProgressIndicator().paddingTop(5))
+            : Card(
+                color: ColorAppStyle.app5,
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                    width: 2,
+                    color: Colors.greenAccent,
+                  ),
+                  borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text('Bạn đã trải qua tâm trạng gì: ')),
+                        Container(
+                          height: 30,
+                          padding: const EdgeInsets.only(left: 5),
+                          width: 160,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(width: 1, color: Colors.grey),
+                              borderRadius: BorderRadius.circular(15)),
+                          child: buildDropMood(),
+                        ),
+                      ],
+                    ).paddingSymmetric(horizontal: 10).paddingTop(10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Text("Mức độ ảnh hưởng tới tâm trạng bạn: ")
+                            .paddingLeft(10),
+                        Container(
+                            height: 30,
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border:
+                                    Border.all(width: 1, color: Colors.grey),
+                                borderRadius: BorderRadius.circular(15)),
+                            child:
+                                buildLevel().paddingSymmetric(horizontal: 4)),
+                      ],
+                    ),
+                    const Text('Bạn đã gặp phải chuyện gì vậy?')
+                        .paddingSymmetric(horizontal: 10, vertical: 10),
+                    SizedBox(
+                      height: height * 0.2,
+                      width: width,
+                      child: TextField(
+                        style: const TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w500),
+                        controller: happened,
+                        maxLines: null,
+                        expands: true,
+                        decoration: const InputDecoration(
+                            fillColor: ColorAppStyle.button,
+                            filled: true,
+                            hintStyle: TextStyle(fontSize: 14),
+                            // border: OutlineInputBorder(),
+                            hintText:
+                                "Hãy ghi vào đây,\nnhững gì xảy ra khiến tâm trạng bạn thay đổi nhé!"),
+                      ),
+                    ).paddingSymmetric(horizontal: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Bạn đã ở đâu vào lúc đó?'),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                            height: 50,
+                            child: TextField(
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500),
+                              controller: place,
+                              maxLines: null,
+                              expands: true,
+                              decoration: const InputDecoration(
+                                  fillColor: ColorAppStyle.button,
+                                  filled: true,
+                                  hintStyle: TextStyle(fontSize: 14),
+                                  hintText:
+                                      "Trường học, Ở nhà, Cơ quan,...hoặc nơi nào đó"),
+                            ))
+                      ],
+                    ).paddingSymmetric(horizontal: 10, vertical: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                            'Cảm xúc, suy nghĩ của bạn lúc đó như thế nào?'),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                            height: 50,
+                            child: TextField(
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500),
+                              controller: moodPast,
+                              maxLines: null,
+                              expands: true,
+                              decoration: const InputDecoration(
+                                  fillColor: ColorAppStyle.button,
+                                  filled: true,
+                                  hintStyle: TextStyle(fontSize: 14),
+                                  hintText: "Vui, Buồn, Rối,... hoặc gì đó"),
+                            ))
+                      ],
+                    ).paddingSymmetric(horizontal: 10, vertical: 10),
+                    const Text('Thời gian bạn gặp phải chuyện đó: ')
+                        .paddingSymmetric(horizontal: 10),
+                    SizedBox(
+                        height: 50,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: TextField(
+                                enabled: false,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                                controller: date,
+                                maxLines: null,
+                                expands: true,
+                                decoration: const InputDecoration(
+                                    fillColor: ColorAppStyle.button,
+                                    filled: true,
+                                    hintText: "Ngày...,tháng...",
+                                    hintStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14)),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                late final formatter = DateFormat('dd-MM');
+                                DateTime? picker = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2000),
+                                    lastDate: DateTime(2025));
+                                if (picker != null) {
+                                  setState(() {
+                                    date.clear();
+                                  });
+                                }
+                                setState(() {
+                                  date.text = formatter.format(picker!);
+                                });
+                              },
+                              icon: const Icon(Icons.calendar_month_outlined),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: TextField(
+                                enabled: false,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                                controller: time,
+                                maxLines: null,
+                                expands: true,
+                                decoration: const InputDecoration(
+                                    fillColor: ColorAppStyle.button,
+                                    filled: true,
+                                    hintText: "Giờ...",
+                                    hintStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14)),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                TimeOfDay timeOfDay = TimeOfDay.now();
+                                final TimeOfDay? picked = await showTimePicker(
+                                  context: context,
+                                  initialTime: timeOfDay,
+                                );
+                                if (picked != null) {
+                                  setState(() {
+                                    time.text =
+                                        "${picked.hour}:${picked.minute}";
+                                  });
+                                } else {
+                                  time.text = "";
+                                }
+                              },
+                              icon: const Icon(Icons.calendar_month_outlined),
+                            )
+                          ],
+                        )).paddingSymmetric(horizontal: 10, vertical: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                            'Hãy dành chút thời gian để suy nghĩ về chuyện vừa qua, nếu gặp lại tình huống đó hãy suy nghĩ xem cách giải quyết tốt nhất cho bạn nhé(Hãy ghi xuống bên dưới nhé):'),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                            height: 120,
+                            child: TextField(
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500),
+                              controller: thinkPast,
+                              maxLines: null,
+                              expands: true,
+                              decoration: const InputDecoration(
+                                  fillColor: ColorAppStyle.button,
+                                  filled: true,
+                                  hintStyle: TextStyle(fontSize: 14),
+                                  hintText: "Hãy viết ngắn gọn vào đây..."),
+                            ))
+                      ],
+                    ).paddingSymmetric(horizontal: 10, vertical: 10),
+                    Center(
+                      child: Text(
+                        'Chúng mình sẽ luôn lắng nghe những tâm tư của bạn <3<3',
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                              fontSize: 13,
+                              fontStyle: FontStyle.italic,
+                              letterSpacing: 1),
+                        ),
+                      ),
+                    ).paddingSymmetric(horizontal: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(
+                            width: width * 0.35,
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  showCupertinoDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return CupertinoAlertDialog(
+                                          title: const Icon(
+                                              CupertinoIcons.info_circle),
+                                          content: const Text(
+                                            'Xác nhận tạo nội dung Diary?',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          actions: [
+                                            CupertinoDialogAction(
+                                              isDefaultAction: true,
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: Text("Huỷ",
+                                                  style:
+                                                      StyleApp.textStyle402()),
+                                            ),
+                                            CupertinoDialogAction(
+                                              isDefaultAction: true,
+                                              onPressed: () async {
+                                                save();
+                                              },
+                                              child: Text("Đồng ý",
+                                                  style:
+                                                      StyleApp.textStyle401()),
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorAppStyle.app8,
+                                side: const BorderSide(
+                                    width: 2, color: Colors.white),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              icon: const Icon(
+                                Icons.save,
+                                size: 14,
+                              ),
+                              label: const Text('Lưu Nhật Ký',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold)),
+                            )),
+                      ],
+                    ).paddingOnly(top: 10, bottom: 5)
+                  ],
+                ),
+              );
+      },
+    ).paddingSymmetric(horizontal: 5);
+  }
+
   void save() {
     if (happened.text.isNotEmpty &&
         dropdownValue.toString().isNotEmpty &&
@@ -175,14 +490,13 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
     happened = _bloc.happened;
     thinkPast = _bloc.thinkPast;
     moodPast = _bloc.moodPast;
     date = _bloc.date;
     time = _bloc.time;
     place = _bloc.place;
+    //dropdownValue = _bloc.dropdownValue;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorAppStyle.button,
@@ -212,316 +526,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                 image: AssetImage("assets/images/shape.png"),
                 fit: BoxFit.cover)),
         child: SafeArea(
-          child: SingleChildScrollView(
-            child: Card(
-              color: ColorAppStyle.app5,
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                  width: 2,
-                  color: Colors.greenAccent,
-                ),
-                borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Text("Bạn muốn nhật ký ở chế độ nào? : ")
-                          .paddingLeft(10),
-                      Container(
-                          height: 30,
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(width: 1, color: Colors.grey),
-                              borderRadius: BorderRadius.circular(15)),
-                          child: buildDrop().paddingSymmetric(horizontal: 4)),
-                    ],
-                  ).paddingTop(5),
-                  Row(
-                    children: [
-                      const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text('Bạn đã trải qua tâm trạng gì: ')),
-                      Container(
-                        height: 30,
-                        padding: const EdgeInsets.only(left: 5),
-                        width: 160,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(width: 1, color: Colors.grey),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: buildDropMood(),
-                      ),
-                    ],
-                  ).paddingSymmetric(horizontal: 10, vertical: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Text("Mức độ ảnh hương tới tâm trạng bạn: ")
-                          .paddingLeft(10),
-                      Container(
-                          height: 30,
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(width: 1, color: Colors.grey),
-                              borderRadius: BorderRadius.circular(15)),
-                          child: buildLevel().paddingSymmetric(horizontal: 4)),
-                    ],
-                  ),
-                  const Text('Bạn đã gặp phải chuyện gì vậy?')
-                      .paddingSymmetric(horizontal: 10, vertical: 10),
-                  SizedBox(
-                    height: height * 0.2,
-                    width: width,
-                    child: TextField(
-                      style: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w500),
-                      controller: happened,
-                      maxLines: null,
-                      expands: true,
-                      decoration: const InputDecoration(
-                          fillColor: ColorAppStyle.button,
-                          filled: true,
-                          hintStyle: TextStyle(fontSize: 14),
-                          // border: OutlineInputBorder(),
-                          hintText:
-                              "Hãy ghi vào đây,\nnhững gì xảy ra khiến tâm trạng bạn thay đổi nhé!"),
-                    ),
-                  ).paddingSymmetric(horizontal: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Bạn đã ở đâu vào lúc đó?'),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                          height: 50,
-                          child: TextField(
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
-                            controller: place,
-                            maxLines: null,
-                            expands: true,
-                            decoration: const InputDecoration(
-                                fillColor: ColorAppStyle.button,
-                                filled: true,
-                                hintStyle: TextStyle(fontSize: 14),
-                                hintText:
-                                    "Trường học, Ở nhà, Cơ quan,...hoặc nơi nào đó"),
-                          ))
-                    ],
-                  ).paddingSymmetric(horizontal: 10, vertical: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                          'Cảm xúc, suy nghĩ của bạn lúc đó như thế nào?'),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                          height: 50,
-                          child: TextField(
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
-                            controller: moodPast,
-                            maxLines: null,
-                            expands: true,
-                            decoration: const InputDecoration(
-                                fillColor: ColorAppStyle.button,
-                                filled: true,
-                                hintStyle: TextStyle(fontSize: 14),
-                                hintText: "Vui, Buồn, Rối,... hoặc gì đó"),
-                          ))
-                    ],
-                  ).paddingSymmetric(horizontal: 10, vertical: 10),
-                  const Text('Thời gian bạn gặp phải chuyện đó: ')
-                      .paddingSymmetric(horizontal: 10),
-                  SizedBox(
-                      height: 50,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: TextField(
-                              enabled: false,
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500),
-                              controller: date,
-                              maxLines: null,
-                              expands: true,
-                              decoration: const InputDecoration(
-                                  fillColor: ColorAppStyle.button,
-                                  filled: true,
-                                  hintText: "Ngày...,tháng...",
-                                  hintStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14)),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () async {
-                              late final formatter = DateFormat('dd-MM');
-                              DateTime? picker = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2000),
-                                  lastDate: DateTime(2025));
-                              if (picker != null) {
-                                setState(() {
-                                  date.clear();
-                                });
-                              }
-                              setState(() {
-                                date.text = formatter.format(picker!);
-                              });
-                            },
-                            icon: const Icon(Icons.calendar_month_outlined),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: TextField(
-                              enabled: false,
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500),
-                              controller: time,
-                              maxLines: null,
-                              expands: true,
-                              decoration: const InputDecoration(
-                                  fillColor: ColorAppStyle.button,
-                                  filled: true,
-                                  hintText: "Giờ...",
-                                  hintStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14)),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () async {
-                              TimeOfDay timeOfDay = TimeOfDay.now();
-                              final TimeOfDay? picked = await showTimePicker(
-                                context: context,
-                                initialTime: timeOfDay,
-                              );
-                              if (picked != null) {
-                                setState(() {
-                                  time.text = "${picked.hour}:${picked.minute}";
-                                });
-                              } else {
-                                time.text = "";
-                              }
-                            },
-                            icon: const Icon(Icons.calendar_month_outlined),
-                          )
-                        ],
-                      )).paddingSymmetric(horizontal: 10, vertical: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                          'Hãy dành chút thời gian để suy nghĩ về chuyện vừa qua, nếu gặp lại tình huống đó hãy suy nghĩ xem cách giải quyết tốt nhất cho bạn nhé(Hãy ghi xuống bên dưới nhé):'),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                          height: 120,
-                          child: TextField(
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
-                            controller: thinkPast,
-                            maxLines: null,
-                            expands: true,
-                            decoration: const InputDecoration(
-                                fillColor: ColorAppStyle.button,
-                                filled: true,
-                                hintStyle: TextStyle(fontSize: 14),
-                                hintText: "Hãy viết ngắn gọn vào đây..."),
-                          ))
-                    ],
-                  ).paddingSymmetric(horizontal: 10, vertical: 10),
-                  Center(
-                    child: Text(
-                      'Chúng mình sẽ luôn lắng nghe những tâm tư của bạn <3<3',
-                      style: GoogleFonts.lato(
-                        textStyle: const TextStyle(
-                            fontSize: 13,
-                            fontStyle: FontStyle.italic,
-                            letterSpacing: 1),
-                      ),
-                    ),
-                  ).paddingSymmetric(horizontal: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SizedBox(
-                          width: width * 0.35,
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                showCupertinoDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return CupertinoAlertDialog(
-                                        title: const Icon(
-                                            CupertinoIcons.info_circle),
-                                        content: const Text(
-                                          'Xác nhận tạo nội dung Diary?',
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        actions: [
-                                          CupertinoDialogAction(
-                                            isDefaultAction: true,
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: Text("Huỷ",
-                                                style: StyleApp.textStyle402()),
-                                          ),
-                                          CupertinoDialogAction(
-                                            isDefaultAction: true,
-                                            onPressed: () async {
-                                              save();
-                                            },
-                                            child: Text("Đồng ý",
-                                                style: StyleApp.textStyle401()),
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorAppStyle.app8,
-                              side: const BorderSide(
-                                  width: 2, color: Colors.white),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                            ),
-                            icon: const Icon(
-                              Icons.save,
-                              size: 14,
-                            ),
-                            label: const Text('Lưu Nhật Ký',
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold)),
-                          )),
-                    ],
-                  ).paddingOnly(top: 10, bottom: 5)
-                ],
-              ),
-            ),
-          ),
+          child: SingleChildScrollView(child: buildMoodList()),
         ),
       ),
     );

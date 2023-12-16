@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -24,7 +23,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
   TextEditingController place = TextEditingController();
   TextEditingController moodPast = TextEditingController();
   TextEditingController thinkPast = TextEditingController();
-  String? dropdownValue, dropdownLevel;
+  String? dropdownLevel;
 
   @override
   void initState() {
@@ -61,34 +60,11 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
     );
   }
 
-  Widget buildDrop() {
-    List<String> list = <String>['PUBLIC', 'PRIVATE'];
-    String status = _detailDiaryBloc.model!.status.validate().toString();
-    return DropdownButton<String>(
-      underline: Container(),
-      hint: Text(status),
-      value: dropdownValue,
-      style: const TextStyle(color: primaryColor),
-      onChanged: (String? value) {
-        setState(() {
-          dropdownValue = value!;
-        });
-      },
-      items: list.map<DropdownMenuItem<String>>((String stt) {
-        return DropdownMenuItem<String>(
-          value: stt,
-          child: Text(stt),
-        );
-      }).toList(),
-    );
-  }
-
   Widget buildIdDiary() {
     _detailDiaryBloc.happen = happened;
     _detailDiaryBloc.moodPast = moodPast;
     _detailDiaryBloc.place = place;
     _detailDiaryBloc.thinkPast = thinkPast;
-    _detailDiaryBloc.dropdownStatus = dropdownValue;
     _detailDiaryBloc.dropdownLevel = dropdownLevel;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
@@ -112,26 +88,14 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                        "Cảm xúc : ${_detailDiaryBloc.model!.mood.validate()}"),
-                    Row(
-                      children: [
-                        const Text("Chế độ nhật ký : "),
-                        Container(
-                            height: 30,
-                            margin: const EdgeInsets.symmetric(vertical: 5),
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
-                            child: buildDrop().paddingSymmetric(horizontal: 4)),
-                      ],
-                    )
-                  ],
-                ).paddingSymmetric(horizontal: 10),
+                Text("Cảm xúc : ${_detailDiaryBloc.model!.mood.validate()}",
+                    style: GoogleFonts.lato(
+                      textStyle: const TextStyle(
+                          fontSize: 18,
+                          fontStyle: FontStyle.italic,
+                          letterSpacing: .5),
+                    ))
+                    .paddingSymmetric(horizontal: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -147,8 +111,8 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                         child: buildLevel().paddingSymmetric(horizontal: 4)),
                   ],
                 ),
-                const Text('Chỉnh sửa câu chuyện mà bạn gặp phải là gì?')
-                    .paddingSymmetric(horizontal: 10, vertical: 10),
+                const Text('Chỉnh sửa câu chuyện mà bạn gặp phải:')
+                    .paddingSymmetric(horizontal: 10),
                 SizedBox(
                   height: height * 0.2,
                   width: width,
@@ -164,14 +128,11 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                         // border: OutlineInputBorder(),
                         hintText: "Nhập lời bạn muốn nói..."),
                   ),
-                ).paddingSymmetric(horizontal: 10),
+                ).paddingSymmetric(horizontal: 10,vertical: 5),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('Địa điểm nơi bạn bắt đầu câu chuyện đó :'),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     SizedBox(
                         height: 50,
                         child: TextField(
@@ -192,10 +153,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Cảm xúc,suy nghĩ của bạn lúc đó:'),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const Text('Cảm xúc của bạn lúc đó:'),
                     SizedBox(
                         height: 50,
                         child: TextField(
@@ -215,9 +173,6 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('Cách giải quyết sau khi suy nghĩ lại:'),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     SizedBox(
                         height: 120,
                         child: TextField(
@@ -249,63 +204,60 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                     SizedBox(
                         width: width * 0.35,
                         child: ElevatedButton.icon(
-                            onPressed: () async {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                showCupertinoDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return CupertinoAlertDialog(
-                                        title: const Icon(
-                                          CupertinoIcons.info_circle,
+                          onPressed: () async {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              showCupertinoDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return CupertinoAlertDialog(
+                                      title: const Icon(
+                                        CupertinoIcons.info_circle,
+                                      ),
+                                      content: const Text(
+                                        'Bạn có thay đổi nhật ký này?',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                          isDefaultAction: true,
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                          child: Text("Cancel",
+                                              style: StyleApp.textStyle401()),
                                         ),
-                                        content: const Text(
-                                          'Bạn có thay đổi nhật ký này?',
-                                          textAlign: TextAlign.center,
+                                        CupertinoDialogAction(
+                                          isDefaultAction: true,
+                                          onPressed: () {
+                                            if (happened.text.isNotEmpty &&
+                                                place.text.isNotEmpty &&
+                                                thinkPast.text.isNotEmpty &&
+                                                moodPast.text.isNotEmpty &&
+                                                dropdownLevel
+                                                    .toString()
+                                                    .isNotEmpty) {
+                                              _detailDiaryBloc.updateDiary(
+                                                  _detailDiaryBloc.model!.id
+                                                      .validate());
+                                              Navigator.pop(context);
+                                              Navigator.of(context).pop();
+                                              ToastUpdateSuccess();
+                                            } else {
+                                              Navigator.of(context).pop();
+                                              ToastUpdateError();
+                                            }
+                                          },
+                                          child: Text("Apply",
+                                              style: StyleApp.textStyle402()),
                                         ),
-                                        actions: [
-                                          CupertinoDialogAction(
-                                            isDefaultAction: true,
-                                            onPressed: () =>
-                                                Navigator.of(context).pop(),
-                                            child: Text("Cancel",
-                                                style: StyleApp.textStyle401()),
-                                          ),
-                                          CupertinoDialogAction(
-                                            isDefaultAction: true,
-                                            onPressed: () {
-                                              if (happened.text.isNotEmpty &&
-                                                  place.text.isNotEmpty &&
-                                                  thinkPast.text.isNotEmpty &&
-                                                  moodPast.text.isNotEmpty &&
-                                                  dropdownLevel
-                                                      .toString()
-                                                      .isNotEmpty &&
-                                                  dropdownValue
-                                                      .toString()
-                                                      .isNotEmpty) {
-                                                _detailDiaryBloc.updateDiary(
-                                                    _detailDiaryBloc.model!.id
-                                                        .validate());
-                                                Navigator.of(context).pop();
-                                                Navigator.of(context).pop();
-                                                ToastUpdateSuccess();
-                                              } else {
-                                                Navigator.of(context).pop();
-                                                ToastUpdateError();
-                                              }
-                                            },
-                                            child: Text("Apply",
-                                                style: StyleApp.textStyle402()),
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              });
-                            },
+                                      ],
+                                    );
+                                  });
+                            });
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ColorAppStyle.app8,
-                            side: const BorderSide(
-                                width: 2, color: Colors.white),
+                            side:
+                                const BorderSide(width: 2, color: Colors.white),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
@@ -316,8 +268,8 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                           ),
                           label: const Text('Lưu Thay Đổi',
                               style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold)),)),
+                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                        )),
                   ],
                 ).paddingSymmetric(vertical: 10)
               ],
@@ -370,7 +322,6 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
       height: 50,
     ).show(context);
   }
-
 
   @override
   Widget build(BuildContext context) {
