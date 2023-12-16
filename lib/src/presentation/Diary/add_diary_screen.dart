@@ -23,7 +23,6 @@ class AddDiaryScreen extends StatefulWidget {
 class _AddDiaryScreenState extends State<AddDiaryScreen> {
   late final MoodBloc _moodBloc;
   late final AddDiaryBloc _bloc;
-  late final DetailDiaryBloc _detailDiaryBloc;
   TextEditingController happened = TextEditingController();
   TextEditingController place = TextEditingController();
   TextEditingController moodPast = TextEditingController();
@@ -83,27 +82,6 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
     ).show(context);
   }
 
-  // Widget buildDrop() {
-  //   _bloc.dropdownValue = dropdownValue;
-  //   final List<String> list = <String>['PUBLIC', 'PRIVATE'];
-  //   return DropdownButton<String>(
-  //     underline: Container(),
-  //     hint: const Text("Mode"),
-  //     value: dropdownValue,
-  //     style: const TextStyle(color: primaryColor),
-  //     onChanged: (String? value) {
-  //       setState(() {
-  //         dropdownValue = value!;
-  //       });
-  //     },
-  //     items: list.map<DropdownMenuItem<String>>((String stt) {
-  //       return DropdownMenuItem<String>(
-  //         value: stt,
-  //         child: Text(stt),
-  //       );
-  //     }).toList(),
-  //   );
-  // }
 
   Widget buildLevel() {
     _bloc.dropdownLevel = dropdownLevel;
@@ -157,7 +135,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
     );
   }
 
-  Widget buildMoodList() {
+  Widget buildCreateDiary() {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return BlocBuilder<MoodBloc, MoodState>(
@@ -407,10 +385,9 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                         SizedBox(
                             width: width * 0.35,
                             child: ElevatedButton.icon(
-                              onPressed: () {
-                                WidgetsBinding.instance
-                                    .addPostFrameCallback((_) {
-                                  showCupertinoDialog(
+                              onPressed: () async {WidgetsBinding.instance
+                                    .addPostFrameCallback((_) async {
+                                 await showCupertinoDialog(
                                       context: context,
                                       builder: (context) {
                                         return CupertinoAlertDialog(
@@ -526,7 +503,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                 image: AssetImage("assets/images/shape.png"),
                 fit: BoxFit.cover)),
         child: SafeArea(
-          child: SingleChildScrollView(child: buildMoodList()),
+          child: SingleChildScrollView(child: buildCreateDiary()),
         ),
       ),
     );

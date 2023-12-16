@@ -1,20 +1,14 @@
-import 'package:diary/src/core/share_pref/share_pref.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'share_pref/app_key.dart';
+
 
 class Const {
   static final format = NumberFormat("#,##0.##", "vi");
    //static const api_host = 'http://10.0.2.2:8080/api/v1';
    static const api_host = 'http://localhost:8080/api/v1';
 
-  static checkLogin(BuildContext context, {required Function nextPage}) async {
-    bool isLogin = await SharedPrefs.readBool(AppKey.login);
-    if (isLogin) {
-      nextPage();
-    } else {}
-  }
 
   static formatTimeString(time, {String? format}) {
     if (time == null) {

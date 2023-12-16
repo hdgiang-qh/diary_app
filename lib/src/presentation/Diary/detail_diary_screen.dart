@@ -49,8 +49,8 @@ class _DetailDiaryScreenState extends State<DetailDiaryScreen> {
         bloc: _bloc,
         builder: (context, state) {
           if (state is DetailLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return  Center(
+              child: const CircularProgressIndicator().paddingTop(20),
             );
           } else if (state is DetailFailure) {
             return Center(
@@ -148,7 +148,7 @@ class _DetailDiaryScreenState extends State<DetailDiaryScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("Mức độ ảnh hương tới tâm trạng bạn: ",
+                      Text("Mức độ ảnh hưởng tới tâm trạng bạn: ",
                           style: GoogleFonts.lato(
                             textStyle: const TextStyle(
                                 fontSize: 13,

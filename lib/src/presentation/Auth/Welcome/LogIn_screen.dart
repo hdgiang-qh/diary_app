@@ -3,13 +3,11 @@ import 'package:diary/src/dash_board.dart';
 import 'package:diary/src/presentation/widget/text_field.dart';
 import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../styles/text_app.dart';
 import '../../../../styles/text_style.dart';
-import '../../../bloc/bool_bloc.dart';
 import '../../../core/service/provider_token.dart';
 import '../SignUp/signup_screen.dart';
 
@@ -24,13 +22,19 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final AuthService authService = AuthService();
-  final BoolBloc changeState = BoolBloc();
   bool _remember = false;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedData();
+    _remember;
+  }
+
   _loadSavedData() async {
     _remember = await AuthService.getRememberMe();
-    if (_remember == true) {
+    if (_remember) {
       String? savedUsername = await AuthService.getUsername();
       String? savedPassword = await AuthService.getPassword();
       if (savedUsername != null && savedPassword != null) {
@@ -47,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
   _toLogin() async {
     final username = usernameController.text;
     final password = passwordController.text;
-    if (_remember = true) {
+    if (_remember) {
       AuthService.setUsername(username);
       AuthService.setPassword(password);
     } else {
@@ -55,7 +59,6 @@ class _LoginPageState extends State<LoginPage> {
       AuthService.setPassword('');
     }
     final token = await authService.login(username, password);
-
     if (token != null) {
       Provider.of<AuthProvider>(context, listen: false).setToken(token);
       Navigator.push(
@@ -100,12 +103,7 @@ class _LoginPageState extends State<LoginPage> {
         false;
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _loadSavedData();
-    _remember;
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -149,18 +147,15 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Row(
                       children: [
-                        BlocBuilder<BoolBloc, bool>(
-                            bloc: changeState,
-                            builder: (context, state) {
-                              return Checkbox(
-                                  value: state,
-                                  activeColor: ColorAppStyle.button,
-                                  checkColor: Colors.white,
-                                  onChanged: (value) async {
-                                    changeState.changeValue(value!);
-                                     value = _remember;
-                                    AuthService.setRememberMe(_remember);
-                                  });
+                        Checkbox(
+                            value: _remember,
+                            activeColor: ColorAppStyle.button,
+                            checkColor: Colors.white,
+                            onChanged: (value) {
+                              setState(() {
+                                _remember = value!;
+                                AuthService.setRememberMe(_remember);
+                              });
                             }),
                         Text(TextApp.remember,
                             style: StyleApp.textStyle400()),

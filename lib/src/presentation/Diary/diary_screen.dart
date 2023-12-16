@@ -23,7 +23,6 @@ class DiaryScreen extends StatefulWidget {
 }
 
 class _DiaryScreenState extends State<DiaryScreen> {
-  final NumBloc numBloc = NumBloc();
   late final date = DateTime.now();
   late final formatter = DateFormat('yyyy-MM-dd');
   late String startDate = formatter.format(date);
