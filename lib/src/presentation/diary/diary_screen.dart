@@ -76,65 +76,72 @@ class _DiaryScreenState extends State<DiaryScreen> {
       textColor: Colors.white);
 
   Widget buildDate() {
-    return TableCalendar(
-      focusedDay: _focusedDay,
-      firstDay: _firstDay,
-      lastDay: _lastDay,
-      calendarFormat: format,
-      onFormatChanged: (CalendarFormat _format) {
-        setState(() {
-          format = _format;
-        });
-      },
-      onPageChanged: (focusedDay) {
-        setState(() {
-          _focusedDay = focusedDay;
-        });
-      },
-      selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
-      onDaySelected: (selectedDay, focusedDay) {
-        setState(() {
-          _selectedDay = selectedDay;
-          _focusedDay = focusedDay;
-          _bloc.listDU.clear();
-          _bloc.time = selectedDay;
-          _bloc.getListDU();
-        });
-      },
-      headerVisible: true,
-      daysOfWeekVisible: true,
-      sixWeekMonthsEnforced: true,
-      shouldFillViewport: false,
-      headerStyle: const HeaderStyle(
-        titleTextStyle: TextStyle(color: Colors.red, fontSize: 20.0),
-        decoration: BoxDecoration(
-            color: Colors.cyan,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-        formatButtonTextStyle: TextStyle(color: Colors.orange, fontSize: 16.0),
-        formatButtonDecoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(5.0),
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(15)),
+      child: TableCalendar(
+        focusedDay: _focusedDay,
+        firstDay: _firstDay,
+        lastDay: _lastDay,
+        calendarFormat: format,
+        onFormatChanged: (CalendarFormat _format) {
+          setState(() {
+            format = _format;
+          });
+        },
+        onPageChanged: (focusedDay) {
+          setState(() {
+            _focusedDay = focusedDay;
+          });
+        },
+        selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
+        onDaySelected: (selectedDay, focusedDay) {
+          setState(() {
+            _selectedDay = selectedDay;
+            _focusedDay = focusedDay;
+            _bloc.listDU.clear();
+            _bloc.time = selectedDay;
+            _bloc.getListDU();
+          });
+        },
+        headerVisible: true,
+        daysOfWeekVisible: true,
+        sixWeekMonthsEnforced: true,
+        shouldFillViewport: false,
+        headerStyle: const HeaderStyle(
+          titleTextStyle: TextStyle(fontSize: 20.0),
+          decoration: BoxDecoration(
+              // color: Colors.cyan,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+          formatButtonTextStyle: TextStyle(color: Colors.white, fontSize: 16.0),
+          formatButtonDecoration: BoxDecoration(
+            color: Colors.grey,
+            borderRadius: BorderRadius.all(
+              Radius.circular(5.0),
+            ),
+          ),
+          leftChevronIcon: Icon(
+            Icons.chevron_left,
+            color: Colors.green,
+            size: 28,
+          ),
+          rightChevronIcon: Icon(
+            Icons.chevron_right,
+            color: Colors.green,
+            size: 28,
           ),
         ),
-        leftChevronIcon: Icon(
-          Icons.chevron_left,
-          color: Colors.grey,
-          size: 28,
-        ),
-        rightChevronIcon: Icon(
-          Icons.chevron_right,
-          color: Colors.green,
-          size: 28,
-        ),
+        calendarStyle: const CalendarStyle(
+            selectedDecoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            todayTextStyle: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+                fontWeight: FontWeight.bold)),
       ),
-      calendarStyle: const CalendarStyle(
-          selectedDecoration: BoxDecoration(
-            color: Colors.blue,
-          ),
-          todayTextStyle: TextStyle(
-              fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold)),
     );
   }
 
@@ -164,7 +171,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
-                        //crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -180,23 +186,30 @@ class _DiaryScreenState extends State<DiaryScreen> {
                               ),
                               Expanded(
                                   child: Container(
+                                    height: 30,
                                 decoration: const BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(15))),
-                                child: Text(
-                                  _bloc.listDU[index].status.toString(),
-                                  style: TextStyle(
-                                      color: _bloc.listDU[index].status
-                                                  .toString() ==
-                                              "PUBLIC"
-                                          ? Colors.green
-                                          : Colors.red,
-                                      fontWeight: FontWeight.bold),
+                                        topRight: Radius.circular(20))),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      _bloc.listDU[index].status.toString(),
+                                      style: TextStyle(
+                                          color: _bloc.listDU[index].status
+                                                      .toString() ==
+                                                  "PUBLIC"
+                                              ? Colors.green
+                                              : Colors.red,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+
+                                  ],
                                 ),
                               )),
                             ],
-                          ).paddingOnly(left: 5, bottom: 5, top: 5),
+                          ).paddingOnly(left: 5, bottom: 5, top: 0),
                           Column(
                             children: [
                               Text(
@@ -392,16 +405,39 @@ class _DiaryScreenState extends State<DiaryScreen> {
                               },
                             ),
                           ),
+                          SizedBox(
+                            height: 30,
+                            width: 120,
+                            child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorAppStyle.app8,
+                                side: const BorderSide(
+                                    width: 2, color: Colors.white),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              icon: const Icon(
+                                Icons.delete_forever,
+                                size: 14,
+                              ),
+                              label: const Text('Chế độ',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold)),
+                                onPressed: () async {
+                                  await DetailDiaryScreen(
+                                    id: _bloc.listDU[index].id.validate(),
+                                  ).launch(context);
+                                  _bloc.refreshPage();
+                                },
+                            ),
+                          ),
                         ],
                       ).paddingSymmetric(vertical: 8)
                     ],
                   ),
-                ).paddingBottom(5).onTap(() async {
-                  await DetailDiaryScreen(
-                    id: _bloc.listDU[index].id.validate(),
-                  ).launch(context);
-                  _bloc.refreshPage();
-                }),
+                ).paddingBottom(5),
                 separatorBuilder: (context, index) => Container(),
                 itemCount: _bloc.listDU.length,
                 shrinkWrap: true,

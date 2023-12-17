@@ -190,7 +190,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                            'Cảm xúc, suy nghĩ của bạn lúc đó như thế nào?'),
+                            'Cảm xúc của bạn lúc đó như thế nào?'),
                         const SizedBox(
                           height: 10,
                         ),
@@ -384,7 +384,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
                                 Icons.save,
                                 size: 14,
                               ),
-                              label: const Text('Lưu Nhật Ký',
+                              label: const Text('Lưu nhật ký',
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold)),

@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     int hour = dif.inHours.abs();
                                     int minute = dif.inMinutes.abs();
                                     String showTime;
-                                    days > 1
+                                    days > 3
                                         ? showTime = formattedTime
                                         : (hour > 0
                                             ? showTime = "${hour % 24} giờ trước"
