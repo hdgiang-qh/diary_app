@@ -3,9 +3,10 @@
 import 'package:diary/splash_screen.dart';
 import 'package:diary/src/core/service/provider_token.dart';
 import 'package:diary/src/dash_board.dart';
-import 'package:diary/src/presentation/Auth/Welcome/LogIn_screen.dart';
+import 'package:diary/src/presentation/Auth/Welcome/logIn_screen.dart';
 import 'package:diary/src/presentation/Diary/diary_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
       //   useMaterial3: true,
       // ),
       debugShowCheckedModeBanner: false,
+      builder:  EasyLoading.init(),
       home:  const SplashScreen(),
       //color: Colors.cyan,
     );

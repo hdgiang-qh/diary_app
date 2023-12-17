@@ -4,6 +4,7 @@ import 'package:diary/src/core/apiPath.dart';
 import 'package:diary/src/models/comment_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:meta/meta.dart';
 
 part 'edit_comment_event.dart';
@@ -19,6 +20,7 @@ class EditCommentBloc extends Bloc<EditCommentEvent, EditCommentState> {
 
   void getComment(id) async {
     emit(EditCommentLoading());
+    EasyLoading.show(dismissOnTap: true);
     try {
       var res = await Api.getAsync(endPoint: '${ApiPath.comment}/$id');
       if (res['status'] == "SUCCESS") {
@@ -34,6 +36,7 @@ class EditCommentBloc extends Bloc<EditCommentEvent, EditCommentState> {
     } catch (e) {
       emit(EditCommentFailure(er: e.toString()));
     }
+    EasyLoading.dismiss();
   }
 
   void editComment(ids) async {

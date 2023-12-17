@@ -4,7 +4,10 @@ import 'package:diary/src/core/apiPath.dart';
 import 'package:diary/src/models/userDiary_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:meta/meta.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 part 'detail_diary_event.dart';
 
@@ -22,6 +25,7 @@ class DetailDiaryBloc extends Bloc<DetailDiaryEvent, DetailDiaryState> {
 
   void getDetailDiary(id) async {
     emit(DetailLoading());
+    EasyLoading.show(dismissOnTap: true);
     try {
       var res = await Api.getAsync(endPoint: '${ApiPath.curdDiary}/$id');
       if (res['status'] == "SUCCESS") {
@@ -35,9 +39,13 @@ class DetailDiaryBloc extends Bloc<DetailDiaryEvent, DetailDiaryState> {
     } catch (e) {
       emit(DetailFailure(e.toString()));
     }
+    EasyLoading.dismiss();
   }
+
+
   void setPublicDiary(id) async {
     emit(DetailLoading());
+    EasyLoading.show(dismissOnTap: true);
     try {
       var res = await Api.getAsync(endPoint: '${ApiPath.curdDiary}/public/$id');
       if (res['status'] == "SUCCESS") {
@@ -51,9 +59,11 @@ class DetailDiaryBloc extends Bloc<DetailDiaryEvent, DetailDiaryState> {
     } catch (e) {
       emit(DetailFailure(e.toString()));
     }
+    EasyLoading.dismiss();
   }
   void setPrivateDiary(id) async {
     emit(DetailLoading());
+    EasyLoading.show(dismissOnTap: true);
     try {
       var res = await Api.getAsync(endPoint: '${ApiPath.curdDiary}/private/$id');
       if (res['status'] == "SUCCESS") {
@@ -67,6 +77,7 @@ class DetailDiaryBloc extends Bloc<DetailDiaryEvent, DetailDiaryState> {
     } catch (e) {
       emit(DetailFailure(e.toString()));
     }
+    EasyLoading.dismiss();
   }
 
   void updateDiary(id) async {

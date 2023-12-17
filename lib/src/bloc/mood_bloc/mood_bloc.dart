@@ -5,6 +5,7 @@ import 'package:diary/src/core/api.dart';
 import 'package:diary/src/core/apiPath.dart';
 import 'package:diary/src/models/mood_model.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:meta/meta.dart';
 
 part 'mood_event.dart';
@@ -18,6 +19,7 @@ class MoodBloc extends Bloc<MoodEvent, MoodState> {
 
   void getMood() async{
     emit(MoodLoading());
+
     try{
       var res = await Api.getAsync(endPoint: ApiPath.moodStatus);
       if(res['status'] == "SUCCESS"){

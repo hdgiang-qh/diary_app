@@ -1,5 +1,7 @@
 import 'package:diary/shape_image_positioned.dart';
-import 'package:diary/src/presentation/Auth/Welcome/LogIn_screen.dart';
+import 'package:diary/src/core/service/auth_service.dart';
+import 'package:diary/src/dash_board.dart';
+import 'package:diary/src/presentation/Auth/Welcome/logIn_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -17,6 +19,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   late AnimationController _buttonScaleController;
   late Animation<double> _buttonScaleAnimation;
+  final AuthService authService = AuthService();
 
   void _initButtonScale() {
     _buttonScaleController = AnimationController(
@@ -82,9 +85,18 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void initState() {
+    navigatorPage();
     _initButtonScale();
     _initScreenScale();
     super.initState();
+  }
+
+  void navigatorPage() async {
+    var token = await authService.getToken();
+    if (token?.isNotEmpty ?? false) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const DashBoard()));
+    }
   }
 
   @override

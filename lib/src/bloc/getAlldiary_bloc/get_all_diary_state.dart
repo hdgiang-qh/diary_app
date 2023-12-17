@@ -8,7 +8,7 @@ class GetAllDiarySuccess extends GetAllDiaryState{
   final List<GetAllDiaryPublicModel> listGetAllDiary;
   GetAllDiarySuccess(this.listGetAllDiary);
 }
-
+class GetAllDiaryEmpty extends GetAllDiaryState {}
 
 class GetAllDiaryLoading extends GetAllDiaryState{}
 

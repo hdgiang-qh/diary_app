@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 
@@ -10,6 +11,7 @@ class AuthService {
   static const String _kRememberMeKey = 'remember_me';
   static const String _kUsernameKey = 'username';
   static const String _kPasswordKey = 'password';
+  static const String _kToken = 'token';
   final Dio dio = Dio();
   static const FlutterSecureStorage secureStorage =  FlutterSecureStorage();
   String? _error;
@@ -17,23 +19,27 @@ class AuthService {
   String? get error => _error;
 
   Future<String?> login(String username, String password) async {
+    EasyLoading.show();
     try {
       Response response = await dio.post(Const.api_host + ApiPath.login,
           data: {'username': username, 'password': password});
 
       if (response.statusCode == 200) {
+        EasyLoading.dismiss();
         final token = response.data['token'];
         await secureStorage.write(key: 'token', value: token);
         _error = null;
         return token;
       } else {
-        _error = 'Đăng nhập thất bại'; // Đặt thông báo lỗi
+        _error = 'Đăng nhập thất bại';
+        EasyLoading.dismiss();// Đặt thông báo lỗi
         return null;
       }
     } catch (e) {
       if (kDebugMode) {
         print('Login error: $e');
       }
+      EasyLoading.dismiss();
       _error = "Đã xảy ra lỗi";
       return null;
     }
@@ -70,6 +76,10 @@ class AuthService {
 
   static Future<void> setPassword(String password) async {
     await secureStorage.write(key: _kPasswordKey, value: password);
+  }
+
+  static Future<void> setToken(String token) async {
+    await secureStorage.write(key: _kToken, value: token);
   }
 }
 

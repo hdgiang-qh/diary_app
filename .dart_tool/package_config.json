@@ -206,6 +206,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_easyloading",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/flutter_easyloading-3.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_lints",
       "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/flutter_lints-2.0.3",
       "packageUri": "lib/",
@@ -256,6 +262,12 @@
     {
       "name": "flutter_secure_storage_windows",
       "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/flutter_secure_storage_windows-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_spinkit",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/flutter_spinkit-5.2.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -506,6 +518,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "pull_to_refresh",
+      "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/pull_to_refresh-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "rxdart",
       "rootUri": "file:///Users/macmini/.pub-cache/hosted/pub.dev/rxdart-0.27.7",
       "packageUri": "lib/",
@@ -716,7 +734,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-12-15T16:03:07.779821Z",
+  "generated": "2023-12-17T03:32:42.914613Z",
   "generator": "pub",
   "generatorVersion": "3.1.3"
 }

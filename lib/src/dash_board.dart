@@ -1,6 +1,6 @@
 import 'package:diary/src/presentation/Auth/Infor/Information_screen.dart';
 import 'package:diary/src/presentation/Diary/diary_screen.dart';
-import 'package:diary/src/presentation/HomePage/Home_screen.dart';
+import 'package:diary/src/presentation/HomePage/home_screen.dart';
 import 'package:diary/src/presentation/MessBot/messbot_screen.dart';
 import 'package:diary/src/presentation/PodCast/podcast_screen.dart';
 import 'package:diary/styles/color_styles.dart';
@@ -79,6 +79,7 @@ class _DashBoardState extends State<DashBoard>
           return Scaffold(
             body: TabBarView(
               controller: _blocNav.tabcontroller,
+              physics: const NeverScrollableScrollPhysics(),
               children: pages,
             ),
             bottomNavigationBar: BottomNavigationBar(

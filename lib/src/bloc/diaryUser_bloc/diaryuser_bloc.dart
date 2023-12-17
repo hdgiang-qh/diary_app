@@ -1,10 +1,9 @@
-
-
 import 'package:bloc/bloc.dart';
 import 'package:diary/src/core/api.dart';
 import 'package:diary/src/core/apiPath.dart';
 import 'package:diary/src/models/userDiary_model.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
@@ -22,6 +21,7 @@ class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
 
   void getListDU() async {
     emit(DiaryUserLoading());
+    EasyLoading.show(dismissOnTap: true);
     try {
       if (time == null) {
         epoint = ApiPath.diaryCalendar;
@@ -30,8 +30,7 @@ class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
         dateTime = df.format(time!);
         epoint = "${ApiPath.diaryCalendar}?date=$dateTime";
       }
-      var res = await Api.getAsync(
-          endPoint: epoint.toString());
+      var res = await Api.getAsync(endPoint: epoint.toString());
       if (res['status'] == "SUCCESS") {
         list.clear();
         if ((res['data'] as List).isNotEmpty) {
@@ -51,6 +50,7 @@ class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
     } catch (e) {
       emit(DiaryUserFailure(error: e.toString()));
     }
+    EasyLoading.dismiss();
   }
 
   void deletedDiary(int id) async {
@@ -71,4 +71,10 @@ class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
     }
   }
 
+  void refreshPage() {
+    emit(DiaryUserLoading());
+    time = null;
+    getListDU();
+    emit(DiaryUserSuccess(list));
+  }
 }
