@@ -1,8 +1,11 @@
 import 'package:diary/src/bloc/auth_bloc/changePass/change_pass_bloc.dart';
+import 'package:diary/src/core/service/auth_service.dart';
 import 'package:diary/styles/text_app.dart';
 import 'package:diary/styles/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class ChangePass extends StatefulWidget {
   const ChangePass({super.key});
@@ -15,12 +18,70 @@ class _ChangePassState extends State<ChangePass> {
   late final ChangePassBloc _bloc;
   TextEditingController oldPass = TextEditingController();
   TextEditingController newPass = TextEditingController();
-
+  TextEditingController newPassAgain = TextEditingController();
+  final AuthService authService = AuthService();
+  String? savePass, errorOldPass, errorNewPass, errorNewPassAgain;
+  bool hideShowPass = true;
 
   @override
   void initState() {
+    navigatorPass();
     super.initState();
     _bloc = ChangePassBloc();
+  }
+
+  void toastFailure(String messenger) => Fluttertoast.showToast(
+      msg: "Hãy nhập đầy đủ thông tin",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blueAccent,
+      textColor: Colors.white);
+
+  void toastSuccess(String messenger) => Fluttertoast.showToast(
+      msg: "Cập nhật mật khẩu thành công",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blueAccent,
+      textColor: Colors.white);
+
+  void navigatorPass() async {
+    String? savedPassword = await AuthService.getPassword();
+    savePass = savedPassword.validate();
+  }
+
+  void changePassword() {
+    if ((oldPass.text.isEmpty ||
+            newPass.text.isEmpty ||
+            newPassAgain.text.isEmpty) &&
+        oldPass.text == savePass) {
+      errorOldPass = null;
+      toastFailure("");
+      Navigator.of(context).pop();
+    } else if (oldPass.text != savePass) {
+      errorOldPass = "Mật khẩu cũ không đúng";
+      Navigator.of(context).pop();
+    } else if (oldPass.text == savePass) {
+      errorOldPass = null;
+      if (newPass.text == savePass) {
+        errorNewPass = "Mật khẩu mới phải khác mật khẩu cũ";
+      } else if (newPassAgain.text != newPass.text) {
+        errorNewPass = null;
+        errorNewPassAgain = "Mật khẩu mới không khớp";
+      } else {
+        errorNewPassAgain = null;
+        EasyLoading.show();
+        Future.delayed(const Duration(milliseconds: 1000), () {
+           AuthService.setPassword(newPass.text.toString());
+          _bloc.changePass();
+        })
+            .then((value) => EasyLoading.dismiss())
+            .then((value) => toastSuccess(""))
+            .then((value) => Navigator.of(context).pop());
+      }
+      Navigator.of(context).pop();
+    }
   }
 
   @override
@@ -62,6 +123,7 @@ class _ChangePassState extends State<ChangePass> {
                         children: [
                           TextField(
                             controller: oldPass,
+                            obscureText: hideShowPass,
                             style: const TextStyle(color: Colors.white),
                             decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
@@ -70,13 +132,14 @@ class _ChangePassState extends State<ChangePass> {
                                     color: Colors.white,
                                   ),
                                 ),
+                                errorText: errorOldPass,
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
                                     color: Colors.white,
                                   ),
                                 ),
-                                hintText: "Nhập mật khẩu cũ",
+                                labelText: "Nhập mật khẩu cũ",
                                 hintStyle: const TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -87,6 +150,35 @@ class _ChangePassState extends State<ChangePass> {
                           ),
                           TextField(
                             controller: newPass,
+                            obscureText: hideShowPass,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                helperText: "Mật khẩu phải hơn 6 ký tự",
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                errorText: errorNewPass,
+                                labelText: "Mật khẩu mới",
+                                hintStyle: const TextStyle(color: Colors.white),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextField(
+                            controller: newPassAgain,
+                            obscureText: hideShowPass,
                             style: const TextStyle(color: Colors.white),
                             decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
@@ -101,14 +193,35 @@ class _ChangePassState extends State<ChangePass> {
                                     color: Colors.white,
                                   ),
                                 ),
-                                hintText: "Mật khẩu mới",
+                                errorText: errorNewPassAgain,
+                                labelText: "Nhập lật khẩu mới",
                                 hintStyle: const TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 )),
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              hideShowPass
+                                  ? const Text('Hiện mật khẩu')
+                                  : const Text("Ẩn mật khẩu"),
+                              IconButton(
+                                onPressed: () {
+                                  setState(
+                                    () {
+                                      hideShowPass = !hideShowPass;
+                                    },
+                                  );
+                                },
+                                icon: Icon(hideShowPass
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
+                              )
+                            ],
+                          ),
                           const SizedBox(
-                            height: 20,
+                            height: 10,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -119,6 +232,7 @@ class _ChangePassState extends State<ChangePass> {
                                 child: IconButton(
                                   color: Colors.white,
                                   onPressed: () {
+                                    // print(savePass);
                                     Navigator.of(context).pop();
                                   },
                                   icon: const Icon(Icons.arrow_back),
@@ -153,23 +267,9 @@ class _ChangePassState extends State<ChangePass> {
                                                   ),
                                                   CupertinoDialogAction(
                                                     isDefaultAction: true,
-                                                    onPressed: () {
-                                                      if (_bloc.oldp.text
-                                                                  .isNotEmpty &&
-                                                              _bloc.np.text
-                                                                  .isNotEmpty &&
-                                                          _bloc.oldp.text !=
-                                                              _bloc.np.text){
-                                                        _bloc.changePass();
-                                                        Navigator.pop(context);
-                                                        newPass.clear();
-                                                        oldPass.clear();
-                                                      }
-                                                      else{
-                                                        print("Not Value");
-                                                        Navigator.pop(context);
-                                                      }
-
+                                                    onPressed: () async {
+                                                      changePassword();
+                                                      setState(() {});
                                                     },
                                                     child: Text("Đồng ý",
                                                         style: StyleApp

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 
 import '../apiPath.dart';
@@ -13,17 +14,18 @@ class AuthService {
   static const String _kPasswordKey = 'password';
   static const String _kToken = 'token';
   final Dio dio = Dio();
+
   static const FlutterSecureStorage secureStorage =  FlutterSecureStorage();
   String? _error;
 
   String? get error => _error;
+  String? savePass;
 
   Future<String?> login(String username, String password) async {
     EasyLoading.show();
     try {
       Response response = await dio.post(Const.api_host + ApiPath.login,
           data: {'username': username, 'password': password});
-
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
         final token = response.data['token'];

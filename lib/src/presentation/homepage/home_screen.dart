@@ -1,5 +1,6 @@
 import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/src/bloc/getAlldiary_bloc/get_all_diary_bloc.dart';
+import 'package:diary/src/core/service/auth_service.dart';
 import 'package:diary/src/presentation/HomePage/Search/search_screen.dart';
 import 'package:diary/src/presentation/HomePage/comment_screen.dart';
 import 'package:diary/styles/color_styles.dart';
