@@ -5,6 +5,7 @@ import 'package:diary/src/core/api.dart';
 import 'package:diary/src/core/apiPath.dart';
 import 'package:diary/src/models/user_model.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
@@ -21,6 +22,7 @@ class InforBloc extends Bloc<InforEvent, InforState> {
 
   void getInforUser() async {
     emit(InforLoading());
+    EasyLoading.show(dismissOnTap: true);
     try {
       var res = await Api.getAsync(endPoint: ApiPath.inforUser);
       if (res['status'] == "SUCCESS") {
@@ -34,6 +36,8 @@ class InforBloc extends Bloc<InforEvent, InforState> {
     } catch (e) {
       emit(InforFailure(error: e.toString()));
     }
+    EasyLoading.dismiss();
+
   }
 
   void getSearchId({int? id}) async {

@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 part 'diaryuser_event.dart';
 
@@ -18,9 +19,10 @@ class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
   DateTime? time;
   String? dateTime;
   String? epoint;
+  RefreshController refreshController = RefreshController();
 
-  void getListDU() async {
-    emit(DiaryUserLoading());
+  void getListDU({bool? isRefresh = false}) async {
+    emit(isRefresh == true ? DiaryUserLoading() : DiaryUserInitial());
     EasyLoading.show(dismissOnTap: true);
     try {
       if (time == null) {
@@ -32,7 +34,8 @@ class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
       }
       var res = await Api.getAsync(endPoint: epoint.toString());
       if (res['status'] == "SUCCESS") {
-        list.clear();
+        EasyLoading.dismiss();
+       // list.clear();
         if ((res['data'] as List).isNotEmpty) {
           for (var json in res['data']) {
             list.add(DiaryUserModel.fromJson(json));

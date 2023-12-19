@@ -13,7 +13,7 @@ class DiaryUserSuccess extends DiaryuserState{
 }
 class DeleteDiarySuccess extends DiaryuserState{}
 
-class UpdateDiarySuccess extends DiaryuserState{}
+class DiaryUserEmpty extends DiaryuserState{}
 
 class DiaryUserFailure extends DiaryuserState{
   final String error;

@@ -242,6 +242,7 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                                               NavUtils.pop(context);
                                               NavUtils.pop(context,
                                                   result: true);
+                                              EasyLoading.show(dismissOnTap: true);
                                             } else {
                                               Navigator.of(context).pop();
                                               ToastUpdateError();
@@ -280,7 +281,6 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
           }
         });
   }
-
 
   void ToastUpdateError() {
     MotionToast(

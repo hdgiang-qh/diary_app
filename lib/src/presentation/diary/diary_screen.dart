@@ -11,6 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../bloc/diaryUser_bloc/diaryuser_bloc.dart';
@@ -62,7 +63,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
   void toastEditComplete(String messenger) => Fluttertoast.showToast(
       msg: "Cập nhật thành công",
       toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
+      gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.blueAccent,
       textColor: Colors.white);
@@ -151,297 +152,299 @@ class _DiaryScreenState extends State<DiaryScreen> {
       bloc: _bloc,
       listener: (BuildContext context, DiaryuserState state) {},
       builder: (context, state) {
-        return (_bloc.listDU.isEmpty
+        return (state is DiaryUserEmpty
             ? const Center(
-                child: Text("Không có nhật ký nào"),
+                child: Text("Dữ liệu trống"),
               )
             : ListView.separated(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                //physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) => Card(
-                  color: ColorAppStyle.app5,
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(
-                      width: 2,
-                      color: Colors.greenAccent,
-                    ),
-                    borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              //physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) => Card(
+                color: ColorAppStyle.app5,
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                    width: 2,
+                    color: Colors.greenAccent,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 3,
-                                child: Text(
-                                  "  ${_bloc.listDU[index].nickname.validate().toString()}",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12),
-                                ),
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: Text(
+                                "  ${_bloc.listDU[index].nickname.validate().toString()}",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12),
                               ),
-                              Expanded(
-                                  child: Container(
-                                    height: 30,
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(20))),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      _bloc.listDU[index].status.toString(),
-                                      style: TextStyle(
-                                          color: _bloc.listDU[index].status
-                                                      .toString() ==
-                                                  "PUBLIC"
-                                              ? Colors.green
-                                              : Colors.red,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-
-                                  ],
-                                ),
-                              )),
-                            ],
-                          ).paddingOnly(left: 5, bottom: 5, top: 0),
-                          Column(
-                            children: [
-                              Text(
-                                "đang cảm thấy : ${_bloc.listDU[index].mood.validate()},  mức độ : ${_bloc.listDU[index].level.validate()}",
-                                style: GoogleFonts.lato(
-                                  textStyle: const TextStyle(
-                                      fontSize: 12,
-                                      fontStyle: FontStyle.italic,
-                                      letterSpacing: .5),
-                                ),
+                            ),
+                            Expanded(
+                                child: Container(
+                              height: 30,
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(20))),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    _bloc.listDU[index].status.toString(),
+                                    style: TextStyle(
+                                        color: _bloc.listDU[index].status
+                                                    .toString() ==
+                                                "PUBLIC"
+                                            ? Colors.green
+                                            : Colors.red,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                'vào ${_bloc.listDU[index].date.validate().toString()}, ${_bloc.listDU[index].time.validate().toString()}',
-                                style: GoogleFonts.lato(
-                                  textStyle: const TextStyle(
-                                      fontSize: 12,
-                                      fontStyle: FontStyle.italic,
-                                      letterSpacing: .5),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
+                            )),
+                          ],
+                        ).paddingOnly(left: 5, bottom: 5, top: 0),
+                        Column(
+                          children: [
+                            Text(
+                              "đang cảm thấy : ${_bloc.listDU[index].mood.validate()},  mức độ : ${_bloc.listDU[index].level.validate()}",
+                              style: GoogleFonts.lato(
+                                textStyle: const TextStyle(
+                                    fontSize: 12,
+                                    fontStyle: FontStyle.italic,
+                                    letterSpacing: .5),
+                              ),
+                            ),
+                            Text(
+                              'vào ${_bloc.listDU[index].date.validate().toString()}, ${_bloc.listDU[index].time.validate().toString()}',
+                              style: GoogleFonts.lato(
+                                textStyle: const TextStyle(
+                                    fontSize: 12,
+                                    fontStyle: FontStyle.italic,
+                                    letterSpacing: .5),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    SingleChildScrollView(
+                      child: SizedBox(
+                        child: Text(
+                            "Sự việc: ${_bloc.listDU[index].happened.validate()}",
+                            style: const TextStyle(fontSize: 14.0),
+                            maxLines: null),
                       ),
-                      SingleChildScrollView(
-                        child: SizedBox(
-                          child: Text(
-                              "Sự việc: ${_bloc.listDU[index].happened.validate()}",
-                              style: const TextStyle(fontSize: 14.0),
-                              maxLines: null),
-                        ),
-                      ).paddingSymmetric(horizontal: 10),
-                      Divider(
-                        endIndent: width * 0.6,
-                        color: Colors.white,
-                      ).paddingSymmetric(horizontal: 10),
-                      Text('Cảm xúc lúc đó : ${_bloc.listDU[index].thinkingFelt.validate()}')
-                          .paddingSymmetric(horizontal: 10),
-                      Text('Sau khi suy nghĩ : ${_bloc.listDU[index].thinkingMoment.validate()}')
-                          .paddingSymmetric(horizontal: 10),
-                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                        Text(
-                          'tại ${_bloc.listDU[index].place.validate()}',
-                          style: GoogleFonts.lato(
-                            textStyle: const TextStyle(
-                                fontSize: 12,
-                                fontStyle: FontStyle.italic,
-                                letterSpacing: .5),
+                    ).paddingSymmetric(horizontal: 10),
+                    Divider(
+                      endIndent: width * 0.6,
+                      color: Colors.white,
+                    ).paddingSymmetric(horizontal: 10),
+                    Text('Cảm xúc lúc đó : ${_bloc.listDU[index].thinkingFelt.validate()}')
+                        .paddingSymmetric(horizontal: 10),
+                    Text('Sau khi suy nghĩ : ${_bloc.listDU[index].thinkingMoment.validate()}')
+                        .paddingSymmetric(horizontal: 10),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'tại ${_bloc.listDU[index].place.validate()}',
+                            style: GoogleFonts.lato(
+                              textStyle: const TextStyle(
+                                  fontSize: 12,
+                                  fontStyle: FontStyle.italic,
+                                  letterSpacing: .5),
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(() {
-                          if (_bloc.listDU[index].createdAt != null) {
-                            try {
-                              DateTime createdAt = DateTime.parse(
-                                  _bloc.listDU[index].createdAt.toString());
-                              DateTime now = DateTime.now();
-                              Duration dif = createdAt.difference(now);
-                              int days = dif.inDays.abs();
-                              int hour = dif.inHours.abs();
-                              int minute = dif.inMinutes.abs();
-                              String showTime;
-                              days > 0
-                                  ? showTime = "$days ngày trước"
-                                  : (hour > 0
-                                      ? showTime = "${hour % 24} giờ trước"
-                                      : showTime = "$minute phút trước");
-                              return showTime;
-                            } catch (e) {
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(() {
+                            if (_bloc.listDU[index].createdAt != null) {
+                              try {
+                                DateTime createdAt = DateTime.parse(_bloc
+                                    .listDU[index].createdAt
+                                    .toString());
+                                DateTime now = DateTime.now();
+                                Duration dif = createdAt.difference(now);
+                                int days = dif.inDays.abs();
+                                int hour = dif.inHours.abs();
+                                int minute = dif.inMinutes.abs();
+                                String showTime;
+                                days > 0
+                                    ? showTime = "$days ngày trước"
+                                    : (hour > 0
+                                        ? showTime =
+                                            "${hour % 24} giờ trước"
+                                        : showTime = "$minute phút trước");
+                                return showTime;
+                              } catch (e) {
+                                return '';
+                              }
+                            } else {
                               return '';
                             }
-                          } else {
-                            return '';
-                          }
-                        }())
-                      ]).paddingSymmetric(horizontal: 10),
-                      const Divider(
-                        height: 1,
-                        color: Colors.white,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SizedBox(
-                            height: 30,
-                            width: 120,
-                            child: ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorAppStyle.app8,
-                                side: const BorderSide(
-                                    width: 2, color: Colors.white),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
+                          }())
+                        ]).paddingSymmetric(horizontal: 10),
+                    const Divider(
+                      height: 1,
+                      color: Colors.white,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          height: 30,
+                          width: 120,
+                          child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorAppStyle.app8,
+                              side: const BorderSide(
+                                  width: 2, color: Colors.white),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
                               ),
-                              icon: const Icon(
-                                Icons.edit,
-                                size: 14,
-                              ),
-                              label: const Text('Chỉnh sửa',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold)),
-                              onPressed: () async {
-                                final res = await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => EditDiaryScreen(
-                                              id: _bloc.listDU[index].id
-                                                  .validate(),
-                                            )));
-                                if (res == true) {
-                                  Future
-                                          .delayed(
-                                              const Duration(
-                                                  milliseconds: 1000), () {
-                                    EasyLoading.show();
-                                    _bloc.refreshPage();
-                                  })
-                                      .then((value) => EasyLoading.dismiss())
-                                      .then((value) => toastEditComplete(""));
-                                }
-                              },
                             ),
-                          ),
-                          SizedBox(
-                            height: 30,
-                            width: 120,
-                            child: ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorAppStyle.app8,
-                                side: const BorderSide(
-                                    width: 2, color: Colors.white),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                              ),
-                              icon: const Icon(
-                                Icons.delete_forever,
-                                size: 14,
-                              ),
-                              label: const Text('Xoá',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold)),
-                              onPressed: () {
-                                WidgetsBinding.instance
-                                    .addPostFrameCallback((_) {
-                                  showCupertinoDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return CupertinoAlertDialog(
-                                          title: const Icon(
-                                            CupertinoIcons.info_circle,
-                                          ),
-                                          content: const Text(
-                                            'Bạn có muốn xoá nhật ký này?',
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          actions: [
-                                            CupertinoDialogAction(
-                                              isDefaultAction: true,
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                              child: Text("Huỷ",
-                                                  style:
-                                                      StyleApp.textStyle401()),
-                                            ),
-                                            CupertinoDialogAction(
-                                              isDefaultAction: true,
-                                              onPressed: () {
-                                                _bloc.deletedDiary(_bloc
-                                                    .listDU[index].id
-                                                    .validate());
-                                                Navigator.of(context).pop();
-                                                Future.delayed(
-                                                    const Duration(
-                                                        milliseconds: 2000),
-                                                    () {
-                                                  toastDeleteComplete("");
-                                                });
-                                              },
-                                              child: Text("Đồng ý",
-                                                  style:
-                                                      StyleApp.textStyle402()),
-                                            ),
-                                          ],
-                                        );
-                                      });
-                                });
-                              },
+                            icon: const Icon(
+                              Icons.edit,
+                              size: 14,
                             ),
-                          ),
-                          SizedBox(
-                            height: 30,
-                            width: 120,
-                            child: ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorAppStyle.app8,
-                                side: const BorderSide(
-                                    width: 2, color: Colors.white),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                              ),
-                              icon: const Icon(
-                                Icons.delete_forever,
-                                size: 14,
-                              ),
-                              label: const Text('Chế độ',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold)),
-                                onPressed: () async {
-                                  await DetailDiaryScreen(
-                                    id: _bloc.listDU[index].id.validate(),
-                                  ).launch(context);
+                            label: const Text('Chỉnh sửa',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold)),
+                            onPressed: () async {
+                              final res = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EditDiaryScreen(
+                                            id: _bloc.listDU[index].id
+                                                .validate(),
+                                          )));
+                              if (res == true) {
+                                Future
+                                        .delayed(
+                                            const Duration(
+                                                milliseconds: 1000), () {
                                   _bloc.refreshPage();
-                                },
-                            ),
+                                })
+                                    .then((value) => EasyLoading.dismiss())
+                                    .then((value) => toastEditComplete(""));
+                              }
+                            },
                           ),
-                        ],
-                      ).paddingSymmetric(vertical: 8)
-                    ],
-                  ),
-                ).paddingBottom(5),
-                separatorBuilder: (context, index) => Container(),
-                itemCount: _bloc.listDU.length,
-                shrinkWrap: true,
-              ));
+                        ),
+                        SizedBox(
+                          height: 30,
+                          width: 120,
+                          child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorAppStyle.app8,
+                              side: const BorderSide(
+                                  width: 2, color: Colors.white),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                            icon: const Icon(
+                              Icons.delete_forever,
+                              size: 14,
+                            ),
+                            label: const Text('Xoá',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold)),
+                            onPressed: () {
+                              WidgetsBinding.instance
+                                  .addPostFrameCallback((_) {
+                                showCupertinoDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return CupertinoAlertDialog(
+                                        title: const Icon(
+                                          CupertinoIcons.info_circle,
+                                        ),
+                                        content: const Text(
+                                          'Bạn có muốn xoá nhật ký này?',
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        actions: [
+                                          CupertinoDialogAction(
+                                            isDefaultAction: true,
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: Text("Huỷ",
+                                                style: StyleApp
+                                                    .textStyle401()),
+                                          ),
+                                          CupertinoDialogAction(
+                                            isDefaultAction: true,
+                                            onPressed: () {
+                                              _bloc.deletedDiary(_bloc
+                                                  .listDU[index].id
+                                                  .validate());
+                                              Navigator.of(context).pop();
+                                              Future.delayed(
+                                                  const Duration(
+                                                      milliseconds: 2000),
+                                                  () {
+                                                toastDeleteComplete("");
+                                              });
+                                            },
+                                            child: Text("Đồng ý",
+                                                style: StyleApp
+                                                    .textStyle402()),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              });
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30,
+                          width: 120,
+                          child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorAppStyle.app8,
+                              side: const BorderSide(
+                                  width: 2, color: Colors.white),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                            icon: const Icon(
+                              Icons.delete_forever,
+                              size: 14,
+                            ),
+                            label: const Text('Chế độ',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold)),
+                            onPressed: () async {
+                              await DetailDiaryScreen(
+                                id: _bloc.listDU[index].id.validate(),
+                              ).launch(context);
+                              _bloc.refreshPage();
+                            },
+                          ),
+                        ),
+                      ],
+                    ).paddingSymmetric(vertical: 8)
+                  ],
+                ),
+              ).paddingBottom(5),
+              separatorBuilder: (context, index) => Container(),
+              itemCount: _bloc.listDU.length,
+              shrinkWrap: true,
+            ));
       },
     ).paddingSymmetric(horizontal: 5);
   }

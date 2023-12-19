@@ -2,6 +2,7 @@ import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/src/presentation/Auth/Infor/change_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class UserScreen extends StatefulWidget {
@@ -20,6 +21,10 @@ class _UserScreenState extends State<UserScreen> {
     _bloc = InforBloc();
     _bloc.getInforUser();
   }
+  @override
+  void dispose() {
+    super.dispose();
+  }
   void refreshPage(){
     _bloc.getInforUser();
   }
@@ -29,11 +34,7 @@ class _UserScreenState extends State<UserScreen> {
     return BlocBuilder<InforBloc, InforState>(
         bloc: _bloc,
         builder: (context, state) {
-          if (state is InforLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is InforSuccess2) {
+          if (state is InforSuccess2) {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(

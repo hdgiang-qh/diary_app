@@ -7,6 +7,7 @@ import 'package:diary/utils/nav_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -411,6 +412,7 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
       NavUtils.pop(context);
       NavUtils.pop(context,
           result: true);
+      EasyLoading.show();
     } else {
       Navigator.of(context).pop();
     }
