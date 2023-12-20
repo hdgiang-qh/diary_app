@@ -61,7 +61,7 @@ class _DetailDiaryScreenState extends State<DetailDiaryScreen> {
             lvl = _bloc.model!.level.validate();
             Color level = getLevelColor(_bloc.model!.level.validate());
             return Card(
-              color: ColorAppStyle.app5,
+              color: Colors.white,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -99,7 +99,7 @@ class _DetailDiaryScreenState extends State<DetailDiaryScreen> {
                                   }).then((value) => EasyLoading.dismiss());
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: ColorAppStyle.app8,
+                                  backgroundColor: Colors.white,
                                   side: const BorderSide(
                                       width: 2, color: Colors.white),
                                   shape: RoundedRectangleBorder(
@@ -109,7 +109,7 @@ class _DetailDiaryScreenState extends State<DetailDiaryScreen> {
                                 icon: Container(),
                                 label: const Text('Chế độ Public',
                                     style: TextStyle(
-                                        fontSize: 14,
+                                        color: Colors.green,
                                         fontWeight: FontWeight.bold)),
                               ),
                             ),
@@ -126,7 +126,7 @@ class _DetailDiaryScreenState extends State<DetailDiaryScreen> {
                                  // toastComplete("");
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: ColorAppStyle.app8,
+                                  backgroundColor: Colors.white,
                                   side: const BorderSide(
                                       width: 2, color: Colors.white),
                                   shape: RoundedRectangleBorder(
@@ -136,7 +136,7 @@ class _DetailDiaryScreenState extends State<DetailDiaryScreen> {
                                 icon: Container(),
                                 label: const Text('Chế đố Private',
                                     style: TextStyle(
-                                        fontSize: 14,
+                                       color: Colors.red,
                                         fontWeight: FontWeight.bold)),
                               ),
                             ),

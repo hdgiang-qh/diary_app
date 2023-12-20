@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CommentScreen extends StatefulWidget {
   final int id, idUser;

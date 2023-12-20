@@ -50,7 +50,7 @@ class _PodCastScreenState extends State<PodCastScreen>
                       return ChoiceChip(
                         selectedColor: Colors.cyan,
                         labelStyle: const TextStyle(
-                          fontSize: 13,
+                          fontSize: 12,
                         ),
                         label: Text(
                             _moodBloc.moodMusics[index].moodSound.validate()),

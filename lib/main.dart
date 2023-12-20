@@ -30,13 +30,13 @@ class MyApp extends StatelessWidget {
       },
       title: 'Flutter Demo',
       // theme: ThemeData(
-      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
+      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       //   useMaterial3: true,
       // ),
       debugShowCheckedModeBanner: false,
       builder:  EasyLoading.init(),
       home:  const SplashScreen(),
-      //color: Colors.cyan,
+     // color: Colors.cyan,
     );
   }
 }

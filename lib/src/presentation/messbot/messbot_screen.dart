@@ -67,16 +67,16 @@ class MessBotScreenState extends State<MessBotScreen> {
         backgroundColor: ColorAppStyle.button,
         automaticallyImplyLeading: false,
         title: const Text('Chat Bot'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  _messages.clear();
-                  list.clear();
-                });
-              },
-              icon: const Icon(Icons.refresh))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         setState(() {
+        //           _messages.clear();
+        //           list.clear();
+        //         });
+        //       },
+        //       icon: const Icon(Icons.refresh))
+        // ],
       ),
       body: Container(
         constraints: const BoxConstraints.expand(),

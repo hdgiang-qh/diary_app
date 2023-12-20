@@ -1,11 +1,10 @@
 import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/src/bloc/getAlldiary_bloc/get_all_diary_bloc.dart';
-import 'package:diary/src/core/service/auth_service.dart';
 import 'package:diary/src/presentation/HomePage/Search/search_screen.dart';
 import 'package:diary/src/presentation/HomePage/comment_screen.dart';
+import 'package:diary/src/presentation/homepage/separator_widget.dart';
 import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -56,25 +55,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text("Dữ liệu trống"),
               )
             : SmartRefresher(
-              controller: _bloc.refreshController,
-              onRefresh: (){
-                _bloc.getAllDiary(isRefresh: true);
-                EasyLoading.dismiss();
-              },
-              child: ListView.separated(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  itemBuilder: (context, index) => Card(
-                    color: ColorAppStyle.app5,
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                        width: 2,
-                        color: Colors.greenAccent,
-                      ),
-                      borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
-                    ),
+                controller: _bloc.refreshController,
+                onRefresh: () {
+                  _bloc.getAllDiary(isRefresh: true);
+                  EasyLoading.dismiss();
+                },
+                child: ListView.separated(
+                  itemBuilder: (context, index) => Container(
+                    color: Colors.white70,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SeparatorWidget(),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -104,29 +96,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    _bloc.reversedList[index].nickname.validate(),
+                                    _bloc.reversedList[index].nickname
+                                        .validate(),
                                     style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   Text(
-                                    "đang cảm thấy : ${_bloc.reversedList[index].mood.validate()},  mức độ : ${_bloc.reversedList[index].level.validate()}",
-                                    style: GoogleFonts.lato(
+                                    "đang cảm thấy: ${_bloc.reversedList[index].mood.validate()},  mức độ : ${_bloc.reversedList[index].level.validate()}",
+                                    style: GoogleFonts.almarai(
                                       textStyle: const TextStyle(
                                           fontSize: 12,
                                           fontStyle: FontStyle.italic,
                                           letterSpacing: .5),
                                     ),
                                   ),
-                                  Text(
-                                    'vào ${_bloc.reversedList[index].date.validate().toString()}, ${_bloc.reversedList[index].time.validate().toString()}',
-                                    style: GoogleFonts.lato(
-                                      textStyle: const TextStyle(
-                                          fontSize: 12,
-                                          fontStyle: FontStyle.italic,
-                                          letterSpacing: .5),
-                                    ),
-                                  )
                                 ],
                               ),
                             )
@@ -135,42 +118,34 @@ class _HomeScreenState extends State<HomeScreen> {
                         SingleChildScrollView(
                           child: SizedBox(
                             child: Text(
-                                "Sự việc : ${_bloc.reversedList[index].happened.validate()}",
+                                "Sự việc: ${_bloc.reversedList[index].happened.validate()}",
                                 style: const TextStyle(
-                                    fontSize: 15, color: Colors.white),
+                                 ),
                                 maxLines: null),
                           ),
                         ).paddingSymmetric(horizontal: 10),
                         Divider(
                           endIndent: width * 0.6,
-                          color: Colors.white,
+                          color: Colors.grey,
                         ).paddingSymmetric(horizontal: 10),
                         Text(
-                          'Cảm xúc lúc đó : ${_bloc.reversedList[index].thinkingFelt.validate()}',
-                          style: const TextStyle(color: Colors.white),
+                          'Cảm xúc lúc đó: ${_bloc.reversedList[index].thinkingFelt.validate()}',
+                          style: const TextStyle(),
                         ).paddingSymmetric(horizontal: 10),
                         Text(
-                          'Sau khi suy nghĩ : ${_bloc.reversedList[index].thinkingMoment.validate()}',
-                          style: const TextStyle(color: Colors.white),
+                          'Sau khi suy nghĩ: ${_bloc.reversedList[index].thinkingMoment.validate()}',
+                          style: const TextStyle(),
                         ).paddingSymmetric(horizontal: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text(
-                              'tại ${_bloc.reversedList[index].place.validate()}',
-                              style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                    fontSize: 12,
-                                    fontStyle: FontStyle.italic,
-                                    letterSpacing: .5),
-                              ),
-                            ),
                             const SizedBox(
                               width: 10,
                             ),
                             Text(
                               () {
-                                if (_bloc.reversedList[index].createdAt != null) {
+                                if (_bloc.reversedList[index].createdAt !=
+                                    null) {
                                   try {
                                     DateTime createdAt = DateTime.parse(_bloc
                                         .reversedList[index].createdAt
@@ -187,7 +162,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     days > 3
                                         ? showTime = formattedTime
                                         : (hour > 0
-                                            ? showTime = "${hour % 24} giờ trước"
+                                            ? showTime =
+                                                "${hour % 24} giờ trước"
                                             : showTime = "$minute phút trước");
                                     return showTime;
                                   } catch (e) {
@@ -203,53 +179,85 @@ class _HomeScreenState extends State<HomeScreen> {
                         ).paddingOnly(right: 10, bottom: 3, top: 3),
                         const Divider(
                           height: 1,
-                          color: Colors.white,
+                          color: Colors.grey,
                           thickness: 1,
                           indent: 8,
                           endIndent: 8,
                         ),
-                        Center(
-                          child: SizedBox(
-                            height: 30,
-                            child: ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorAppStyle.app8,
-                                side: const BorderSide(
-                                    width: 2, color: Colors.white),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Column(children: [
+                                Text(
+                                  'vào ${_bloc.reversedList[index].date.validate().toString()}, ${_bloc.reversedList[index].time.validate().toString()}',
+                                  style: GoogleFonts.lato(
+                                    textStyle: const TextStyle(
+                                        fontSize: 12,
+                                        fontStyle: FontStyle.italic,
+                                        letterSpacing: .5),
+                                  ),
                                 ),
-                              ),
-                              icon: const Icon(
-                                Icons.comment_bank_outlined,
-                                size: 16,
-                              ),
-                              label: const Text('Bình Luận',
-                                  style: TextStyle(
-                                      fontSize: 16, fontWeight: FontWeight.bold)),
-                              onPressed: () async {
-                                await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => CommentScreen(
-                                              id: _bloc.reversedList[index].id
-                                                  .validate(),
-                                              idUser: _inforBloc.ifUser!.id
-                                                  .validate(),
-                                            )));
-                                refreshPage();
-                              },
+                                Text(
+                                  _bloc.reversedList[index].place.validate(),
+                                  style: GoogleFonts.lato(
+                                    textStyle: const TextStyle(
+                                        fontSize: 12,
+                                        fontStyle: FontStyle.italic,
+                                        letterSpacing: .5),
+                                  ),
+                                ),
+                              ]),
                             ),
-                          ).paddingSymmetric(vertical: 5),
-                        ),
+                            const SizedBox(width: 10,),
+                            Expanded(
+                              child: SizedBox(
+                                height: 45,
+                                child: ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    // side: const BorderSide(
+                                    //     width: 2, color: Colors.white),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                  ),
+                                  icon: const Icon(
+                                    Icons.comment_bank_outlined,
+                                    size: 12,
+                                    color: Colors.black,
+                                  ),
+                                  label: const Text('Bình Luận',
+                                      style: TextStyle(
+                                        color: Colors.blueAccent,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold)),
+                                  onPressed: () async {
+                                    await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => CommentScreen(
+                                                  id: _bloc.reversedList[index].id
+                                                      .validate(),
+                                                  idUser: _inforBloc.ifUser!.id
+                                                      .validate(),
+                                                )));
+                                    refreshPage();
+                                  },
+                                ).paddingSymmetric(vertical: 5),
+                              ),
+                            ),
+                          ],
+                        ).paddingSymmetric(horizontal: 10),
                       ],
                     ),
-                  ).paddingBottom(5),
+                  ),
                   separatorBuilder: (context, index) => Container(),
                   itemCount: _bloc.reversedList.length,
                   shrinkWrap: true,
                 ),
-            );
+              );
       },
     );
   }
@@ -280,18 +288,18 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 16, left: 5, right: 5, bottom: 10),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 5),
+                color: Colors.white,
                 child: CupertinoSearchTextField(
                   decoration: BoxDecoration(
                       color: Colors.white70,
-                      border: Border.all(width: 0.5, color: Colors.white),
+                      border: Border.all(width: 1, color: Colors.black54),
                       borderRadius:
                           const BorderRadius.all(Radius.circular(15))),
                   enabled: true,
                   placeholder: 'Search',
-                  placeholderStyle: const TextStyle(color: Colors.black),
+                  placeholderStyle: const TextStyle(color: Colors.black54),
                   onTap: () async {
                     await Navigator.push(
                         context,
@@ -303,7 +311,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(child: buildListDiary()),
             ],
-          ).paddingSymmetric(horizontal: 10),
+          ).paddingSymmetric(horizontal: 0),
         ),
       ),
     );

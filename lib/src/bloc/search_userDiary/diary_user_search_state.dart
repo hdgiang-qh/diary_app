@@ -12,6 +12,7 @@ class DiaryUserSearchSuccess extends DiaryUserSearchState{
   DiaryUserSearchSuccess(this.list);
 }
 
+class DiaryUserSearchEmpty extends DiaryUserSearchState {}
 class DiaryUserSearchFailure extends DiaryUserSearchState{
   final String error;
   DiaryUserSearchFailure({ required this.error});

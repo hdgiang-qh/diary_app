@@ -134,7 +134,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 height: 10,
               ),
               SizedBox(
-                height: 70,
+                height: 80,
                 child: TextField(
                   //maxLines: null,
                   controller: findByPhone,
@@ -145,11 +145,18 @@ class _SearchScreenState extends State<SearchScreen> {
                         onPressed: () {
                           _bloc.getSearch();
                         },
-                        icon: const Icon(Icons.search)),
+                        icon: const Icon(Icons.search,color: Colors.white,)),
                     hintText: "Search",
-                    border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    //hintStyle: TextStyle(fontSize: 14)
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      borderSide: BorderSide(color: Colors.white, width: 1.0),
+                    ),
+                    // border: const OutlineInputBorder(
+                    //     borderRadius: BorderRadius.all(Radius.circular(15))),
+                    hintStyle: const TextStyle(color: Colors.white)
                   ),
                 ),
               ).paddingSymmetric(horizontal: 10),
