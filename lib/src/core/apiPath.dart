@@ -8,6 +8,7 @@ class ApiPath{
   static const diaryCalendar = "/diary/calendar";
   static const diaryUser = "/diary/all";
   static const inforUser = "/account/info";
+  static const updateInforUser = "/account/update-info";
   static const changePass = "/account/update-pass";
   static const comment = "/comments";
   static const search = "/account/search";

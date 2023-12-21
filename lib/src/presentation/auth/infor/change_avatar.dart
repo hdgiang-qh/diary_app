@@ -1,6 +1,5 @@
-import 'dart:convert';
+
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/styles/color_styles.dart';
@@ -18,7 +17,13 @@ class ChangeAvatarScreen extends StatefulWidget {
 class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
   late final InforBloc _bloc;
   XFile? image;
-
+  final picker = ImagePicker();
+  Future<void> _getImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      image = pickedFile;
+    });
+  }
 
   @override
   void initState() {
@@ -63,21 +68,23 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
                 children: [
                   ElevatedButton.icon(
                     onPressed: () async {
-                      final ImagePicker _picker = ImagePicker();
+                      final picker = ImagePicker();
                       final img =
-                          await _picker.pickImage(source: ImageSource.gallery);
-                      setState(() {
-                        image = img;
-                      });
+                          await picker.pickImage(source: ImageSource.gallery);
+                      if (img != null){
+                        setState(() {
+                          image = img;
+                        });
+                      }
                     },
                     label: const Text('Choose Image'),
                     icon: const Icon(Icons.image),
                   ),
                   ElevatedButton.icon(
                     onPressed: () async {
-                      final ImagePicker _picker = ImagePicker();
+                      final picker = ImagePicker();
                       final img =
-                          await _picker.pickImage(source: ImageSource.camera);
+                          await picker.pickImage(source: ImageSource.camera);
                       setState(() {
                         image = img;
                       });
@@ -109,7 +116,8 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
                             ElevatedButton.icon(
                               onPressed: () async {
                                 setState(() {
-                                  _bloc.updateAvatar(image!.path);
+                                  _bloc.image = image;
+                                  _bloc.updateAvatar();
                                 });
                               },
                               label: const Text('Save Image'),
