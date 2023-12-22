@@ -96,15 +96,8 @@ class _AddDiaryScreenState extends State<AddDiaryScreen> {
     return BlocBuilder<MoodBloc, MoodState>(
       bloc: _moodBloc,
       builder: (context, state) {
-        return  Card(
-                color: ColorAppStyle.app5,
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(
-                    width: 2,
-                    color: Colors.greenAccent,
-                  ),
-                  borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
-                ),
+        return  Container(
+                color: Colors.white,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

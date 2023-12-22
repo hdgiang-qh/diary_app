@@ -334,15 +334,8 @@ class _EditDiaryScreenState extends State<EditDiaryScreen> {
                 fit: BoxFit.cover)),
         child: SafeArea(
           child: SingleChildScrollView(
-            child: Card(
-              color: ColorAppStyle.app5,
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                  width: 2,
-                  color: Colors.greenAccent,
-                ),
-                borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
-              ),
+            child: Container(
+              color: Colors.white,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [

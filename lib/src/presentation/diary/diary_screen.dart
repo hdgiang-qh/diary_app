@@ -114,7 +114,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
           setState(() {
             _selectedDay = selectedDay;
             _focusedDay = focusedDay;
-            _bloc.listDU.clear();
+            _bloc.list.clear();
             _bloc.time = selectedDay;
             _bloc.getListDU();
           });
@@ -165,9 +165,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
       bloc: _bloc,
       listener: (BuildContext context, DiaryuserState state) {},
       builder: (context, state) {
-        return (state is DiaryUserEmpty
+        return (_bloc.list.isEmpty
             ? const Center(
-                child: Text("Dữ liệu trống"),
+                child: Text("Không có nhật ký nào"),
               )
             : ListView.separated(
                 itemBuilder: (context, index) => Card(
@@ -175,7 +175,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   child: Row(
                     children: [
                       Expanded(
-                        flex: 4,
+                        flex: 6,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -264,6 +264,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                         DateTime createdAt = DateTime.parse(
                                             _bloc.listDU[index].createdAt
                                                 .toString());
+                                        String formattedTime =
+                                        DateFormat('dd-MM-yyyy')
+                                            .format(createdAt);
                                         DateTime now = DateTime.now();
                                         Duration dif =
                                             createdAt.difference(now);
@@ -271,13 +274,12 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                         int hour = dif.inHours.abs();
                                         int minute = dif.inMinutes.abs();
                                         String showTime;
-                                        days > 0
-                                            ? showTime = "$days ngày trước"
+                                        days > 3
+                                            ? showTime = formattedTime
                                             : (hour > 0
-                                                ? showTime =
-                                                    "${hour % 24} giờ trước"
-                                                : showTime =
-                                                    "$minute phút trước");
+                                            ? showTime =
+                                        "${hour % 24} giờ trước"
+                                            : showTime = "$minute phút trước");
                                         return showTime;
                                       } catch (e) {
                                         return '';
@@ -363,6 +365,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                         ),
                       ),
                       Expanded(
+                        flex:2,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -510,7 +513,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                               ),
                             ),
                           ],
-                        ).paddingSymmetric(vertical: 8),
+                        ).paddingSymmetric(vertical: 8).paddingRight(4),
                       )
                     ],
                   ),
