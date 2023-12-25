@@ -119,8 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: SizedBox(
                             child: Text(
                                 "Sự việc: ${_bloc.reversedList[index].happened.validate()}",
-                                style: const TextStyle(
-                                 ),
+                                style: const TextStyle(),
                                 maxLines: null),
                           ),
                         ).paddingSymmetric(horizontal: 10),
@@ -161,10 +160,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     String showTime;
                                     days > 3
                                         ? showTime = formattedTime
-                                        : (hour > 0
-                                            ? showTime =
-                                                "${hour % 24} giờ trước"
-                                            : showTime = "$minute phút trước");
+                                        : 0 < days && days < 3
+                                            ? showTime = "$days ngày trước"
+                                            : (hour > 0
+                                                ? showTime =
+                                                    "${hour % 24} giờ trước"
+                                                : showTime =
+                                                    "$minute phút trước");
                                     return showTime;
                                   } catch (e) {
                                     return '';
@@ -210,7 +212,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ]),
                             ),
-                            const SizedBox(width: 10,),
+                            const SizedBox(
+                              width: 10,
+                            ),
                             Expanded(
                               child: SizedBox(
                                 height: 45,
@@ -230,7 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   label: const Text('Bình Luận',
                                       style: TextStyle(
-                                        color: Colors.blueAccent,
+                                          color: Colors.blueAccent,
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold)),
                                   onPressed: () async {
@@ -238,7 +242,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => CommentScreen(
-                                                  id: _bloc.reversedList[index].id
+                                                  id: _bloc
+                                                      .reversedList[index].id
                                                       .validate(),
                                                   idUser: _inforBloc.ifUser!.id
                                                       .validate(),
@@ -289,7 +294,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 5),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
                 color: Colors.white,
                 child: CupertinoSearchTextField(
                   decoration: BoxDecoration(
