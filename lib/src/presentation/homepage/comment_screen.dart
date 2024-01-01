@@ -29,6 +29,7 @@ class _CommentScreenState extends State<CommentScreen> {
     _inforBloc = InforBloc();
     _inforBloc.getInforUser();
     _bloc = GetCommentBloc(widget.id);
+    _bloc.list.clear();
     _bloc.getListComment(widget.id);
   }
 
@@ -163,7 +164,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                           if (res == true) {
                                             Future.delayed(
                                                 const Duration(
-                                                    milliseconds: 1000),
+                                                    milliseconds: 2000),
                                                 () {
                                               EasyLoading.show();
                                               _bloc.refreshPage();

@@ -35,7 +35,7 @@ class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
       var res = await Api.getAsync(endPoint: epoint.toString());
       if (res['status'] == "SUCCESS") {
         EasyLoading.dismiss();
-       // list.clear();
+        list.clear();
         if ((res['data'] as List).isNotEmpty) {
           for (var json in res['data']) {
             list.add(DiaryUserModel.fromJson(json));
