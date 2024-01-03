@@ -19,6 +19,7 @@ class GetCommentBloc extends Bloc<GetCommentEvent, GetCommentState> {
   int id;
   TextEditingController commentController = TextEditingController();
   RefreshController refreshController = RefreshController();
+  int? count;
 
   void getListComment(id) async {
     emit(GetCMTLoading());
@@ -31,6 +32,7 @@ class GetCommentBloc extends Bloc<GetCommentEvent, GetCommentState> {
           for (var json in res['data']) {
             list.add(CommentModel.fromJson(json));
           }
+          count = list.length;
           emit(GetCMTSuccess(list));
         } else {
           emit(GetCMTFailure(error: "Data Empty"));
@@ -68,11 +70,9 @@ class GetCommentBloc extends Bloc<GetCommentEvent, GetCommentState> {
         getListComment(id);
       }
     } on DioException catch (e) {
-      // Xử lý lỗi Dio
       print('Lỗi Dio: ${e.error}');
       return;
     } catch (e) {
-      // Xử lý lỗi khác
       print('Lỗi: $e');
     }
   }

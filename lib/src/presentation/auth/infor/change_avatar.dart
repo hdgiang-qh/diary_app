@@ -17,13 +17,6 @@ class ChangeAvatarScreen extends StatefulWidget {
 class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
   late final InforBloc _bloc;
   XFile? image;
-  final picker = ImagePicker();
-  Future<void> _getImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      image = pickedFile;
-    });
-  }
 
   @override
   void initState() {
@@ -35,7 +28,7 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorAppStyle.purple8a,
+        backgroundColor: ColorAppStyle.button,
         automaticallyImplyLeading: false,
         title: const Text("Chọn avatar"),
         leading: IconButton(
@@ -52,9 +45,9 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                ColorAppStyle.purple6f,
-                ColorAppStyle.purple8a,
-                ColorAppStyle.blue75
+                ColorAppStyle.app5,
+                ColorAppStyle.app6,
+                ColorAppStyle.app2
               ],
             ),
             image: DecorationImage(

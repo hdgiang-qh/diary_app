@@ -124,7 +124,6 @@ class Api {
       headers['Content-Type'] = "application/json";
 
       if (isToken) {
-        //final token = Provider.of<AuthProvider>(context).token;
            var token = await authService.getToken();
         print(token);
         headers['Authorization'] = "Bearer $token";
@@ -153,12 +152,41 @@ class Api {
       headers['Content-Type'] = "application/json";
       if (isToken) {
         var token = await authService.getToken();
+        print(token);
         headers['Authorization'] = "Bearer $token";
       }
       FormData formData = FormData.fromMap(req);
       var res = await dio.put(
         (domain ?? Const.api_host) + endPoint,
         data: hasForm ? formData : req,
+        options: Options(
+          headers: headers,
+        ),
+      );
+      return res.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static putAsyncAvatar(
+      {required String endPoint,
+        required Map<String, dynamic> req,
+        bool isToken = true,
+        bool hasForm = false,
+        String? domain,}) async {
+    try {
+      Map<String, dynamic> headers = Map();
+      headers['Content-Type'] = "multipart/form-data";
+      if (isToken) {
+        var token = await authService.getToken();
+        print(token);
+        headers['Authorization'] = "Bearer $token";
+      }
+      FormData formData = FormData.fromMap(req);
+      var res = await dio.put(
+        (domain ?? Const.api_host) + endPoint,
+        data: formData,
         options: Options(
           headers: headers,
         ),

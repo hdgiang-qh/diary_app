@@ -42,27 +42,33 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
           } else if (state is InforSuccess3) {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                      height: 100,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  state.ifUser1.avatar.validate()))),
-                      child: Container()),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                          "Tên người dùng : ${state.ifUser1.nickName.validate()}"),
-                      Text("Số điện thoại : ${state.ifUser1.phone.validate()}"),
-                      Text("Tuổi : ${state.ifUser1.age.validate().toString()}"),
-                      Text("Email : ${state.ifUser1.email.validate()}")
-                    ],
+                  Flexible(
+                    flex: 1,
+                    child: Container(
+                        height: 100,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    state.ifUser1.avatar.validate()))),
+                        child: Container()),
+                  ),
+                  Flexible(
+                    flex:3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                            "Tên người dùng : ${state.ifUser1.nickName.validate()}"),
+                        Text("Số điện thoại : ${state.ifUser1.phone.validate()}"),
+                        Text("Tuổi : ${state.ifUser1.age.validate().toString()}"),
+                        Text("Email : ${state.ifUser1.email.validate()}")
+                      ],
+                    ),
                   )
                 ],
               ).paddingTop(15),

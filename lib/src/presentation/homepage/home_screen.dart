@@ -1,5 +1,6 @@
 import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/src/bloc/getAlldiary_bloc/get_all_diary_bloc.dart';
+import 'package:diary/src/bloc/get_comment_id/get_comment_bloc.dart';
 import 'package:diary/src/presentation/HomePage/Search/search_screen.dart';
 import 'package:diary/src/presentation/HomePage/comment_screen.dart';
 import 'package:diary/src/presentation/homepage/separator_widget.dart';
@@ -103,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   Text(
                                     "đang cảm thấy: ${_bloc.reversedList[index].mood.validate()},  mức độ : ${_bloc.reversedList[index].level.validate()}",
-                                    style: GoogleFonts.almarai(
+                                    style: GoogleFonts.lato(
                                       textStyle: const TextStyle(
                                           fontSize: 12,
                                           fontStyle: FontStyle.italic,

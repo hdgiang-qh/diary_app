@@ -30,7 +30,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
   late final DiaryUserBloc _bloc;
   late final InforBloc _inforBloc;
   CalendarFormat format = CalendarFormat.twoWeeks;
-  String? note;
   late DateTime _focusedDay;
   late DateTime _firstDay;
   late DateTime _lastDay;
@@ -129,7 +128,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   topLeft: Radius.circular(10), topRight: Radius.circular(10))),
           formatButtonTextStyle: TextStyle(color: Colors.white, fontSize: 16.0),
           formatButtonDecoration: BoxDecoration(
-            color: Colors.grey,
+            color: Colors.blue,
             borderRadius: BorderRadius.all(
               Radius.circular(5.0),
             ),
@@ -629,28 +628,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   _bloc.getListDU();
                 },
                 icon: const Icon(Icons.refresh)),
-            PopupMenuButton<String>(
-              onSelected: (value) {
-                // Xử lý khi một item được chọn
-                print('Selected: $value');
-              },
-              itemBuilder: (BuildContext context) {
-                return <PopupMenuEntry<String>>[
-                  const PopupMenuItem<String>(
-                    value: 'Option 1',
-                    child: Text('Option 1'),
-                  ),
-                  const PopupMenuItem<String>(
-                    value: 'Option 2',
-                    child: Text('Option 2'),
-                  ),
-                  const PopupMenuItem<String>(
-                    value: 'Option 3',
-                    child: Text('Option 3'),
-                  ),
-                ];
-              },
-            ),
           ],
         ),
         body: Container(
