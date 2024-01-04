@@ -73,7 +73,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
   void toastCreateComplete(String messenger) => Fluttertoast.showToast(
       msg: "Tạo nhật ký thành công",
       toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
+      gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.blueAccent,
       textColor: Colors.white);
@@ -290,173 +290,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
                               ],
                             ),
                           ),
-
-                          // PopupMenuButton<String>(
-                          //   onSelected: (value) {
-                          //     switch (value) {
-                          //       case '1':
-                          //         navigateToPage(context);
-                          //         break;
-                          //       case '2':
-                          //         navigateToPage(context);
-                          //         break;
-                          //       case '3':
-                          //         navigateToPage(context);
-                          //         break;
-                          //     }
-                          //   },
-                          //   itemBuilder:
-                          //       (BuildContext context) {
-                          //     return <PopupMenuEntry<String>>[
-                          //       PopupMenuItem<String>(
-                          //        value: '1',
-                          //         child: SizedBox(
-                          //           height: 30,
-                          //           width: 120,
-                          //           child: ElevatedButton.icon(
-                          //             style: ElevatedButton.styleFrom(
-                          //               backgroundColor: ColorAppStyle.app8,
-                          //               side: const BorderSide(
-                          //                   width: 2, color: Colors.white),
-                          //               shape: RoundedRectangleBorder(
-                          //                 borderRadius: BorderRadius.circular(16),
-                          //               ),
-                          //             ),
-                          //             icon: const Icon(
-                          //               Icons.edit,
-                          //               size: 12,
-                          //             ),
-                          //             label: const Text('Sửa',
-                          //                 style: TextStyle(
-                          //                     fontSize: 12,
-                          //                     fontWeight: FontWeight.bold)),
-                          //             onPressed: () async {
-                          //               final res = await Navigator.push(
-                          //                   context,
-                          //                   MaterialPageRoute(
-                          //                       builder: (context) => EditDiaryScreen(
-                          //                         id: _bloc.listDU[index].id
-                          //                             .validate(),
-                          //                       )));
-                          //               if (res == true) {
-                          //                 Future
-                          //                     .delayed(
-                          //                     const Duration(
-                          //                         milliseconds: 1000), () {
-                          //                   _bloc.refreshPage();
-                          //                 })
-                          //                     .then((value) => EasyLoading.dismiss())
-                          //                     .then((value) => toastEditComplete(""));
-                          //               }
-                          //             },
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       PopupMenuItem<String>(
-                          //         value: '2',
-                          //         child:   SizedBox(
-                          //           height: 30,
-                          //           width: 120,
-                          //           child: ElevatedButton.icon(
-                          //             style: ElevatedButton.styleFrom(
-                          //               backgroundColor: ColorAppStyle.app8,
-                          //               side: const BorderSide(
-                          //                   width: 2, color: Colors.white),
-                          //               shape: RoundedRectangleBorder(
-                          //                 borderRadius: BorderRadius.circular(16),
-                          //               ),
-                          //             ),
-                          //             icon: const Icon(
-                          //               Icons.delete_forever,
-                          //               size: 12,
-                          //             ),
-                          //             label: const Text('Xoá',
-                          //                 style: TextStyle(
-                          //                     fontSize: 12,
-                          //                     fontWeight: FontWeight.bold)),
-                          //             onPressed: () {
-                          //               WidgetsBinding.instance
-                          //                   .addPostFrameCallback((_) {
-                          //                 showCupertinoDialog(
-                          //                     context: context,
-                          //                     builder: (context) {
-                          //                       return CupertinoAlertDialog(
-                          //                         title: const Icon(
-                          //                           CupertinoIcons.info_circle,
-                          //                         ),
-                          //                         content: const Text(
-                          //                           'Bạn có muốn xoá nhật ký này?',
-                          //                           textAlign: TextAlign.center,
-                          //                         ),
-                          //                         actions: [
-                          //                           CupertinoDialogAction(
-                          //                             isDefaultAction: true,
-                          //                             onPressed: () =>
-                          //                                 Navigator.pop(context),
-                          //                             child: Text("Huỷ",
-                          //                                 style: StyleApp
-                          //                                     .textStyle401()),
-                          //                           ),
-                          //                           CupertinoDialogAction(
-                          //                             isDefaultAction: true,
-                          //                             onPressed: () {
-                          //                               _bloc.deletedDiary(_bloc
-                          //                                   .listDU[index].id
-                          //                                   .validate());
-                          //                               Navigator.of(context).pop();
-                          //                               Future.delayed(
-                          //                                   const Duration(
-                          //                                       milliseconds: 2000),
-                          //                                       () {
-                          //                                     toastDeleteComplete("");
-                          //                                   });
-                          //                             },
-                          //                             child: Text("Đồng ý",
-                          //                                 style: StyleApp
-                          //                                     .textStyle402()),
-                          //                           ),
-                          //                         ],
-                          //                       );
-                          //                     });
-                          //               });
-                          //             },
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       PopupMenuItem<String>(
-                          //        value: '3',
-                          //         child: SizedBox(
-                          //           height: 30,
-                          //           width: 120,
-                          //           child: ElevatedButton.icon(
-                          //             style: ElevatedButton.styleFrom(
-                          //               backgroundColor: ColorAppStyle.app8,
-                          //               side: const BorderSide(
-                          //                   width: 2, color: Colors.white),
-                          //               shape: RoundedRectangleBorder(
-                          //                 borderRadius: BorderRadius.circular(16),
-                          //               ),
-                          //             ),
-                          //             icon: const Icon(
-                          //               Icons.delete_forever,
-                          //               size: 12,
-                          //             ),
-                          //             label: const Text('Chế độ',
-                          //                 style: TextStyle(
-                          //                     fontSize: 12,
-                          //                     fontWeight: FontWeight.bold)),
-                          //             onPressed: () async {
-                          //               await DetailDiaryScreen(
-                          //                 id: _bloc.listDU[index].id.validate(),
-                          //               ).launch(context);
-                          //               _bloc.refreshPage();
-                          //             },
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ];
-                          //   },
-                          // ),
                         ],
                       ).paddingOnly(left: 5, top: 0),
                       Text(
@@ -612,7 +445,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                       MaterialPageRoute(
                           builder: (context) => const AddDiaryScreen()));
                   if (res == true) {
-                    Future.delayed(const Duration(milliseconds: 1000), () {
+                    Future.delayed(const Duration(milliseconds: 2000), () {
                       EasyLoading.show();
                       _bloc.refreshPage();
                     })

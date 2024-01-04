@@ -5,7 +5,6 @@ import 'package:diary/styles/text_app.dart';
 import 'package:diary/utils/nav_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -23,7 +22,6 @@ class _ChangeInforScreenState extends State<ChangeInforScreen> {
   TextEditingController email = TextEditingController();
   TextEditingController date = TextEditingController();
   String? ErrorPhone;
-  String numberPhoneFromApi = "";
   bool passwordVisible = true;
 
   @override
@@ -31,7 +29,6 @@ class _ChangeInforScreenState extends State<ChangeInforScreen> {
     _bloc = InforBloc();
     _bloc.getInforUser();
     super.initState();
-    numberPhone.text = numberPhoneFromApi;
   }
 
   void toastComplete(String messenger) => Fluttertoast.showToast(

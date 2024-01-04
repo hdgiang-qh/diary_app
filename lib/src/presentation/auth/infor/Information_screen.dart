@@ -23,6 +23,7 @@ class Information extends StatefulWidget {
 
 class _InformationState extends State<Information> {
   late final InforBloc _bloc;
+
   @override
   void initState() {
     _bloc = InforBloc();
@@ -38,7 +39,7 @@ class _InformationState extends State<Information> {
       backgroundColor: Colors.blueAccent,
       textColor: Colors.white);
 
-  Widget buildInfor(){
+  Widget buildInfor() {
     return BlocBuilder<InforBloc, InforState>(
         bloc: _bloc,
         builder: (context, state) {
@@ -78,8 +79,8 @@ class _InformationState extends State<Information> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                            const ChangeAvatarScreen()));
-                                   _bloc.refreshPage();
+                                                const ChangeAvatarScreen()));
+                                    _bloc.refreshPage();
                                   },
                                 )),
                           )),
@@ -89,8 +90,10 @@ class _InformationState extends State<Information> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Tên người dùng : ${state.ifUser.nickName.validate()}"),
-                          Text("Số điện thoại : ${state.ifUser.phone.validate()}"),
+                          Text(
+                              "Tên người dùng : ${state.ifUser.nickName.validate()}"),
+                          Text(
+                              "Số điện thoại : ${state.ifUser.phone.validate()}"),
                           Text(
                               "Tuổi : ${state.ifUser.age.validate().toString()}"),
                           Text("Email : ${state.ifUser.email.validate()}")
@@ -108,8 +111,10 @@ class _InformationState extends State<Information> {
           } else {
             return Container();
           }
-        });;
+        });
+    ;
   }
+
   Widget buildChoose() {
     return Column(
       children: [
@@ -120,16 +125,15 @@ class _InformationState extends State<Information> {
             horizontal: 16,
           ),
           onTap: () async {
-         final res = await Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const ChangeInforScreen()));
-         if (res == true) {
-           Future.delayed(const Duration(milliseconds: 1000), () {
-             EasyLoading.show();
-             _bloc.refreshPage();
-           })
-               .then((value) => EasyLoading.dismiss())
-               .then((value) => toastCreateComplete(""));
-         }
+            final res = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ChangeInforScreen()));
+            if (res == true) {
+              Future.delayed(const Duration(milliseconds: 2000), () {
+                _bloc.refreshPage();
+              }).then((value) => toastCreateComplete(""));
+            }
           },
         ),
         SettingItemWidget(

@@ -21,6 +21,7 @@ class DiaryUserSearchBloc extends Bloc<DiaryUserSearchEvent, DiaryUserSearchStat
       var res = await Api.getAsync(
           endPoint: "${ApiPath.getSearchFeedUser}?createdBy=$id");
       if (res['status'] == "SUCCESS") {
+        listSearch.clear();
         if ((res['data'] as List).isNotEmpty) {
           for (var json in res['data']) {
             listSearch.add(DiaryUserModel.fromJson(json));

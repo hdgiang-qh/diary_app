@@ -1,9 +1,9 @@
-
 import 'dart:io';
 
 import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -23,6 +23,14 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
     super.initState();
     _bloc = InforBloc();
   }
+
+  void toastEditComplete(String messenger) => Fluttertoast.showToast(
+      msg: "Cập nhật thành công",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blueAccent,
+      textColor: Colors.white);
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +72,7 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
                       final picker = ImagePicker();
                       final img =
                           await picker.pickImage(source: ImageSource.gallery);
-                      if (img != null){
+                      if (img != null) {
                         setState(() {
                           image = img;
                         });
@@ -110,7 +118,16 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
                               onPressed: () async {
                                 setState(() {
                                   _bloc.image = image;
-                                  _bloc.updateAvatar();
+                                  EasyLoading.show(
+                                      dismissOnTap: true);
+                                  Future
+                                          .delayed(
+                                              const Duration(
+                                                  milliseconds: 2000), () {
+                                    _bloc.updateAvatar();
+                                  })
+                                      .then((value) => EasyLoading.dismiss())
+                                      .then((value) => toastEditComplete(""));
                                 });
                               },
                               label: const Text('Save Image'),

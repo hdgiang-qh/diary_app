@@ -19,7 +19,7 @@ class ViewSearchScreen extends StatefulWidget {
 }
 
 class _ViewSearchScreenState extends State<ViewSearchScreen> {
-  late final InforBloc _inforBloc;
+  late final InforBloc _inforBloc,_inforBlocV2;
   late final DiaryUserSearchBloc _diaryUserSearchBloc;
 
   @override
@@ -28,6 +28,8 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
     _diaryUserSearchBloc = DiaryUserSearchBloc();
     _diaryUserSearchBloc.getListSearch(id: widget.createBy);
     _inforBloc = InforBloc();
+    _inforBlocV2 = InforBloc();
+    _inforBlocV2.getInforUser();
     _inforBloc.getSearchId(id: widget.createBy);
   }
 
@@ -278,8 +280,8 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                                                 builder: (context) => CommentScreen(
                                                   id: _diaryUserSearchBloc.list[index].id
                                                       .validate(),
-                                                  idUser: _inforBloc.ifUserv2!.id
-                                                      .validate(),
+                                                  idUser: _inforBlocV2.ifUser!.id
+                                                      .validate()
                                                 )));
                                         refreshPage();
                                       },

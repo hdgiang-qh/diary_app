@@ -11,7 +11,10 @@ import 'package:nb_utils/nb_utils.dart';
 class CommentScreen extends StatefulWidget {
   final int id, idUser;
 
-  const CommentScreen({super.key, required this.id, required this.idUser});
+  const CommentScreen(
+      {super.key,
+      required this.id,
+      required this.idUser});
 
   @override
   State<CommentScreen> createState() => _CommentScreenState();
@@ -88,150 +91,146 @@ class _CommentScreenState extends State<CommentScreen> {
                   child: Text("Chưa có bình luận"),
                 )
               : ListView.separated(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Card(
-                    color: ColorAppStyle.app8,
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                        width: 2,
-                        color: Colors.greenAccent,
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Card(
+                      color: ColorAppStyle.app8,
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                          width: 2,
+                          color: Colors.greenAccent,
+                        ),
+                        borderRadius:
+                            BorderRadius.circular(20.0), //<-- SEE HERE
                       ),
-                      borderRadius:
-                          BorderRadius.circular(20.0), //<-- SEE HERE
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 40,
-                                    width: 40,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: NetworkImage(_bloc
-                                              .list[index].avatar
-                                              .validate()
-                                              .toString()),
-                                          fit: BoxFit.cover),
-                                    ),
-                                    child: Container(),
-                                  ).paddingRight(5),
-                                  Text(
-                                    _bloc.list[index].nickName
-                                        .validate()
-                                        .toString(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  if (_bloc.list[index].createdBy
-                                          .validate()
-                                          .toString() ==
-                                      widget.idUser.toString()) ...[
-                                    SizedBox(
-                                      width: 50,
-                                      child: IconButton(
-                                        icon: const Icon(
-                                          Icons.edit_square,
-                                        ),
-                                        onPressed: () async {
-                                          final res = await Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EditComment(
-                                                        id: _bloc
-                                                            .list[index].id
-                                                            .validate(),
-                                                      )));
-                                          if (res == true) {
-                                            Future.delayed(
-                                                const Duration(
-                                                    milliseconds: 2000),
-                                                () {
-                                              EasyLoading.show();
-                                              _bloc.refreshPage();
-                                              toastComplete("");
-                                            }).then((value) =>
-                                                EasyLoading.dismiss());
-                                          }
-                                        },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 40,
+                                      width: 40,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: NetworkImage(_bloc
+                                                .list[index].avatar
+                                                .validate()
+                                                .toString()),
+                                            fit: BoxFit.cover),
                                       ),
-                                    )
+                                      child: Container(),
+                                    ).paddingRight(5),
+                                    Text(
+                                      _bloc.list[index].nickName
+                                          .validate()
+                                          .toString(),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12),
+                                    ),
                                   ],
-                                ],
+                                ),
                               ),
-                            )
-                          ],
-                        ).paddingTop(5),
-                        SingleChildScrollView(
-                          child: SizedBox(
+                              Expanded(
+                                flex: 1,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    if (_bloc.list[index].createdBy
+                                                .validate()
+                                                .toString() ==
+                                            widget.idUser.toString()) ...[
+                                      SizedBox(
+                                        width: 50,
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.edit_square,
+                                          ),
+                                          onPressed: () async {
+                                            final res = await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditComment(
+                                                          id: _bloc
+                                                              .list[index].id
+                                                              .validate(),
+                                                        )));
+                                            if (res == true) {
+                                              Future.delayed(
+                                                  const Duration(
+                                                      milliseconds: 2000), () {
+                                                EasyLoading.show();
+                                                _bloc.refreshPage();
+                                                toastComplete("");
+                                              }).then((value) =>
+                                                  EasyLoading.dismiss());
+                                            }
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ],
+                                ),
+                              )
+                            ],
+                          ).paddingTop(5),
+                          SingleChildScrollView(
+                            child: SizedBox(
+                              child: Text(_bloc.list[index].comment.validate(),
+                                  style: const TextStyle(fontSize: 15.0),
+                                  maxLines: null),
+                            ),
+                          ).paddingBottom(5),
+                          Align(
+                            alignment: Alignment.centerRight,
                             child: Text(
-                                _bloc.list[index].comment.validate(),
-                                style: const TextStyle(fontSize: 15.0),
-                                maxLines: null),
-                          ),
-                        ).paddingBottom(5),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            () {
-                              if (_bloc.list[index].createdAt != null) {
-                                try {
-                                  DateTime createdAt = DateTime.parse(_bloc
-                                      .list[index].createdAt
-                                      .toString());
-                                  String formattedTime =
-                                      DateFormat('dd-MM-yyyy')
-                                          .format(createdAt);
-                                  DateTime now = DateTime.now();
-                                  Duration dif = createdAt.difference(now);
-                                  int days = dif.inDays.abs();
-                                  int hour = dif.inHours.abs();
-                                  int minute = dif.inMinutes.abs();
-                                  String showTime;
-                                  days > 1
-                                      ? showTime = formattedTime
-                                      : (hour > 0
-                                          ? showTime =
-                                              "${hour % 24} giờ trước"
-                                          : showTime =
-                                              "$minute phút trước");
-                                  return showTime;
-                                } catch (e) {
+                              () {
+                                if (_bloc.list[index].createdAt != null) {
+                                  try {
+                                    DateTime createdAt = DateTime.parse(
+                                        _bloc.list[index].createdAt.toString());
+                                    String formattedTime =
+                                        DateFormat('dd-MM-yyyy')
+                                            .format(createdAt);
+                                    DateTime now = DateTime.now();
+                                    Duration dif = createdAt.difference(now);
+                                    int days = dif.inDays.abs();
+                                    int hour = dif.inHours.abs();
+                                    int minute = dif.inMinutes.abs();
+                                    String showTime;
+                                    days > 1
+                                        ? showTime = formattedTime
+                                        : (hour > 0
+                                            ? showTime =
+                                                "${hour % 24} giờ trước"
+                                            : showTime = "$minute phút trước");
+                                    return showTime;
+                                  } catch (e) {
+                                    return '';
+                                  }
+                                } else {
                                   return '';
                                 }
-                              } else {
-                                return '';
-                              }
-                            }(),
-                          ),
-                        ).paddingRight(10)
-                      ],
-                    ).paddingLeft(10),
-                  ).paddingSymmetric(vertical: 5);
-                },
-                separatorBuilder: (context, index) => Container(),
-                itemCount: _bloc.list.length,
-                shrinkWrap: true,
-              ));
+                              }(),
+                            ),
+                          ).paddingRight(10)
+                        ],
+                      ).paddingLeft(10),
+                    ).paddingSymmetric(vertical: 5);
+                  },
+                  separatorBuilder: (context, index) => Container(),
+                  itemCount: _bloc.list.length,
+                  shrinkWrap: true,
+                ));
         });
   }
 
@@ -242,10 +241,12 @@ class _CommentScreenState extends State<CommentScreen> {
         backgroundColor: ColorAppStyle.button,
         title: const Text("Bình luận bài viết"),
         actions: [
-          IconButton(onPressed: (){
-            _bloc.list.clear();
-            _bloc.getListComment(widget.id);
-          }, icon: const Icon(Icons.refresh))
+          IconButton(
+              onPressed: () {
+                _bloc.list.clear();
+                _bloc.getListComment(widget.id);
+              },
+              icon: const Icon(Icons.refresh))
         ],
       ),
       body: Container(

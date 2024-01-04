@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 part 'infor_event.dart';
 
@@ -71,8 +72,10 @@ class InforBloc extends Bloc<InforEvent, InforState> {
     emit(InforSuccess2(ifUser!));
   }
 
+
   void updateInfor() async {
     emit(InforLoading());
+    EasyLoading.show(dismissOnTap: true);
     try {
       Map<String, dynamic> data = {
         "date": date.text,
@@ -99,6 +102,7 @@ class InforBloc extends Bloc<InforEvent, InforState> {
       // Xử lý lỗi khác
       print('Lỗi: $e');
     }
+    EasyLoading.dismiss();
   }
 
   void updateAvatar() async {

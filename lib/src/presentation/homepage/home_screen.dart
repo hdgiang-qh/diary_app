@@ -1,6 +1,5 @@
 import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
 import 'package:diary/src/bloc/getAlldiary_bloc/get_all_diary_bloc.dart';
-import 'package:diary/src/bloc/get_comment_id/get_comment_bloc.dart';
 import 'package:diary/src/presentation/HomePage/Search/search_screen.dart';
 import 'package:diary/src/presentation/HomePage/comment_screen.dart';
 import 'package:diary/src/presentation/homepage/separator_widget.dart';
@@ -58,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
             : SmartRefresher(
                 controller: _bloc.refreshController,
                 onRefresh: () {
+                  _bloc.getAllDiaries.clear();
                   _bloc.getAllDiary(isRefresh: true);
                   EasyLoading.dismiss();
                 },
@@ -74,8 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             Expanded(
                               flex: 1,
                               child: Container(
-                                height: 40,
-                                width: 40,
+                                height: 50,
+                                width: 50,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: 10,
                             ),
                             Expanded(
-                              flex: 9,
+                              flex: 8,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
