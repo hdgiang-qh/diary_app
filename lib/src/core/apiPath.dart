@@ -17,4 +17,6 @@ class ApiPath{
   static const listSound = '/sound';
   static const musicMood = '/sound/mood-sound-all';
   static const listMoodSound = '/sound/mood-sound';
+  static const chartYearUser = '/diary/countByMoodAndCreatedByByYear';
+  static const chartMonthUser = '/diary/countByMoodAndCreatedByByMonth';
 }

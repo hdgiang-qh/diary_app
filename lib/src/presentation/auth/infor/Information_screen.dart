@@ -1,6 +1,8 @@
 import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
+import 'package:diary/src/bloc/chart_bloc/chart_bloc.dart';
 import 'package:diary/src/core/api.dart';
 import 'package:diary/src/core/service/provider_token.dart';
+import 'package:diary/src/models/chart_model.dart';
 import 'package:diary/src/presentation/Auth/ChangePass/change_pass.dart';
 import 'package:diary/src/presentation/Auth/Infor/change_avatar.dart';
 import 'package:diary/src/presentation/auth/infor/change_infor.dart';
@@ -10,9 +12,9 @@ import 'package:diary/styles/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class Information extends StatefulWidget {
   const Information({super.key});
@@ -21,11 +23,23 @@ class Information extends StatefulWidget {
   State<Information> createState() => _InformationState();
 }
 
+class SalesData {
+  final String month;
+  final int sales;
+
+  SalesData(this.month, this.sales);
+}
+
 class _InformationState extends State<Information> {
   late final InforBloc _bloc;
+  late final ChartBloc _chartBloc;
+  late Future<ChartMonthModel> _data;
 
   @override
   void initState() {
+    _chartBloc = ChartBloc();
+    //_chartBloc.getData();
+    _data = _chartBloc.fetchData();
     _bloc = InforBloc();
     _bloc.getInforUser();
     super.initState();
@@ -190,6 +204,25 @@ class _InformationState extends State<Information> {
     );
   }
 
+  Widget buildChart(){
+    return FutureBuilder<ChartMonthModel>(
+      future: _data,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ChartWithData(snapshot.data!);
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -219,10 +252,108 @@ class _InformationState extends State<Information> {
             const SizedBox(
               height: 20,
             ),
-            buildChoose()
+            buildChoose(),
+            buildChart()
+            // Expanded(
+            //   child: SingleChildScrollView(
+            //     scrollDirection: Axis.vertical,
+            //     child: Column(
+            //       children: [
+            //         SfCircularChart(
+            //           title: ChartTitle(text: 'Month'),
+            //           legend: Legend(
+            //               isVisible: true, position: LegendPosition.bottom),
+            //           tooltipBehavior: TooltipBehavior(enable: true),
+            //           series: <CircularSeries<SalesData, String>>[
+            //             PieSeries<SalesData, String>(
+            //               enableTooltip: true,
+            //               dataSource: <SalesData>[
+            //                 SalesData('Jan', 30),
+            //                 SalesData('Feb', 40),
+            //                 SalesData('Mar', 50),
+            //                 SalesData('Apr', 25),
+            //                 SalesData('May', 60),
+            //                 SalesData('Jun', 25),
+            //                 SalesData('Jul', 25),
+            //               ],
+            //               xValueMapper: (SalesData sales, _) => sales.month,
+            //               yValueMapper: (SalesData sales, _) => sales.sales,
+            //               name: "Mood",
+            //               explodeAll: true,
+            //               explode: true,
+            //               dataLabelSettings:
+            //                   const DataLabelSettings(isVisible: true),
+            //             ),
+            //           ],
+            //         ),
+            //         SfCircularChart(
+            //           title: ChartTitle(text: 'Month'),
+            //           legend: Legend(
+            //               isVisible: true, position: LegendPosition.bottom),
+            //           tooltipBehavior: TooltipBehavior(enable: true),
+            //           // primaryXAxis: CategoryAxis(),
+            //           // primaryYAxis: NumericAxis(),
+            //           series: <CircularSeries<SalesData, String>>[
+            //             PieSeries<SalesData, String>(
+            //               enableTooltip: true,
+            //               dataSource: <SalesData>[
+            //                 SalesData('Jan', 30),
+            //                 SalesData('Feb', 40),
+            //                 SalesData('Mar', 50),
+            //                 SalesData('Apr', 25),
+            //                 SalesData('May', 60),
+            //                 SalesData('Jun', 25),
+            //                 SalesData('Jul', 25),
+            //               ],
+            //               xValueMapper: (SalesData sales, _) => sales.month,
+            //               yValueMapper: (SalesData sales, _) => sales.sales,
+            //               name: "Mood",
+            //               explodeAll: true,
+            //               explode: true,
+            //               dataLabelSettings:
+            //                   const DataLabelSettings(isVisible: true),
+            //             ),
+            //           ],
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
     );
   }
 }
+
+
+class ChartWithData extends StatelessWidget {
+  final ChartMonthModel data;
+
+  const ChartWithData(this.data, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<String> formattedData = data.data
+        .map((sales) => sales[1]?.toString() ?? "")
+        .toList();
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: SfCartesianChart(
+        primaryXAxis: CategoryAxis(),
+        series: <LineSeries<String, String>>[
+          LineSeries<String, String>(
+            dataSource: formattedData,
+          xValueMapper: (String sales, _) => sales,
+          yValueMapper: (String sales, _) {
+            return int.tryParse(sales) ?? 0;
+          },
+            dataLabelSettings: const DataLabelSettings(isVisible: true),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
