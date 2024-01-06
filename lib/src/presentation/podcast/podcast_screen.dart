@@ -31,11 +31,13 @@ class _PodCastScreenState extends State<PodCastScreen>
     _moodBloc = MoodBloc();
     _moodBloc.getMoodMusic();
   }
-@override
+
+  @override
   void dispose() {
     EasyLoading.dismiss();
     super.dispose();
   }
+
   Widget buildMoodMusic() {
     return BlocBuilder<MoodBloc, MoodState>(
         bloc: _moodBloc,
@@ -80,58 +82,70 @@ class _PodCastScreenState extends State<PodCastScreen>
         bloc: _bloc,
         builder: (context, state) {
           return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: SmartRefresher(
-                  controller: _bloc.refreshController,
-                  onRefresh: (){
-                    _bloc.getListPodcast(isRefresh: true);
-                    EasyLoading.dismiss();
-                  },
-                  child: GridView.builder(
-                      primary: false,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 1.4,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10),
-                      shrinkWrap: true,
-                      itemCount: _bloc.podcast.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    '${_bloc.podcast[index].poster}'),
-                                fit: BoxFit.cover),
-                          ),
-                          child: ListTile(
-                            title: Text(
-                              _bloc.podcast[index].title.validate(),
-                              style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w900),
-                            ),
-                            subtitle: Text(_bloc.podcast[index].author.validate(),
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w400)),
-                          ),
-                        ).onTap(() {
-                          PlayPodCastScreen(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SmartRefresher(
+              controller: _bloc.refreshController,
+              onRefresh: () {
+                _bloc.getListPodcast(isRefresh: true);
+                EasyLoading.dismiss();
+              },
+              child: GridView.builder(
+                primary: false,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1.4,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10),
+                shrinkWrap: true,
+                itemCount: _bloc.podcast.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PlayPodCastScreen(
                             id: _bloc.podcast[index].id.validate(),
                             track: _bloc.podcast[index].track.validate().toString(),
-                            image:
-                                _bloc.podcast[index].poster.validate().toString(),
+                            image: _bloc.podcast[index].poster.validate().toString(),
                             title: _bloc.podcast[index].title.validate(),
                             author: _bloc.podcast[index].author.validate(),
-                          ).launch(context);
-                        });
-                      },
+                            playlist: _bloc.podcast,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        image: DecorationImage(
+                          image: NetworkImage('${_bloc.podcast[index].poster}'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: ListTile(
+                        title: Text(
+                          _bloc.podcast[index].title.validate(),
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        subtitle: Text(
+                          _bloc.podcast[index].author.validate(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
                     ),
-                ),
-              );
+                  );
+                },
+              ),
+            ),
+          );
         });
   }
 

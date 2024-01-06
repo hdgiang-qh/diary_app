@@ -1,4 +1,5 @@
 import 'package:diary/src/bloc/podcast_bloc/podcast_bloc.dart';
+import 'package:diary/src/models/podcast_model.dart';
 import 'package:diary/styles/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
@@ -9,6 +10,7 @@ import 'package:nb_utils/nb_utils.dart';
 class PlayPodCastScreen extends StatefulWidget {
   final int? id;
   final String? track, image, title, author;
+  final List<PodcastModel>? playlist;
 
   const PlayPodCastScreen(
       {super.key,
@@ -16,7 +18,8 @@ class PlayPodCastScreen extends StatefulWidget {
       required this.track,
       required this.image,
       required this.title,
-      required this.author});
+      required this.author,
+      required this.playlist});
 
   @override
   State<PlayPodCastScreen> createState() => _PlayPodCastScreenState();
@@ -26,11 +29,10 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late final PodcastBloc _bloc;
-  late AudioPlayer audioPlayer;
+
+  //late AudioPlayer audioPlayer;
   double sliderValue = 5;
   bool showSlider = false;
-  String thumbnailImgUrl =
-      "https://ecdn.game4v.com/g4v-content/uploads/2022/10/09093327/Kimetsu-1-game4v-1665282804-5.png";
   var player = AudioPlayer();
   double volume = 5.0;
   bool loaded = false;
@@ -71,6 +73,24 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen>
       volume -= 5;
       player.setVolume(volume);
     });
+  }
+
+  void nextMusic() async {
+    if (widget.playlist != null &&
+        player.currentIndex != null &&
+        player.currentIndex! < widget.playlist!.length - 1) {
+      final nextIndex = player.currentIndex! + 1;
+      await player.seek(Duration.zero, index: nextIndex);
+    }
+  }
+
+  void previousMusic() async {
+    if (widget.playlist != null &&
+        player.currentIndex != null &&
+        player.currentIndex! > 0) {
+      final previousIndex = player.currentIndex! - 1;
+      await player.seek(Duration.zero, index: previousIndex);
+    }
   }
 
   @override
@@ -156,6 +176,22 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen>
                 ),
               ).paddingBottom(10),
             ).paddingBottom(30),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      showSlider = !showSlider;
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.volume_up_outlined,
+                    color: Colors.red,
+                  ),
+                ),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: StreamBuilder(
@@ -204,9 +240,13 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const SizedBox(
-                  width: 30,
-                ),
+                // IconButton(
+                //   onPressed: loaded ? previousMusic : null,
+                //   icon: const Icon(
+                //     Icons.skip_previous,
+                //     color: Colors.red,
+                //   ),
+                // ),
                 IconButton(
                     onPressed: loaded
                         ? () async {
@@ -258,20 +298,13 @@ class _PlayPodCastScreenState extends State<PlayPodCastScreen>
                       Icons.fast_forward_rounded,
                       color: Colors.red,
                     )),
-                SizedBox(
-                  width: 30,
-                  child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        showSlider = !showSlider;
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.volume_up_outlined,
-                      color: Colors.red,
-                    ),
-                  ),
-                ),
+                // IconButton(
+                //   onPressed: loaded ? nextMusic : null,
+                //   icon: const Icon(
+                //     Icons.skip_next,
+                //     color: Colors.red,
+                //   ),
+                // ),
               ],
             ),
             Column(

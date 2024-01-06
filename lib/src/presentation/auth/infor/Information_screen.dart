@@ -33,13 +33,11 @@ class SalesData {
 class _InformationState extends State<Information> {
   late final InforBloc _bloc;
   late final ChartBloc _chartBloc;
-  late Future<ChartMonthModel> _data;
 
   @override
   void initState() {
     _chartBloc = ChartBloc();
-    //_chartBloc.getData();
-    _data = _chartBloc.fetchData();
+    _chartBloc.getDataChart();
     _bloc = InforBloc();
     _bloc.getInforUser();
     super.initState();
@@ -204,23 +202,30 @@ class _InformationState extends State<Information> {
     );
   }
 
-  Widget buildChart(){
-    return FutureBuilder<ChartMonthModel>(
-      future: _data,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return ChartWithData(snapshot.data!);
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
+  Widget buildChart() {
+    return BlocBuilder<ChartBloc, ChartState>(
+        bloc: _chartBloc,
+        builder: (context, state) {
+          return SfCartesianChart(
+            title: ChartTitle(text: 'Month'),
+            legend: Legend(
+                isVisible: true, position: LegendPosition.bottom),
+            tooltipBehavior: TooltipBehavior(enable: true),
+            primaryXAxis: CategoryAxis(),
+            primaryYAxis: NumericAxis(),
+            series: <ColumnSeries<ChartMonthModelV2, String>>[
+              ColumnSeries<ChartMonthModelV2, String>(
+                enableTooltip: true,
+                dataSource: _chartBloc.list,
+                xValueMapper: (ChartMonthModelV2 sales, _) => sales.mood,
+                yValueMapper: (ChartMonthModelV2 sales, _) => sales.count,
+                name: "Mood",
+                dataLabelSettings: const DataLabelSettings(isVisible: true),
+              ),
+            ],
           );
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
-    );
+        },
+      );
   }
 
   @override
@@ -253,107 +258,16 @@ class _InformationState extends State<Information> {
               height: 20,
             ),
             buildChoose(),
-            buildChart()
-            // Expanded(
-            //   child: SingleChildScrollView(
-            //     scrollDirection: Axis.vertical,
-            //     child: Column(
-            //       children: [
-            //         SfCircularChart(
-            //           title: ChartTitle(text: 'Month'),
-            //           legend: Legend(
-            //               isVisible: true, position: LegendPosition.bottom),
-            //           tooltipBehavior: TooltipBehavior(enable: true),
-            //           series: <CircularSeries<SalesData, String>>[
-            //             PieSeries<SalesData, String>(
-            //               enableTooltip: true,
-            //               dataSource: <SalesData>[
-            //                 SalesData('Jan', 30),
-            //                 SalesData('Feb', 40),
-            //                 SalesData('Mar', 50),
-            //                 SalesData('Apr', 25),
-            //                 SalesData('May', 60),
-            //                 SalesData('Jun', 25),
-            //                 SalesData('Jul', 25),
-            //               ],
-            //               xValueMapper: (SalesData sales, _) => sales.month,
-            //               yValueMapper: (SalesData sales, _) => sales.sales,
-            //               name: "Mood",
-            //               explodeAll: true,
-            //               explode: true,
-            //               dataLabelSettings:
-            //                   const DataLabelSettings(isVisible: true),
-            //             ),
-            //           ],
-            //         ),
-            //         SfCircularChart(
-            //           title: ChartTitle(text: 'Month'),
-            //           legend: Legend(
-            //               isVisible: true, position: LegendPosition.bottom),
-            //           tooltipBehavior: TooltipBehavior(enable: true),
-            //           // primaryXAxis: CategoryAxis(),
-            //           // primaryYAxis: NumericAxis(),
-            //           series: <CircularSeries<SalesData, String>>[
-            //             PieSeries<SalesData, String>(
-            //               enableTooltip: true,
-            //               dataSource: <SalesData>[
-            //                 SalesData('Jan', 30),
-            //                 SalesData('Feb', 40),
-            //                 SalesData('Mar', 50),
-            //                 SalesData('Apr', 25),
-            //                 SalesData('May', 60),
-            //                 SalesData('Jun', 25),
-            //                 SalesData('Jul', 25),
-            //               ],
-            //               xValueMapper: (SalesData sales, _) => sales.month,
-            //               yValueMapper: (SalesData sales, _) => sales.sales,
-            //               name: "Mood",
-            //               explodeAll: true,
-            //               explode: true,
-            //               dataLabelSettings:
-            //                   const DataLabelSettings(isVisible: true),
-            //             ),
-            //           ],
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: buildChart()
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-
-class ChartWithData extends StatelessWidget {
-  final ChartMonthModel data;
-
-  const ChartWithData(this.data, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final List<String> formattedData = data.data
-        .map((sales) => sales[1]?.toString() ?? "")
-        .toList();
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: SfCartesianChart(
-        primaryXAxis: CategoryAxis(),
-        series: <LineSeries<String, String>>[
-          LineSeries<String, String>(
-            dataSource: formattedData,
-          xValueMapper: (String sales, _) => sales,
-          yValueMapper: (String sales, _) {
-            return int.tryParse(sales) ?? 0;
-          },
-            dataLabelSettings: const DataLabelSettings(isVisible: true),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 

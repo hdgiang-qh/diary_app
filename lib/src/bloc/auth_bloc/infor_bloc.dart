@@ -18,8 +18,6 @@ part 'infor_event.dart';
 part 'infor_state.dart';
 
 class InforBloc extends Bloc<InforEvent, InforState> {
-  List<InforUser> inforUsers = [];
-  List<InforUserRole> inforUserRoles = [];
   InforUser? ifUser, ifUserv2;
   TextEditingController date = TextEditingController();
   TextEditingController phone = TextEditingController();

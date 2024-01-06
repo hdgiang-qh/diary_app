@@ -373,7 +373,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                   height: 3,
                                 ),
                                 Text(
-                                  'tại ${_bloc.listDU[index].place.validate()}',
+                                  _bloc.listDU[index].place.validate(),
                                   style: GoogleFonts.lato(
                                     textStyle: const TextStyle(
                                         fontSize: 12,

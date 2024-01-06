@@ -13,20 +13,25 @@ part 'chart_event.dart';
 part 'chart_state.dart';
 
 class ChartBloc extends Bloc<ChartEvent, ChartState> {
-  List<ChartMonthModel> list = [];
+  List<ChartMonthModelV2> list = [];
   late int? id;
-
   ChartBloc() : super(ChartInitial());
 
   void getDataChart() async {
     emit(ChartLoading());
     try {
       var res =
-          await Api.getAsync(endPoint: "${ApiPath.chartMonthUser}/25?month=1");
-      final Map<String, dynamic> jsonData = res;
-      print("json: $jsonData");
-      list.add(ChartMonthModel.fromJson(res["Jan"]));
-      print(list);
+          await Api.getAsync(endPoint: "${ApiPath.chartMonthUser}");
+      if (res['status'] == "SUCCESS") {
+        if ((res['data']['Jan'] as List).isNotEmpty) {
+          for(var json in res['data']['Jan']) {
+            list.add(ChartMonthModelV2.fromJson(json));
+          }
+          emit(ChartSuccess(list));
+        } else {
+        }
+      } else {
+      }
     } on DioException catch (e) {
       emit(ChartFailure(e.error.toString()));
     } catch (e) {
@@ -34,10 +39,4 @@ class ChartBloc extends Bloc<ChartEvent, ChartState> {
     }
   }
 
-  Future<ChartMonthModel> fetchData() async {
-    var res = await Api.getAsync(endPoint: "${ApiPath.chartMonthUser}/25?month=1");
-    final Map<String, dynamic> jsonData = res;
-    print("json: $jsonData");
-    return ChartMonthModel.fromJson(jsonData);
-  }
 }

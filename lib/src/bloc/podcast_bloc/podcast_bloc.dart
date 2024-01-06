@@ -68,7 +68,6 @@ class PodcastBloc extends Bloc<PodcastEvent, PodcastState> {
     } catch (e) {
       emit(PodcastFailure(error: e.toString()));
     }
-
     EasyLoading.dismiss();
   }
 }
