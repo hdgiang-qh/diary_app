@@ -14,13 +14,16 @@ part 'chart_event.dart';
 part 'chart_state.dart';
 
 class ChartBloc extends Bloc<ChartEvent, ChartState> {
-  List<ChartMonthModelV2> list = [];
+  List<ChartModelV2> list = [];
+  List<ChartModelV2> list2 = [];
+  List<ChartModelV2?>? list3;
+  ChartModel? listChart;
 
   ChartBloc() : super(ChartInitial());
   String? endPoints, month;
   String formattedDate = DateFormat.MMM().format(DateTime.now());
 
-  void getDataChart({int? id}) async {
+  void getDataChartMonth({int? id}) async {
     emit(ChartLoading());
     if (id == null) {
       endPoints = ApiPath.chartMonthUser;
@@ -71,10 +74,27 @@ class ChartBloc extends Bloc<ChartEvent, ChartState> {
       if (res['status'] == "SUCCESS") {
         if ((res['data'][month] as List).isNotEmpty) {
           for (var json in res['data'][month]) {
-            list.add(ChartMonthModelV2.fromJson(json));
+            list.add(ChartModelV2.fromJson(json));
           }
           emit(ChartSuccess(list));
         } else {}
+      } else {}
+    } on DioException catch (e) {
+      emit(ChartFailure(e.error.toString()));
+    } catch (e) {
+      emit(ChartFailure(e.toString()));
+    }
+  }
+
+  void getDataChartYear() async {
+    emit(ChartLoading());
+    try {
+      var res = await Api.getAsync(endPoint: ApiPath.chartYearUser);
+      if (res['status'] == "SUCCESS") {
+        print(res['data']['Feb']);
+        listChart = ChartModel.fromJson(res['data']);
+        print(listChart);
+        emit(ChartSuccessV2(listChart!));
       } else {}
     } on DioException catch (e) {
       emit(ChartFailure(e.error.toString()));

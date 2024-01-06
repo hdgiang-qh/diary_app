@@ -19,5 +19,4 @@ class ApiPath{
   static const listMoodSound = '/sound/mood-sound';
   static const chartYearUser = '/diary/countByMoodAndCreatedByByYear';
   static const chartMonthUser = '/diary/countByMoodAndCreatedByByMonth';
-  static const chartByUser = "/diary/countByMoodAndCreatedBy";
 }

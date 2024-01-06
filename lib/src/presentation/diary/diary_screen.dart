@@ -305,7 +305,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                         child: SizedBox(
                           child: Text(
                               "Sự việc: ${_bloc.listDU[index].happened.validate()}",
-                              style: const TextStyle(fontSize: 14.0),
+                              style: const TextStyle(fontWeight: FontWeight.w600),
                               maxLines: null),
                         ),
                       ).paddingSymmetric(horizontal: 10),

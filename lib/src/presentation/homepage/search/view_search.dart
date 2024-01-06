@@ -162,7 +162,7 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                               child: SizedBox(
                                 child: Text(
                                     "Sự việc: ${_diaryUserSearchBloc.list[index].happened.validate()}",
-                                    style: const TextStyle(
+                                    style: const TextStyle(fontWeight: FontWeight.w600
                                        ),
                                     maxLines: null),
                               ),

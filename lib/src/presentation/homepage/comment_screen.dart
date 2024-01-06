@@ -11,10 +11,7 @@ import 'package:nb_utils/nb_utils.dart';
 class CommentScreen extends StatefulWidget {
   final int id, idUser;
 
-  const CommentScreen(
-      {super.key,
-      required this.id,
-      required this.idUser});
+  const CommentScreen({super.key, required this.id, required this.idUser});
 
   @override
   State<CommentScreen> createState() => _CommentScreenState();
@@ -145,9 +142,9 @@ class _CommentScreenState extends State<CommentScreen> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     if (_bloc.list[index].createdBy
-                                                .validate()
-                                                .toString() ==
-                                            widget.idUser.toString()) ...[
+                                            .validate()
+                                            .toString() ==
+                                        widget.idUser.toString()) ...[
                                       SizedBox(
                                         width: 50,
                                         child: IconButton(
@@ -207,12 +204,15 @@ class _CommentScreenState extends State<CommentScreen> {
                                     int hour = dif.inHours.abs();
                                     int minute = dif.inMinutes.abs();
                                     String showTime;
-                                    days > 1
+                                    days > 3
                                         ? showTime = formattedTime
-                                        : (hour > 0
-                                            ? showTime =
-                                                "${hour % 24} giờ trước"
-                                            : showTime = "$minute phút trước");
+                                        : 1 < days && days < 4
+                                            ? showTime = "$days ngày trước"
+                                            : (hour > 0
+                                                ? showTime =
+                                                    "${hour % 24} giờ trước"
+                                                : showTime =
+                                                    "$minute phút trước");
                                     return showTime;
                                   } catch (e) {
                                     return '';

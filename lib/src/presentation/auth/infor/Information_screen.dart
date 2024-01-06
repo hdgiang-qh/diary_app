@@ -31,6 +31,16 @@ class Month {
   Month(this.index, this.name);
 }
 
+class ChartData {
+  ChartData(this.x, this.y1, this.y2, this.y3, this.y4);
+
+  final String x;
+  final double y1;
+  final double y2;
+  final double y3;
+  final double y4;
+}
+
 class _InformationState extends State<Information> {
   late final InforBloc _bloc;
   late final ChartBloc _chartBloc;
@@ -49,13 +59,13 @@ class _InformationState extends State<Information> {
     Month(11, "Tháng 11"),
     Month(12, "Tháng 12"),
   ];
-
   Month? selectMonth;
 
   @override
   void initState() {
     _chartBloc = ChartBloc();
-    _chartBloc.getDataChart();
+    _chartBloc.getDataChartMonth();
+    _chartBloc.getDataChartYear();
     _bloc = InforBloc();
     _bloc.getInforUser();
     super.initState();
@@ -220,11 +230,77 @@ class _InformationState extends State<Information> {
     );
   }
 
+  Widget buildTest(){
+    final Map<String, List<Map<String, dynamic>>> data = {
+      "Jan": [
+        {"count": 1, "mood": "Hứng khởi"},
+        {"count": 1, "mood": "Vui vẻ"},
+        {"count": 1, "mood": "Buồn bã"},
+        {"count": 1, "mood": "Hạnh phúc"},
+        {"count": 1, "mood": "Trầm cảm"}
+      ],
+      "Feb": [],
+      "Mar": [],
+      "Apr": [],
+      "May": [],
+      "Jun": [],
+      "Jul": [],
+      "Aug": [],
+      "Sep": [],
+      "Oct": [],
+      "Nov": [],
+      "Dec": []
+    };
+    List<Map<String, dynamic>> getChartData() {
+      List<Map<String, dynamic>> result = [];
+      data.forEach((month, monthData) {
+        if (monthData.isNotEmpty) {
+          result.addAll(monthData);
+        }
+      });
+      return result;
+    }
+    return
+      SfCartesianChart(
+        primaryXAxis: CategoryAxis(),
+        primaryYAxis: NumericAxis(title: AxisTitle(text: 'Count')),
+        series: <CartesianSeries>[
+          StackedColumnSeries<Map<String, dynamic>, String>(
+            dataSource: getChartData(),
+            xValueMapper: (Map<String, dynamic> data, _) => data['mood'].toString(),
+            yValueMapper: (Map<String, dynamic> data, _) => data['count'],
+            dataLabelSettings: const DataLabelSettings(isVisible: true),
+          ),
+        ],
+      );
+  }
+
+  Widget buildChartYear() {
+    return BlocBuilder<ChartBloc, ChartState>(
+      bloc: _chartBloc,
+      builder: (context, state) {
+        return SfCartesianChart(
+            primaryXAxis: CategoryAxis(),
+            series: <CartesianSeries>[
+              StackedColumnSeries<ChartModelV2, String>(
+                  dataSource: _chartBloc.list,
+                  xValueMapper: (ChartModelV2 data, _) => data.mood,
+                  yValueMapper: (ChartModelV2 data, _) => data.count),
+              StackedColumnSeries<ChartModelV2, String>(
+                  dataSource: _chartBloc.list,
+                  xValueMapper: (ChartModelV2 data, _) => data.mood,
+                  yValueMapper: (ChartModelV2 data, _) => data.count),
+            ]);
+      },
+    );
+  }
+
   Widget buildDropDown() {
     return Container(
       height: 40,
       padding: const EdgeInsets.only(left: 5),
-      color: Colors.white,
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(10)),
       child: DropdownButton<Month>(
         underline: Container(),
         hint: const Text('Chọn'),
@@ -234,7 +310,7 @@ class _InformationState extends State<Information> {
             selectMonth = newValue;
             id = months.indexOf(newValue!) + 1;
             _chartBloc.list.clear();
-            _chartBloc.getDataChart(id: id);
+            _chartBloc.getDataChartMonth(id: id);
           });
         },
         items: months.map((Month month) {
@@ -247,12 +323,13 @@ class _InformationState extends State<Information> {
     );
   }
 
-  Widget buildChart() {
+  Widget buildChartMonth() {
     String formattedDate = DateFormat.M().format(DateTime.now());
     return BlocBuilder<ChartBloc, ChartState>(
       bloc: _chartBloc,
       builder: (context, state) {
         return SfCartesianChart(
+          backgroundColor: Colors.white,
           title: ChartTitle(
               alignment: ChartAlignment.near,
               text: 'Thống kê cảm xúc tháng ${id ?? formattedDate}',
@@ -264,15 +341,35 @@ class _InformationState extends State<Information> {
             interval: 0.5,
             numberFormat: NumberFormat.decimalPattern(),
           ),
-          series: <ColumnSeries<ChartMonthModelV2, String>>[
-            ColumnSeries<ChartMonthModelV2, String>(
-              enableTooltip: true,
-              dataSource: _chartBloc.list,
-              xValueMapper: (ChartMonthModelV2 sales, _) => sales.mood,
-              yValueMapper: (ChartMonthModelV2 sales, _) => sales.count,
-              name: _chartBloc.list.isEmpty ? "Không có dữ liệu" : "Cảm xúc",
-              dataLabelSettings: const DataLabelSettings(isVisible: true),
-            ),
+          series: <ColumnSeries<ChartModelV2, String>>[
+            ColumnSeries<ChartModelV2, String>(
+                enableTooltip: true,
+                dataSource: _chartBloc.list,
+                pointColorMapper: (ChartModelV2 chart, _) {
+                  switch (chart.mood) {
+                    case "Hứng khởi":
+                      return Colors.blue;
+                    case "Vui vẻ":
+                      return Colors.green;
+                    case "Buồn bã":
+                      return Colors.grey;
+                    case "Hạnh phúc":
+                      return Colors.yellow;
+                    case "Trầm cảm":
+                      return Colors.deepPurple;
+                    case "Lo lắng":
+                      return Colors.orange;
+                    case "Áp lực":
+                      return Colors.black45;
+                    case "Mất kiểm soát":
+                      return Colors.red;
+                  }
+                },
+                xValueMapper: (ChartModelV2 chart, _) => chart.mood,
+                yValueMapper: (ChartModelV2 chart, _) => chart.count,
+                name: _chartBloc.list.isEmpty ? "Không có dữ liệu" : "Cảm xúc",
+                dataLabelSettings: const DataLabelSettings(isVisible: true),
+                width: 0.5),
           ],
         );
       },
@@ -302,30 +399,29 @@ class _InformationState extends State<Information> {
             image: DecorationImage(
                 image: AssetImage("assets/images/shape.png"),
                 fit: BoxFit.cover)),
-        child: Column(
-          children: [
-            buildInfor(),
-            const SizedBox(
-              height: 20,
-            ),
-            buildChoose(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+        child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
               children: [
-                Expanded(
-                    flex: 3,
-                    child: Align(
-                        alignment: Alignment.centerRight,
-                        child: const Text("Chọn Tháng:").paddingRight(5))),
-                Expanded(flex: 1, child: buildDropDown()),
+                buildInfor(),
+                const SizedBox(
+                  height: 20,
+                ),
+                buildChoose(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                        flex: 3,
+                        child: Align(
+                            alignment: Alignment.centerRight,
+                            child: const Text("Chọn Tháng:").paddingRight(5))),
+                    Expanded(flex: 1, child: buildDropDown()),
+                  ],
+                ).paddingSymmetric(horizontal: 5).paddingBottom(10),
+                buildChartMonth(),
               ],
-            ).paddingSymmetric(horizontal: 5),
-            Expanded(
-              child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical, child: buildChart()),
-            ),
-          ],
-        ),
+            )),
       ),
     );
   }

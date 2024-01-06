@@ -120,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: SizedBox(
                             child: Text(
                                 "Sự việc: ${_bloc.reversedList[index].happened.validate()}",
-                                style: const TextStyle(),
+                                style: const TextStyle(fontWeight: FontWeight.w600),
                                 maxLines: null),
                           ),
                         ).paddingSymmetric(horizontal: 10),

@@ -44,7 +44,7 @@ class ColorAppStyle {
   static const Color button = Color(0xff41b3a3);
 
   static List<Color> colorList = [
-    black1A, black2C,green1D,blue0B,blueMid,redFB,yellowFE,yellowFF
+    redFB,yellowFE,blueMid,green1D,greyF2,app1,purple6f,Colors.orange
   ];
 
   static Color getRandomColor() {
