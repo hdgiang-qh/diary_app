@@ -12,6 +12,7 @@ import 'package:diary/styles/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -23,16 +24,33 @@ class Information extends StatefulWidget {
   State<Information> createState() => _InformationState();
 }
 
-class SalesData {
-  final String month;
-  final int sales;
+class Month {
+  int index;
+  final String name;
 
-  SalesData(this.month, this.sales);
+  Month(this.index, this.name);
 }
 
 class _InformationState extends State<Information> {
   late final InforBloc _bloc;
   late final ChartBloc _chartBloc;
+  int? id;
+  List<Month> months = [
+    Month(1, "Tháng 1"),
+    Month(2, "Tháng 2"),
+    Month(3, "Tháng 3"),
+    Month(4, "Tháng 4"),
+    Month(5, "Tháng 5"),
+    Month(6, "Tháng 6"),
+    Month(7, "Tháng 7"),
+    Month(8, "Tháng 8"),
+    Month(9, "Tháng 9"),
+    Month(10, "Tháng 10"),
+    Month(11, "Tháng 11"),
+    Month(12, "Tháng 12"),
+  ];
+
+  Month? selectMonth;
 
   @override
   void initState() {
@@ -202,30 +220,63 @@ class _InformationState extends State<Information> {
     );
   }
 
-  Widget buildChart() {
-    return BlocBuilder<ChartBloc, ChartState>(
-        bloc: _chartBloc,
-        builder: (context, state) {
-          return SfCartesianChart(
-            title: ChartTitle(text: 'Month'),
-            legend: Legend(
-                isVisible: true, position: LegendPosition.bottom),
-            tooltipBehavior: TooltipBehavior(enable: true),
-            primaryXAxis: CategoryAxis(),
-            primaryYAxis: NumericAxis(),
-            series: <ColumnSeries<ChartMonthModelV2, String>>[
-              ColumnSeries<ChartMonthModelV2, String>(
-                enableTooltip: true,
-                dataSource: _chartBloc.list,
-                xValueMapper: (ChartMonthModelV2 sales, _) => sales.mood,
-                yValueMapper: (ChartMonthModelV2 sales, _) => sales.count,
-                name: "Mood",
-                dataLabelSettings: const DataLabelSettings(isVisible: true),
-              ),
-            ],
-          );
+  Widget buildDropDown() {
+    return Container(
+      height: 40,
+      padding: const EdgeInsets.only(left: 5),
+      color: Colors.white,
+      child: DropdownButton<Month>(
+        underline: Container(),
+        hint: const Text('Chọn'),
+        value: selectMonth,
+        onChanged: (Month? newValue) {
+          setState(() {
+            selectMonth = newValue;
+            id = months.indexOf(newValue!) + 1;
+            _chartBloc.list.clear();
+            _chartBloc.getDataChart(id: id);
+          });
         },
-      );
+        items: months.map((Month month) {
+          return DropdownMenuItem<Month>(
+            value: month,
+            child: Text(month.name),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget buildChart() {
+    String formattedDate = DateFormat.M().format(DateTime.now());
+    return BlocBuilder<ChartBloc, ChartState>(
+      bloc: _chartBloc,
+      builder: (context, state) {
+        return SfCartesianChart(
+          title: ChartTitle(
+              alignment: ChartAlignment.near,
+              text: 'Thống kê cảm xúc tháng ${id ?? formattedDate}',
+              textStyle: const TextStyle(fontSize: 12)),
+          legend: Legend(isVisible: true, position: LegendPosition.bottom),
+          tooltipBehavior: TooltipBehavior(enable: true),
+          primaryXAxis: CategoryAxis(),
+          primaryYAxis: NumericAxis(
+            interval: 0.5,
+            numberFormat: NumberFormat.decimalPattern(),
+          ),
+          series: <ColumnSeries<ChartMonthModelV2, String>>[
+            ColumnSeries<ChartMonthModelV2, String>(
+              enableTooltip: true,
+              dataSource: _chartBloc.list,
+              xValueMapper: (ChartMonthModelV2 sales, _) => sales.mood,
+              yValueMapper: (ChartMonthModelV2 sales, _) => sales.count,
+              name: _chartBloc.list.isEmpty ? "Không có dữ liệu" : "Cảm xúc",
+              dataLabelSettings: const DataLabelSettings(isVisible: true),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -258,11 +309,20 @@ class _InformationState extends State<Information> {
               height: 20,
             ),
             buildChoose(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(
+                    flex: 3,
+                    child: Align(
+                        alignment: Alignment.centerRight,
+                        child: const Text("Chọn Tháng:").paddingRight(5))),
+                Expanded(flex: 1, child: buildDropDown()),
+              ],
+            ).paddingSymmetric(horizontal: 5),
             Expanded(
               child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: buildChart()
-              ),
+                  scrollDirection: Axis.vertical, child: buildChart()),
             ),
           ],
         ),
@@ -270,4 +330,3 @@ class _InformationState extends State<Information> {
     );
   }
 }
-
