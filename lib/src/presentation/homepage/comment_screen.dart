@@ -1,7 +1,10 @@
 import 'package:diary/src/bloc/auth_bloc/infor_bloc.dart';
+import 'package:diary/src/bloc/editComment_bloc/edit_comment_bloc.dart';
 import 'package:diary/src/bloc/get_comment_id/get_comment_bloc.dart';
 import 'package:diary/src/presentation/HomePage/edit_comment_screen.dart';
 import 'package:diary/styles/color_styles.dart';
+import 'package:diary/styles/text_style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -22,6 +25,7 @@ class _CommentScreenState extends State<CommentScreen> {
   TextEditingController editComment = TextEditingController();
   late final GetCommentBloc _bloc;
   late final InforBloc _inforBloc;
+  late final EditCommentBloc _editCommentBloc;
 
   @override
   void initState() {
@@ -31,6 +35,7 @@ class _CommentScreenState extends State<CommentScreen> {
     _bloc = GetCommentBloc(widget.id);
     _bloc.list.clear();
     _bloc.getListComment(widget.id);
+    _editCommentBloc = EditCommentBloc(widget.id);
   }
 
   Widget buildTextComposer() {
@@ -141,6 +146,82 @@ class _CommentScreenState extends State<CommentScreen> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
+                                    if (_bloc.list[index].createdBy
+                                                .validate()
+                                                .toString() !=
+                                            widget.idUser.toString()) ...[
+                                      SizedBox(
+                                        width: 50,
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.delete,
+                                          ),
+                                          onPressed: () async {
+                                            WidgetsBinding.instance
+                                                .addPostFrameCallback((_) {
+                                              showCupertinoDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return CupertinoAlertDialog(
+                                                      title: const Icon(
+                                                          CupertinoIcons
+                                                              .info_circle),
+                                                      content: const Text(
+                                                        'Bạn Muốn Xóa Bình Luận Này?',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                      actions: [
+                                                        CupertinoDialogAction(
+                                                          isDefaultAction: true,
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context),
+                                                          child: Text("Huỷ",
+                                                              style: StyleApp
+                                                                  .textStyle402()),
+                                                        ),
+                                                        CupertinoDialogAction(
+                                                          isDefaultAction: true,
+                                                          onPressed: () async {
+                                                            _editCommentBloc
+                                                                .deleteCommentAll(_bloc
+                                                                    .list[index]
+                                                                    .id
+                                                                    .validate());
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                            EasyLoading.show(
+                                                                dismissOnTap:
+                                                                    true);
+                                                            Future.delayed(
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        2000),
+                                                                () {
+                                                              _bloc.list
+                                                                  .clear();
+                                                              _bloc
+                                                                  .getListComment(
+                                                                      widget
+                                                                          .id);
+                                                            }).then((value) =>
+                                                                EasyLoading
+                                                                    .dismiss());
+                                                          },
+                                                          child: Text("Đồng ý",
+                                                              style: StyleApp
+                                                                  .textStyle401()),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  });
+                                            });
+                                          },
+                                        ),
+                                      )
+                                    ],
                                     if (_bloc.list[index].createdBy
                                             .validate()
                                             .toString() ==

@@ -78,4 +78,21 @@ class EditCommentBloc extends Bloc<EditCommentEvent, EditCommentState> {
       print('Lỗi: $e');
     }
   }
+
+  void deleteCommentAll(int? id) async {
+    emit(EditCommentLoading());
+    try {
+      final res = await Api.deleteAsync(
+        endPoint: "${ApiPath.comment}/$id",
+      );
+      if (res['status'] == "SUCCESS") {
+        return;
+      }
+    } on DioException catch (e) {
+      print('Lỗi Dio: ${e.error}');
+    } catch (e) {
+      // Xử lý lỗi khác
+      print('Lỗi: $e');
+    }
+  }
 }

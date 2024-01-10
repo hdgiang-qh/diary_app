@@ -161,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     String showTime;
                                     days > 3
                                         ? showTime = formattedTime
-                                        : 0 < days && days < 3
+                                        : 0 < days && days <= 3
                                             ? showTime = "$days ngày trước"
                                             : (hour > 0
                                                 ? showTime =

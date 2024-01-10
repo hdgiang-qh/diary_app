@@ -300,7 +300,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                               fontStyle: FontStyle.italic,
                               letterSpacing: .5),
                         ),
-                      ).paddingLeft(10),
+                      ).paddingLeft(10).paddingBottom(5),
                       SingleChildScrollView(
                         child: SizedBox(
                           child: Text(
@@ -336,7 +336,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                               String showTime;
                               days > 3
                                   ? showTime = formattedTime
-                                  : 0 < days && days < 3
+                                  : 0 < days && days <= 3
                                       ? showTime = "$days ngày trước"
                                       : (hour > 0
                                           ? showTime = "${hour % 24} giờ trước"

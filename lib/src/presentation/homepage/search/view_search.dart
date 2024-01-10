@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../HomePage/comment_screen.dart';
@@ -19,7 +20,7 @@ class ViewSearchScreen extends StatefulWidget {
 }
 
 class _ViewSearchScreenState extends State<ViewSearchScreen> {
-  late final InforBloc _inforBloc,_inforBlocV2;
+  late final InforBloc _inforBloc, _inforBlocV2;
   late final DiaryUserSearchBloc _diaryUserSearchBloc;
 
   @override
@@ -60,14 +61,16 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                         child: Container()),
                   ),
                   Flexible(
-                    flex:3,
+                    flex: 3,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                             "Tên người dùng : ${state.ifUser1.nickName.validate()}"),
-                        Text("Số điện thoại : ${state.ifUser1.phone.validate()}"),
-                        Text("Tuổi : ${state.ifUser1.age.validate().toString()}"),
+                        Text(
+                            "Số điện thoại : ${state.ifUser1.phone.validate()}"),
+                        Text(
+                            "Tuổi : ${state.ifUser1.age.validate().toString()}"),
                         Text("Email : ${state.ifUser1.email.validate()}")
                       ],
                     ),
@@ -84,10 +87,11 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
           }
         });
   }
+
   void refreshPage() {
     _diaryUserSearchBloc.list.clear();
     EasyLoading.show(dismissOnTap: true);
-    Future.delayed(const Duration(milliseconds: 1000),(){
+    Future.delayed(const Duration(milliseconds: 1000), () {
       _diaryUserSearchBloc.getListSearch(id: widget.createBy);
     }).then((value) => EasyLoading.dismiss());
   }
@@ -129,17 +133,17 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                                   ),
                                   Expanded(
                                       child: Text(
-                                        _diaryUserSearchBloc.list[index].status
-                                            .toString(),
-                                        style: TextStyle(
-                                            color: _diaryUserSearchBloc
-                                                        .list[index].status
-                                                        .toString() ==
-                                                    "PUBLIC"
-                                                ? Colors.green
-                                                : Colors.red,
-                                            fontWeight: FontWeight.bold),
-                                      )),
+                                    _diaryUserSearchBloc.list[index].status
+                                        .toString(),
+                                    style: TextStyle(
+                                        color: _diaryUserSearchBloc
+                                                    .list[index].status
+                                                    .toString() ==
+                                                "PUBLIC"
+                                            ? Colors.green
+                                            : Colors.red,
+                                        fontWeight: FontWeight.bold),
+                                  )),
                                 ],
                               ).paddingOnly(left: 10, right: 3),
                             ),
@@ -155,15 +159,14 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                                         letterSpacing: .5),
                                   ),
                                 ),
-
                               ],
                             ).paddingSymmetric(horizontal: 10),
                             SingleChildScrollView(
                               child: SizedBox(
                                 child: Text(
                                     "Sự việc: ${_diaryUserSearchBloc.list[index].happened.validate()}",
-                                    style: const TextStyle(fontWeight: FontWeight.w600
-                                       ),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600),
                                     maxLines: null),
                               ),
                             ).paddingSymmetric(horizontal: 10, vertical: 5),
@@ -173,8 +176,7 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                             ).paddingSymmetric(horizontal: 10),
                             Text(
                               'Sau khi suy nghĩ: ${_diaryUserSearchBloc.list[index].thinkingMoment.validate()}',
-                              style: const TextStyle(
-                                ),
+                              style: const TextStyle(),
                             ).paddingSymmetric(horizontal: 10),
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -184,7 +186,7 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                                   ),
                                   Text(() {
                                     if (_diaryUserSearchBloc
-                                        .list[index].createdAt !=
+                                            .list[index].createdAt !=
                                         null) {
                                       try {
                                         DateTime createdAt = DateTime.parse(
@@ -192,19 +194,24 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                                                 .list[index].createdAt
                                                 .toString());
                                         DateTime now = DateTime.now();
+                                        String formattedTime =
+                                            DateFormat('dd-MM-yyyy')
+                                                .format(createdAt);
                                         Duration dif =
-                                        createdAt.difference(now);
+                                            createdAt.difference(now);
                                         int days = dif.inDays.abs();
                                         int hour = dif.inHours.abs();
                                         int minute = dif.inMinutes.abs();
                                         String showTime;
-                                        days > 0
-                                            ? showTime = "$days ngày trước"
-                                            : (hour > 0
-                                            ? showTime =
-                                        "${hour % 24} giờ trước"
-                                            : showTime =
-                                        "$minute phút trước");
+                                        days > 3
+                                            ? showTime = formattedTime
+                                            : 0 < days && days <= 3
+                                                ? showTime = "$days ngày trước"
+                                                : (hour > 0
+                                                    ? showTime =
+                                                        "${hour % 24} giờ trước"
+                                                    : showTime =
+                                                        "$minute phút trước");
                                         return showTime;
                                       } catch (e) {
                                         return '';
@@ -240,7 +247,8 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                                       ),
                                     ),
                                     Text(
-                                      _diaryUserSearchBloc.list[index].place.validate(),
+                                      _diaryUserSearchBloc.list[index].place
+                                          .validate(),
                                       style: GoogleFonts.lato(
                                         textStyle: const TextStyle(
                                             fontSize: 12,
@@ -250,7 +258,9 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                                     ),
                                   ]),
                                 ),
-                                const SizedBox(width: 10,),
+                                const SizedBox(
+                                  width: 10,
+                                ),
                                 Expanded(
                                   child: SizedBox(
                                     height: 45,
@@ -260,7 +270,8 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                                         // side: const BorderSide(
                                         //     width: 2, color: Colors.white),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(16),
+                                          borderRadius:
+                                              BorderRadius.circular(16),
                                         ),
                                       ),
                                       icon: const Icon(
@@ -277,12 +288,15 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                                         await Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => CommentScreen(
-                                                  id: _diaryUserSearchBloc.list[index].id
-                                                      .validate(),
-                                                  idUser: _inforBlocV2.ifUser!.id
-                                                      .validate()
-                                                )));
+                                                builder: (context) =>
+                                                    CommentScreen(
+                                                        id:
+                                                            _diaryUserSearchBloc
+                                                                .list[index].id
+                                                                .validate(),
+                                                        idUser: _inforBlocV2
+                                                            .ifUser!.id
+                                                            .validate())));
                                         refreshPage();
                                       },
                                     ).paddingSymmetric(vertical: 5),

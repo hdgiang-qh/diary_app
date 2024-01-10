@@ -91,9 +91,7 @@ class ChartBloc extends Bloc<ChartEvent, ChartState> {
     try {
       var res = await Api.getAsync(endPoint: ApiPath.chartYearUser);
       if (res['status'] == "SUCCESS") {
-        print(res['data']['Feb']);
         listChart = ChartModel.fromJson(res['data']);
-        print(listChart);
         emit(ChartSuccessV2(listChart!));
       } else {}
     } on DioException catch (e) {
