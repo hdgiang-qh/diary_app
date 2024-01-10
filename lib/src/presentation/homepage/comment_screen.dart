@@ -32,6 +32,7 @@ class _CommentScreenState extends State<CommentScreen> {
     super.initState();
     _inforBloc = InforBloc();
     _inforBloc.getInforUser();
+    _inforBloc.getInforUserRole();
     _bloc = GetCommentBloc(widget.id);
     _bloc.list.clear();
     _bloc.getListComment(widget.id);
@@ -85,6 +86,7 @@ class _CommentScreenState extends State<CommentScreen> {
       textColor: Colors.white);
 
   Widget buildCommentDiary() {
+    final int userRole = _inforBloc.idRole;
     return BlocBuilder<GetCommentBloc, GetCommentState>(
         bloc: _bloc,
         builder: (context, state) {
@@ -149,7 +151,8 @@ class _CommentScreenState extends State<CommentScreen> {
                                     if (_bloc.list[index].createdBy
                                                 .validate()
                                                 .toString() !=
-                                            widget.idUser.toString()) ...[
+                                            widget.idUser.toString() ||
+                                        userRole == 1) ...[
                                       SizedBox(
                                         width: 50,
                                         child: IconButton(
@@ -314,6 +317,7 @@ class _CommentScreenState extends State<CommentScreen> {
                 ));
         });
   }
+
 
   @override
   Widget build(BuildContext context) {

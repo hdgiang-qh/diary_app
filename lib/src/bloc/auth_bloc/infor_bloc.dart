@@ -25,6 +25,7 @@ class InforBloc extends Bloc<InforEvent, InforState> {
   TextEditingController nickName = TextEditingController();
   TextEditingController email = TextEditingController();
   XFile? image;
+  int idRole = 0;
   final AuthService authService = AuthService();
 
   InforBloc() : super(InforInitial());
@@ -46,6 +47,35 @@ class InforBloc extends Bloc<InforEvent, InforState> {
       emit(InforFailure(error: e.toString()));
     }
     EasyLoading.dismiss();
+  }
+
+  void getInforUserRole() async {
+    emit(InforLoading());
+    try {
+      var res = await Api.getAsync(endPoint: ApiPath.inforUser);
+      if (res['status'] == "SUCCESS") {
+        if ((res['data']['role'] as List).isNotEmpty) {
+          for (var json in res['data']['role']) {
+            ifUserRole.add(InforUserRole.fromJson(json));
+            idRole = ifUserRole.fold(
+                0,
+                    (sum, item) =>
+                (item.id ?? 0));
+          }
+          print(idRole);
+          emit(InforSuccess(ifUserRole));
+        }
+        else{
+          emit(InforFailure(error: res['']));
+        }
+      } else {
+        emit(InforFailure(error: res['']));
+      }
+    } on DioException catch (e) {
+      emit(InforFailure(error: e.error.toString()));
+    } catch (e) {
+      emit(InforFailure(error: e.toString()));
+    }
   }
 
   void getSearchId({int? id}) async {
@@ -70,7 +100,6 @@ class InforBloc extends Bloc<InforEvent, InforState> {
     getInforUser();
     emit(InforSuccess2(ifUser!));
   }
-
 
   void updateInfor() async {
     emit(InforLoading());
@@ -136,37 +165,37 @@ class InforBloc extends Bloc<InforEvent, InforState> {
     }
   }
 
-  // void updateAvatar() async {
-  //   Dio dio = Dio();
-  //   var token = await authService.getToken();
-  //   FormData formData = FormData.fromMap({
-  //     "avatar": await MultipartFile.fromFile(
-  //       image!.path,
-  //       filename: "image.jpg", // Tên file khi gửi lên API
-  //     ),
-  //   });
-  //   try {
-  //     Response response = await dio.put(
-  //       Const.api_host + ApiPath.changeAvatar,
-  //       data: formData,
-  //       options: Options(
-  //         headers: {
-  //           "accept": "*/*",
-  //           "Authorization": "Bearer $token",
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //       ),
-  //     );
-  //
-  //     if (response.statusCode == 200) {
-  //       print("Cập nhật thành công");
-  //     } else {
-  //       print("Lỗi từ server: ${response.statusCode}");
-  //       print(response.data);
-  //     }
-  //   } catch (e) {
-  //     // Xử lý lỗi khi gửi yêu cầu
-  //     print("Lỗi khi gửi yêu cầu: $e");
-  //   }
-  // }
+// void updateAvatar() async {
+//   Dio dio = Dio();
+//   var token = await authService.getToken();
+//   FormData formData = FormData.fromMap({
+//     "avatar": await MultipartFile.fromFile(
+//       image!.path,
+//       filename: "image.jpg", // Tên file khi gửi lên API
+//     ),
+//   });
+//   try {
+//     Response response = await dio.put(
+//       Const.api_host + ApiPath.changeAvatar,
+//       data: formData,
+//       options: Options(
+//         headers: {
+//           "accept": "*/*",
+//           "Authorization": "Bearer $token",
+//           "Content-Type": "multipart/form-data",
+//         },
+//       ),
+//     );
+//
+//     if (response.statusCode == 200) {
+//       print("Cập nhật thành công");
+//     } else {
+//       print("Lỗi từ server: ${response.statusCode}");
+//       print(response.data);
+//     }
+//   } catch (e) {
+//     // Xử lý lỗi khi gửi yêu cầu
+//     print("Lỗi khi gửi yêu cầu: $e");
+//   }
+// }
 }
