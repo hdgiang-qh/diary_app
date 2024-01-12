@@ -406,6 +406,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                     .validate(),
                                                 idUser: _inforBloc.ifUser!.id
                                                     .validate(),
+                                            idUserDiary:  _bloc.listDU[index].createdBy
+                                                .validate().toInt(),
                                               )));
                                   refreshPage();
                                 },

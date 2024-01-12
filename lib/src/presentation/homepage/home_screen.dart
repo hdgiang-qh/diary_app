@@ -248,6 +248,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       .validate(),
                                                   idUser: _inforBloc.ifUser!.id
                                                       .validate(),
+                                              idUserDiary: _bloc.reversedList[index].createdBy.validate().toInt(),
                                                 )));
                                     refreshPage();
                                   },

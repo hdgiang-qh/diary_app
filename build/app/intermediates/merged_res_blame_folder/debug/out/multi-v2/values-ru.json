@@ -4,7 +4,7 @@
             "outputFile": "com.example.diary.app-mergeDebugResources-5:/values-ru/values-ru.xml",
             "map": [
                 {
-                    "source": "/Users/macmini/.gradle/caches/transforms-3/f2c1b21e2617b8adc4232d8977a76481/transformed/core-1.10.1/res/values-ru/values-ru.xml",
+                    "source": "/Users/macmini/.gradle/caches/transforms-3/28a8b8b6e4f8eba7f58c8c8c0878f58c/transformed/core-1.10.1/res/values-ru/values-ru.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -21,7 +21,24 @@
                     }
                 },
                 {
-                    "source": "/Users/macmini/.gradle/caches/transforms-3/b8e23a81e3ecc3b27b720ed9d9b12bf4/transformed/browser-1.5.0/res/values-ru/values-ru.xml",
+                    "source": "/Users/macmini/.gradle/caches/transforms-3/80d988852a7c65dfe88e6074439b51db/transformed/jetified-exoplayer-core-2.18.7/res/values-ru/values-ru.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,127,188,253,319,397,471,559,645",
+                        "endColumns": "71,60,64,65,77,73,87,85,76",
+                        "endOffsets": "122,183,248,314,392,466,554,640,717"
+                    },
+                    "to": {
+                        "startLines": "11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "1000,1072,1133,1198,1264,1342,1416,1504,1590",
+                        "endColumns": "71,60,64,65,77,73,87,85,76",
+                        "endOffsets": "1067,1128,1193,1259,1337,1411,1499,1585,1662"
+                    }
+                },
+                {
+                    "source": "/Users/macmini/.gradle/caches/transforms-3/8f0cab18daa3822ca67c2e3884a2dad9/transformed/browser-1.5.0/res/values-ru/values-ru.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -38,7 +55,7 @@
                     }
                 },
                 {
-                    "source": "/Users/macmini/.gradle/caches/transforms-3/10631808666e75726da3a6526958e9ec/transformed/jetified-media2-session-1.2.1/res/values-ru/values-ru.xml",
+                    "source": "/Users/macmini/.gradle/caches/transforms-3/3fb966e6f82c090d26ed656257aca53f/transformed/jetified-media2-session-1.2.1/res/values-ru/values-ru.xml",
                     "from": {
                         "startLines": "2,3,4,5,6",
                         "startColumns": "4,4,4,4,4",
@@ -52,23 +69,6 @@
                         "startOffsets": "890,1989,2094,2197,2327",
                         "endColumns": "109,104,102,129,134",
                         "endOffsets": "995,2089,2192,2322,2457"
-                    }
-                },
-                {
-                    "source": "/Users/macmini/.gradle/caches/transforms-3/fdd1232d68289e02bb528b607e1d3260/transformed/jetified-exoplayer-core-2.18.7/res/values-ru/values-ru.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10",
-                        "startColumns": "4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,127,188,253,319,397,471,559,645",
-                        "endColumns": "71,60,64,65,77,73,87,85,76",
-                        "endOffsets": "122,183,248,314,392,466,554,640,717"
-                    },
-                    "to": {
-                        "startLines": "11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "1000,1072,1133,1198,1264,1342,1416,1504,1590",
-                        "endColumns": "71,60,64,65,77,73,87,85,76",
-                        "endOffsets": "1067,1128,1193,1259,1337,1411,1499,1585,1662"
                     }
                 }
             ]

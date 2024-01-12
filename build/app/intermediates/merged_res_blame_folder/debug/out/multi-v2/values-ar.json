@@ -4,41 +4,7 @@
             "outputFile": "com.example.diary.app-mergeDebugResources-5:/values-ar/values-ar.xml",
             "map": [
                 {
-                    "source": "/Users/macmini/.gradle/caches/transforms-3/10631808666e75726da3a6526958e9ec/transformed/jetified-media2-session-1.2.1/res/values-ar/values-ar.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6",
-                        "startColumns": "4,4,4,4,4",
-                        "startOffsets": "55,175,277,372,500",
-                        "endColumns": "119,101,94,127,131",
-                        "endOffsets": "170,272,367,495,627"
-                    },
-                    "to": {
-                        "startLines": "10,23,24,25,26",
-                        "startColumns": "4,4,4,4,4",
-                        "startOffsets": "867,1991,2093,2188,2316",
-                        "endColumns": "119,101,94,127,131",
-                        "endOffsets": "982,2088,2183,2311,2443"
-                    }
-                },
-                {
-                    "source": "/Users/macmini/.gradle/caches/transforms-3/fdd1232d68289e02bb528b607e1d3260/transformed/jetified-exoplayer-core-2.18.7/res/values-ar/values-ar.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10",
-                        "startColumns": "4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,120,179,246,308,390,471,572,667",
-                        "endColumns": "64,58,66,61,81,80,100,94,83",
-                        "endOffsets": "115,174,241,303,385,466,567,662,746"
-                    },
-                    "to": {
-                        "startLines": "11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "987,1052,1111,1178,1240,1322,1403,1504,1599",
-                        "endColumns": "64,58,66,61,81,80,100,94,83",
-                        "endOffsets": "1047,1106,1173,1235,1317,1398,1499,1594,1678"
-                    }
-                },
-                {
-                    "source": "/Users/macmini/.gradle/caches/transforms-3/b8e23a81e3ecc3b27b720ed9d9b12bf4/transformed/browser-1.5.0/res/values-ar/values-ar.xml",
+                    "source": "/Users/macmini/.gradle/caches/transforms-3/8f0cab18daa3822ca67c2e3884a2dad9/transformed/browser-1.5.0/res/values-ar/values-ar.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -55,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/macmini/.gradle/caches/transforms-3/f2c1b21e2617b8adc4232d8977a76481/transformed/core-1.10.1/res/values-ar/values-ar.xml",
+                    "source": "/Users/macmini/.gradle/caches/transforms-3/28a8b8b6e4f8eba7f58c8c8c0878f58c/transformed/core-1.10.1/res/values-ar/values-ar.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -69,6 +35,40 @@
                         "startOffsets": "55,148,250,345,448,551,653,2448",
                         "endColumns": "92,101,94,102,102,101,113,100",
                         "endOffsets": "143,245,340,443,546,648,762,2544"
+                    }
+                },
+                {
+                    "source": "/Users/macmini/.gradle/caches/transforms-3/80d988852a7c65dfe88e6074439b51db/transformed/jetified-exoplayer-core-2.18.7/res/values-ar/values-ar.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,120,179,246,308,390,471,572,667",
+                        "endColumns": "64,58,66,61,81,80,100,94,83",
+                        "endOffsets": "115,174,241,303,385,466,567,662,746"
+                    },
+                    "to": {
+                        "startLines": "11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "987,1052,1111,1178,1240,1322,1403,1504,1599",
+                        "endColumns": "64,58,66,61,81,80,100,94,83",
+                        "endOffsets": "1047,1106,1173,1235,1317,1398,1499,1594,1678"
+                    }
+                },
+                {
+                    "source": "/Users/macmini/.gradle/caches/transforms-3/3fb966e6f82c090d26ed656257aca53f/transformed/jetified-media2-session-1.2.1/res/values-ar/values-ar.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "55,175,277,372,500",
+                        "endColumns": "119,101,94,127,131",
+                        "endOffsets": "170,272,367,495,627"
+                    },
+                    "to": {
+                        "startLines": "10,23,24,25,26",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "867,1991,2093,2188,2316",
+                        "endColumns": "119,101,94,127,131",
+                        "endOffsets": "982,2088,2183,2311,2443"
                     }
                 }
             ]

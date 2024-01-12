@@ -16,6 +16,7 @@ class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
   DiaryUserBloc() : super(DiaryUserInitial());
   List<DiaryUserModel> list = [];
   List<DiaryUserModel> listDU = [];
+  DiaryUserModel? search;
   DateTime? time;
   String? dateTime;
   String? epoint;
@@ -72,6 +73,25 @@ class DiaryUserBloc extends Bloc<DiaryuserEvent, DiaryuserState> {
     } catch (e) {
       emit(DiaryUserFailure(error: e.toString()));
     }
+  }
+
+  void searchDiary(int id) async {
+    emit(DiaryUserLoading());
+    EasyLoading.show(dismissOnTap: true);
+    try {
+      var res = await Api.getAsync(endPoint: "${ApiPath.curdDiary}/$id");
+      if (res['status'] == "SUCCESS") {
+        search = DiaryUserModel.fromJson(res['data']);
+        emit(DiarySearchSuccess(search!));
+      } else {
+        emit(DiaryUserFailure(error: res['']));
+      }
+    } on DioException catch (e) {
+      emit(DiaryUserFailure(error: e.error.toString()));
+    } catch (e) {
+      emit(DiaryUserFailure(error: e.toString()));
+    }
+    EasyLoading.dismiss();
   }
 
   void refreshPage() {

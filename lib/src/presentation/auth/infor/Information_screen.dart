@@ -65,7 +65,6 @@ class _InformationState extends State<Information> {
   void initState() {
     _chartBloc = ChartBloc();
     _chartBloc.getDataChartMonth();
-    _chartBloc.getDataChartYear();
     _bloc = InforBloc();
     _bloc.getInforUser();
     super.initState();

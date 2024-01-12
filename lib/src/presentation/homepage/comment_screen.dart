@@ -12,9 +12,13 @@ import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class CommentScreen extends StatefulWidget {
-  final int id, idUser;
+  final int id, idUser, idUserDiary;
 
-  const CommentScreen({super.key, required this.id, required this.idUser});
+  const CommentScreen(
+      {super.key,
+      required this.id,
+      required this.idUser,
+      required this.idUserDiary});
 
   @override
   State<CommentScreen> createState() => _CommentScreenState();
@@ -33,9 +37,13 @@ class _CommentScreenState extends State<CommentScreen> {
     _inforBloc = InforBloc();
     _inforBloc.getInforUser();
     _inforBloc.getInforUserRole();
+    _inforBloc.idRole;
+    _inforBloc.idUser;
     _bloc = GetCommentBloc(widget.id);
     _bloc.list.clear();
-    _bloc.getListComment(widget.id);
+    Future.delayed(const Duration(milliseconds: 2000), () {
+      _bloc.getListComment(widget.id);
+    }).then((value) => EasyLoading.dismiss());
     _editCommentBloc = EditCommentBloc(widget.id);
   }
 
@@ -86,14 +94,13 @@ class _CommentScreenState extends State<CommentScreen> {
       textColor: Colors.white);
 
   Widget buildCommentDiary() {
-    final int userRole = _inforBloc.idRole;
     return BlocBuilder<GetCommentBloc, GetCommentState>(
         bloc: _bloc,
         builder: (context, state) {
           return (_bloc.list.isEmpty
               ? const Center(
                   child: Text("Chưa có bình luận"),
-                )
+                ).paddingTop(5)
               : ListView.separated(
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   physics: const NeverScrollableScrollPhysics(),
@@ -148,11 +155,9 @@ class _CommentScreenState extends State<CommentScreen> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    if (_bloc.list[index].createdBy
-                                                .validate()
-                                                .toString() !=
-                                            widget.idUser.toString() ||
-                                        userRole == 1) ...[
+                                    if (_inforBloc.idRole == 1.validate() ||
+                                        widget.idUserDiary ==
+                                            _inforBloc.idUser) ...[
                                       SizedBox(
                                         width: 50,
                                         child: IconButton(
@@ -198,20 +203,6 @@ class _CommentScreenState extends State<CommentScreen> {
                                                             EasyLoading.show(
                                                                 dismissOnTap:
                                                                     true);
-                                                            Future.delayed(
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        2000),
-                                                                () {
-                                                              _bloc.list
-                                                                  .clear();
-                                                              _bloc
-                                                                  .getListComment(
-                                                                      widget
-                                                                          .id);
-                                                            }).then((value) =>
-                                                                EasyLoading
-                                                                    .dismiss());
                                                           },
                                                           child: Text("Đồng ý",
                                                               style: StyleApp
@@ -317,7 +308,6 @@ class _CommentScreenState extends State<CommentScreen> {
                 ));
         });
   }
-
 
   @override
   Widget build(BuildContext context) {

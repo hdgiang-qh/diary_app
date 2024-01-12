@@ -25,7 +25,8 @@ class InforBloc extends Bloc<InforEvent, InforState> {
   TextEditingController nickName = TextEditingController();
   TextEditingController email = TextEditingController();
   XFile? image;
-  int idRole = 0;
+  int? idRole,idRole2 ;
+  int? idUser;
   final AuthService authService = AuthService();
 
   InforBloc() : super(InforInitial());
@@ -37,6 +38,7 @@ class InforBloc extends Bloc<InforEvent, InforState> {
       var res = await Api.getAsync(endPoint: ApiPath.inforUser);
       if (res['status'] == "SUCCESS") {
         ifUser = InforUser.fromJson(res['data']);
+        idUser = res['data']['id'];
         emit(InforSuccess2(ifUser!));
       } else {
         emit(InforFailure(error: res['']));
@@ -57,12 +59,11 @@ class InforBloc extends Bloc<InforEvent, InforState> {
         if ((res['data']['role'] as List).isNotEmpty) {
           for (var json in res['data']['role']) {
             ifUserRole.add(InforUserRole.fromJson(json));
-            idRole = ifUserRole.fold(
-                0,
-                    (sum, item) =>
-                (item.id ?? 0));
           }
-          print(idRole);
+          idRole = ifUserRole.fold(
+              0,
+                  (sum, item) =>
+              (item.id ?? 0));
           emit(InforSuccess(ifUserRole));
         }
         else{
@@ -165,37 +166,4 @@ class InforBloc extends Bloc<InforEvent, InforState> {
     }
   }
 
-// void updateAvatar() async {
-//   Dio dio = Dio();
-//   var token = await authService.getToken();
-//   FormData formData = FormData.fromMap({
-//     "avatar": await MultipartFile.fromFile(
-//       image!.path,
-//       filename: "image.jpg", // Tên file khi gửi lên API
-//     ),
-//   });
-//   try {
-//     Response response = await dio.put(
-//       Const.api_host + ApiPath.changeAvatar,
-//       data: formData,
-//       options: Options(
-//         headers: {
-//           "accept": "*/*",
-//           "Authorization": "Bearer $token",
-//           "Content-Type": "multipart/form-data",
-//         },
-//       ),
-//     );
-//
-//     if (response.statusCode == 200) {
-//       print("Cập nhật thành công");
-//     } else {
-//       print("Lỗi từ server: ${response.statusCode}");
-//       print(response.data);
-//     }
-//   } catch (e) {
-//     // Xử lý lỗi khi gửi yêu cầu
-//     print("Lỗi khi gửi yêu cầu: $e");
-//   }
-// }
 }

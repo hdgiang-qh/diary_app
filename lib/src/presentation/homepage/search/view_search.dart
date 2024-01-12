@@ -115,38 +115,14 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    flex: 3,
-                                    child: Text(
-                                      _diaryUserSearchBloc.list[index].nickname
-                                          .validate()
-                                          .toString(),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 12),
-                                    ),
-                                  ),
-                                  Expanded(
-                                      child: Text(
-                                    _diaryUserSearchBloc.list[index].status
-                                        .toString(),
-                                    style: TextStyle(
-                                        color: _diaryUserSearchBloc
-                                                    .list[index].status
-                                                    .toString() ==
-                                                "PUBLIC"
-                                            ? Colors.green
-                                            : Colors.red,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                                ],
-                              ).paddingOnly(left: 10, right: 3),
-                            ),
+                            Text(
+                              _diaryUserSearchBloc.list[index].nickname
+                                  .validate()
+                                  .toString(),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14),
+                            ).paddingOnly(left: 10,bottom: 8,top: 5),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -296,7 +272,8 @@ class _ViewSearchScreenState extends State<ViewSearchScreen> {
                                                                 .validate(),
                                                         idUser: _inforBlocV2
                                                             .ifUser!.id
-                                                            .validate())));
+                                                            .validate(),
+                                                    idUserDiary: 0,)));
                                         refreshPage();
                                       },
                                     ).paddingSymmetric(vertical: 5),
