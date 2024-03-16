@@ -3,50 +3,52 @@ import 'package:dio/dio.dart';
 
 import 'const.dart';
 
-final dio = Dio()
-  ..interceptors.add(
-    InterceptorsWrapper(
-      onRequest:
-          (RequestOptions options, RequestInterceptorHandler handler) async {
-        print("#################################### Url: ${options.path}");
-        return handler.next(options);
-      },
-      onResponse: (Response? response, ResponseInterceptorHandler handler) {
-        // print("#################################### response: [${response?.statusCode}] >> ${response?.data}");
-        // print("=================: ${response?.data["result"]}");
-        return handler.next(response!);
-      },
-      onError: (e, handler) {
-        print(
-            "#################################### error: [${e.response?.statusCode}] >> ${e.response?.data}");
-        ModelApiError err = ModelApiError();
-        if (e.response == null) {
-          err =
-              ModelApiError(code: null, error: "Kết nối đến máy chủ thất bại");
-        } else if (e.response?.statusCode == 400) {
-          err =
-              ModelApiError(code: e.response?.statusCode, error: "Lỗi cú pháp");
-        } else if (e.response?.statusCode == 404) {
-          err = ModelApiError(
-              code: e.response?.statusCode, error: "Không tìm thấy tài nguyên");
-        } else if (e.response?.statusCode == 500) {
-          err = ModelApiError(
-              code: e.response?.statusCode,
-              error: "Có lỗi hệ thống, bạn quay lại sau");
-        } else {
-          err = ModelApiError(
-              code: e.response?.statusCode,
-              error: e.response?.data['message'] ?? e.message);
-        }
-        return handler.next(DioException(
-          requestOptions: e.requestOptions,
-          response: e.response,
-          type: e.type,
-          error: err,
-        ));
-      },
-    ),
-  );
+// final dio = Dio()
+//   ..interceptors.add(
+//     InterceptorsWrapper(
+//       onRequest:
+//           (RequestOptions options, RequestInterceptorHandler handler) async {
+//         print("#################################### Url: ${options.path}");
+//         return handler.next(options);
+//       },
+//       onResponse: (Response? response, ResponseInterceptorHandler handler) {
+//         // print("#################################### response: [${response?.statusCode}] >> ${response?.data}");
+//         // print("=================: ${response?.data["result"]}");
+//         return handler.next(response!);
+//       },
+//       onError: (e, handler) {
+//         print(
+//             "#################################### error: [${e.response?.statusCode}] >> ${e.response?.data}");
+//         ModelApiError err = ModelApiError();
+//         if (e.response == null) {
+//           err =
+//               ModelApiError(code: null, error: "Kết nối đến máy chủ thất bại");
+//         } else if (e.response?.statusCode == 400) {
+//           err =
+//               ModelApiError(code: e.response?.statusCode, error: "Lỗi cú pháp");
+//         } else if (e.response?.statusCode == 404) {
+//           err = ModelApiError(
+//               code: e.response?.statusCode, error: "Không tìm thấy tài nguyên");
+//         } else if (e.response?.statusCode == 500) {
+//           err = ModelApiError(
+//               code: e.response?.statusCode,
+//               error: "Có lỗi hệ thống, bạn quay lại sau");
+//         } else {
+//           err = ModelApiError(
+//               code: e.response?.statusCode,
+//               error: e.response?.data['message'] ?? e.message);
+//         }
+//         return handler.next(DioException(
+//           requestOptions: e.requestOptions,
+//           response: e.response,
+//           type: e.type,
+//           error: err,
+//         ));
+//       },
+//     ),
+//   );
+
+final dio = Dio();
 
 final AuthService authService = AuthService();
 
@@ -98,7 +100,6 @@ class Api {
       if (isToken) {
        // final token = Provider.of<AuthProvider>(context).token;
         var token = await authService.getToken();
-        print(token);
         headers['Authorization'] = "Bearer $token";
       }
 
@@ -125,7 +126,6 @@ class Api {
 
       if (isToken) {
            var token = await authService.getToken();
-        print(token);
         headers['Authorization'] = "Bearer $token";
       }
 
@@ -152,7 +152,6 @@ class Api {
       headers['Content-Type'] = "application/json";
       if (isToken) {
         var token = await authService.getToken();
-        print(token);
         headers['Authorization'] = "Bearer $token";
       }
       FormData formData = FormData.fromMap(req);
@@ -180,7 +179,6 @@ class Api {
       headers['Content-Type'] = "application/json";
       if (isToken) {
         var token = await authService.getToken();
-        print(token);
         headers['Authorization'] = "Bearer $token";
       }
       FormData formData = FormData.fromMap(req);
@@ -208,7 +206,6 @@ class Api {
       headers['Content-Type'] = "multipart/form-data";
       if (isToken) {
         var token = await authService.getToken();
-        print(token);
         headers['Authorization'] = "Bearer $token";
       }
       FormData formData = FormData.fromMap(req);

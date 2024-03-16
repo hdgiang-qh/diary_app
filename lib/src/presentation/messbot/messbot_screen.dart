@@ -67,16 +67,6 @@ class MessBotScreenState extends State<MessBotScreen> {
         backgroundColor: ColorAppStyle.button,
         automaticallyImplyLeading: false,
         title: const Text('Chat Bot'),
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {
-        //         setState(() {
-        //           _messages.clear();
-        //           list.clear();
-        //         });
-        //       },
-        //       icon: const Icon(Icons.refresh))
-        // ],
       ),
       body: Container(
         constraints: const BoxConstraints.expand(),
@@ -100,6 +90,7 @@ class MessBotScreenState extends State<MessBotScreen> {
               list.isEmpty
                   ? Flexible(
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(height: 20,),
                         Container(

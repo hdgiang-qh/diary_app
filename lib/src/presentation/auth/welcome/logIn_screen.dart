@@ -63,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
       AuthService.setPassword('');
     }
     final token = await authService.login(username, password);
+    final error = authService.error;
     if (token != null) {
       Provider.of<AuthProvider>(context, listen: false).setToken(token);
       Navigator.push(
@@ -76,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ));
     } else {
+      print(error);
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         backgroundColor: Colors.blue,
         duration: Duration(seconds: 1),

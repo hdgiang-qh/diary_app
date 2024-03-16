@@ -16,9 +16,8 @@ class AuthService {
   final Dio dio = Dio();
 
   static const FlutterSecureStorage secureStorage =  FlutterSecureStorage();
-  String? _error;
+  String? error;
 
-  String? get error => _error;
   String? savePass;
 
   Future<String?> login(String username, String password) async {
@@ -30,19 +29,21 @@ class AuthService {
         EasyLoading.dismiss();
         final token = response.data['token'];
         await secureStorage.write(key: 'token', value: token);
-        _error = null;
+        error = response.statusCode.toString();
         return token;
-      } else {
-        _error = 'Đăng nhập thất bại';
-        EasyLoading.dismiss();// Đặt thông báo lỗi
+      } else if(response.statusCode == 401) {
+        error = 'Tài khoản hoặc mật khẩu không chính xác';
+        EasyLoading.dismiss();
+        return null;
+      }
+      else if (response.statusCode == 500) {
+        error = 'Lỗi server không phản hồi';
+        EasyLoading.dismiss();
         return null;
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('Login error: $e');
-      }
       EasyLoading.dismiss();
-      _error = "Đã xảy ra lỗi";
+      error = "Đã xảy ra lỗi";
       return null;
     }
   }

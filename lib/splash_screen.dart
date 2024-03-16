@@ -137,7 +137,7 @@ class _SplashScreenState extends State<SplashScreen>
                 const Text(
                   'We promise you will have the most fuss-free time with us ever',
                   style: TextStyle(
-                      color: CupertinoColors.white, fontSize: 20, height: 1.5),
+                      color: CupertinoColors.label, fontSize: 20, height: 1.5),
                 ),
                 const SizedBox(
                   height: 100,
